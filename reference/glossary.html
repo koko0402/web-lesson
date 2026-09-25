@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用語辞典｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>用語辞典</h1>
+  <p class="lead">Web制作でよく出てくる言葉を、<b>できるだけ短い日本語</b>で説明している。授業中に「それ何？」と思ったらここへ。</p>
+
+  <div class="search">
+    <input type="text" placeholder="用語で検索（例：DOM、パス、キャッシュ）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#basic">基本</a><a href="#file">ファイルまわり</a><a href="#html">HTML用語</a>
+    <a href="#css">CSS用語</a><a href="#js">JavaScript用語</a><a href="#tool">道具</a>
+    <a href="#web">Webのしくみ</a><a href="#word">現場のことば</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="basic">基本</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>HTML</b></td><td>ページの<b>骨組み</b>を作る言語。「ここは見出し」「ここは画像」と意味を決める</td></tr>
+      <tr><td><b>CSS</b></td><td>ページの<b>見た目</b>を決める言語。色・大きさ・並び方</td></tr>
+      <tr><td><b>JavaScript（JS）</b></td><td>ページに<b>動き</b>を付ける言語。ブラウザが理解できる唯一のプログラミング言語</td></tr>
+      <tr><td><b>ブラウザ</b></td><td>HTMLを読んで画面に描くアプリ。Chrome, Edge, Safari, Firefox など</td></tr>
+      <tr><td><b>フロントエンド</b></td><td>ユーザーの目に見える側。HTML/CSS/JS の担当範囲</td></tr>
+      <tr><td><b>バックエンド</b></td><td>サーバー側の見えない処理。Python や PHP などが使われる</td></tr>
+      <tr><td><b>レスポンシブ</b></td><td>画面の広さに合わせてレイアウトが変わること</td></tr>
+      <tr><td><b>デバッグ</b></td><td>バグ（不具合）を見つけて直す作業</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="file">ファイルまわり</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>拡張子</b></td><td>ファイル名の最後の <code>.html</code> <code>.css</code> <code>.js</code> の部分。中身の種類を表す</td></tr>
+      <tr><td><b>パス</b></td><td>ファイルまでの<b>道順</b>。<code>img/photo.png</code> など</td></tr>
+      <tr><td><b>相対パス</b></td><td>今いる場所からの道順。<code>../</code> で1つ上へ</td></tr>
+      <tr><td><b>絶対パス</b></td><td>先頭からの完全な道順。<code>https://…</code> など</td></tr>
+      <tr><td><b>index.html</b></td><td>そのフォルダの<b>玄関</b>。公開時に自動で最初に開かれる</td></tr>
+      <tr><td><b>文字コード</b></td><td>文字を数値で表す方式。Webでは <b>UTF-8</b> を使う</td></tr>
+      <tr><td><b>文字化け</b></td><td>文字コードの指定ミスで文字が壊れて表示されること</td></tr>
+      <tr><td><b>ディレクトリ</b></td><td>フォルダのこと（プログラミングではこう呼ぶことが多い）</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="html">HTML用語</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>タグ</b></td><td><code>&lt;p&gt;</code> のような記号。開始タグと終了タグがある</td></tr>
+      <tr><td><b>要素（エレメント）</b></td><td>開始タグ＋中身＋終了タグの1セット</td></tr>
+      <tr><td><b>属性</b></td><td>タグに付ける追加情報。<code>src="…"</code> <code>class="…"</code> など</td></tr>
+      <tr><td><b>空要素</b></td><td>中身を持たず終了タグが無いタグ。<code>&lt;img&gt;</code> <code>&lt;br&gt;</code></td></tr>
+      <tr><td><b>入れ子（ネスト）</b></td><td>タグの中にタグを入れること</td></tr>
+      <tr><td><b>ブロック要素</b></td><td>横幅いっぱいを取り、縦に積まれる。<code>div</code> <code>p</code> <code>h1</code></td></tr>
+      <tr><td><b>インライン要素</b></td><td>中身のぶんだけの幅で、横に並ぶ。<code>span</code> <code>a</code> <code>strong</code></td></tr>
+      <tr><td><b>セマンティック</b></td><td>「意味を持つ」。<code>header</code> <code>main</code> など意味のあるタグを使うこと</td></tr>
+      <tr><td><b>フォーム</b></td><td>入力欄のまとまり</td></tr>
+      <tr><td><b>alt属性</b></td><td>画像の説明文。読み上げソフトや画像が出ないときに使われる</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="css">CSS用語</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>セレクタ</b></td><td>「どこを」指定する部分。<code>.box</code> <code>#head</code> <code>p</code></td></tr>
+      <tr><td><b>プロパティ</b></td><td>「何を」変えるか。<code>color</code> <code>margin</code> など</td></tr>
+      <tr><td><b>値</b></td><td>「どうする」か。<code>red</code> <code>20px</code> など</td></tr>
+      <tr><td><b>宣言</b></td><td><code>プロパティ: 値;</code> のセット</td></tr>
+      <tr><td><b>ボックスモデル</b></td><td>すべての要素が持つ4層の構造（content / padding / border / margin）</td></tr>
+      <tr><td><b>padding</b></td><td>枠線の<b>内側</b>の余白</td></tr>
+      <tr><td><b>margin</b></td><td>枠線の<b>外側</b>の余白</td></tr>
+      <tr><td><b>マージンの相殺</b></td><td>上下に並んだ margin が足し算されず、大きいほうだけ効く現象</td></tr>
+      <tr><td><b>Flexbox</b></td><td>要素を一列に並べる仕組み</td></tr>
+      <tr><td><b>Grid</b></td><td>要素を格子状に並べる仕組み</td></tr>
+      <tr><td><b>疑似クラス</b></td><td><code>:hover</code> のような「状態」を指定するもの</td></tr>
+      <tr><td><b>疑似要素</b></td><td><code>::before</code> のような「無い要素を足す」もの</td></tr>
+      <tr><td><b>メディアクエリ</b></td><td><code>@media</code>。画面幅で CSS を書き分ける仕組み</td></tr>
+      <tr><td><b>CSS変数</b></td><td><code>--main: red;</code> で作り <code>var(--main)</code> で使う。色の一括管理に</td></tr>
+      <tr><td><b>詳細度</b></td><td>同じ場所に複数のCSSが当たったときの強さ。細かく指定したほうが勝つ</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="js">JavaScript用語</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>変数</b></td><td>値に名前をつけた箱。<code>const</code> <code>let</code></td></tr>
+      <tr><td><b>型</b></td><td>データの種類。数値・文字列・真偽値・配列・オブジェクト</td></tr>
+      <tr><td><b>配列</b></td><td>順番に並んだ箱。<code>[1, 2, 3]</code></td></tr>
+      <tr><td><b>オブジェクト</b></td><td>名前つきの箱。<code>{ name: "ユウ" }</code></td></tr>
+      <tr><td><b>関数</b></td><td>処理に名前をつけたもの</td></tr>
+      <tr><td><b>引数</b></td><td>関数に渡す値</td></tr>
+      <tr><td><b>戻り値</b></td><td>関数が返す値（<code>return</code>）</td></tr>
+      <tr><td><b>メソッド</b></td><td>何かにくっついた関数。<code>配列.push()</code> の <code>push</code> など</td></tr>
+      <tr><td><b>イベント</b></td><td>クリックや入力などの「起きたこと」</td></tr>
+      <tr><td><b>イベントリスナー</b></td><td>「〜されたら実行する」という予約</td></tr>
+      <tr><td><b>DOM</b></td><td>ブラウザが読み込んだHTMLを、JSから触れる形にしたもの</td></tr>
+      <tr><td><b>状態（state）</b></td><td>今の状況を表すデータ。これを直して画面を作り直すのが基本</td></tr>
+      <tr><td><b>null</b></td><td>「何も無い」。要素が見つからないときに返る</td></tr>
+      <tr><td><b>undefined</b></td><td>「まだ入っていない」</td></tr>
+      <tr><td><b>コールバック</b></td><td>他の関数に渡して、あとで呼んでもらう関数</td></tr>
+      <tr><td><b>localStorage</b></td><td>ブラウザにデータを保存する仕組み。そのブラウザの中だけ</td></tr>
+      <tr><td><b>JSON</b></td><td>データを文字列で表す形式。保存や通信に使う</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="tool">道具</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>VSCode</b></td><td>Microsoft の無料エディタ。この講座で使う</td></tr>
+      <tr><td><b>エディタ</b></td><td>コードを書くためのソフト</td></tr>
+      <tr><td><b>拡張機能</b></td><td>VSCode に後から足す機能</td></tr>
+      <tr><td><b>Emmet</b></td><td>VSCode の入力補助。<code>!</code> + Tab で骨組みが出る</td></tr>
+      <tr><td><b>Live Server</b></td><td>保存すると自動でブラウザが更新される拡張機能</td></tr>
+      <tr><td><b>開発者ツール（DevTools）</b></td><td>F12 で開くブラウザの検査ツール</td></tr>
+      <tr><td><b>コンソール</b></td><td>開発者ツールの中で、ログとエラーが出る場所</td></tr>
+      <tr><td><b>Git / GitHub</b></td><td>コードの変更履歴を管理する仕組みと、その置き場所サービス</td></tr>
+      <tr><td><b>GitHub Pages</b></td><td>GitHub に置いたファイルをそのままWebサイトとして公開できる機能</td></tr>
+      <tr><td><b>Firebase</b></td><td>Google の、サーバーを用意せずにデータ保存やログインが使えるサービス</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="web">Webのしくみ</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>URL</b></td><td>ページの住所。<code>https://example.com/page.html</code></td></tr>
+      <tr><td><b>ドメイン</b></td><td>URLの <code>example.com</code> の部分</td></tr>
+      <tr><td><b>サーバー</b></td><td>ファイルを置いておき、ブラウザからの求めに応えてファイルを返すコンピュータ</td></tr>
+      <tr><td><b>クライアント</b></td><td>お願いする側。つまりブラウザ</td></tr>
+      <tr><td><b>HTTP / HTTPS</b></td><td>やりとりの決まりごと。HTTPS は暗号化されている</td></tr>
+      <tr><td><b>キャッシュ</b></td><td>一度読んだファイルの一時保存。更新が反映されない原因になる（<code>Ctrl+Shift+R</code> で無視）</td></tr>
+      <tr><td><b>404</b></td><td>「ファイルが見つかりません」というエラー番号</td></tr>
+      <tr><td><b>デプロイ</b></td><td>作ったものを公開すること</td></tr>
+      <tr><td><b>ホスティング</b></td><td>ファイルを置かせてくれるサービス</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="word">現場のことば</h2>
+    <table>
+      <tr><th style="width:210px">用語</th><th>意味</th></tr>
+      <tr><td><b>コメントアウト</b></td><td>コードを一時的に無効にすること</td></tr>
+      <tr><td><b>リファクタリング</b></td><td>動きを変えずにコードを整理すること</td></tr>
+      <tr><td><b>ハードコーディング</b></td><td>値を直接書き込むこと。後で変えにくくなる</td></tr>
+      <tr><td><b>ワイヤーフレーム</b></td><td>画面の配置だけを描いたラフ図</td></tr>
+      <tr><td><b>モックアップ</b></td><td>見た目だけ作った試作</td></tr>
+      <tr><td><b>アクティビティ図</b></td><td>処理の流れを四角と矢印で描いた図</td></tr>
+      <tr><td><b>仕様</b></td><td>「こう動くべき」という決めごと</td></tr>
+      <tr><td><b>UI</b></td><td>User Interface。人が触る部分（ボタンや画面）</td></tr>
+      <tr><td><b>UX</b></td><td>User Experience。使ったときの体験・使い心地</td></tr>
+      <tr><td><b>アクセシビリティ</b></td><td>誰でも（目が見えない人も）使えるようにする配慮</td></tr>
+      <tr><td><b>MVP</b></td><td>最小限の動くもの。まずこれを作って、あとから足す</td></tr>
+    </table>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

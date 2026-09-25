@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ライブエディタ｜Webのつくりかた</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  .sheet{ max-width:1400px; }
+  .bar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px; }
+  .bar .sp{ flex:1; }
+
+  .work{ display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
+  @media (max-width:960px){ .work{ grid-template-columns:1fr; } }
+
+  /* ---- エディタ ---- */
+  .ed{ display:flex; flex-direction:column; min-height:520px; }
+  .tabs{ display:flex; gap:4px; }
+  .tab{
+    font:inherit; font-family:var(--f-code); font-size:13px; cursor:pointer;
+    padding:7px 18px 6px; border:none; border-radius:7px 7px 0 0;
+    background:#c9c2b0; color:#4a4640;
+  }
+  .tab.on{ background:var(--code-bg); color:#ffd479; }
+  .tab .dot{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; }
+  .tab[data-k="html"] .dot{ background:#e0796c; }
+  .tab[data-k="css"]  .dot{ background:#7fc4ff; }
+  .tab[data-k="js"]   .dot{ background:#ffd479; }
+
+  .edbox{
+    flex:1; display:flex; background:var(--code-bg); border-radius:0 7px 7px 7px;
+    overflow:hidden; box-shadow:2px 4px 0 rgba(44,58,66,.16);
+  }
+  .gutter{
+    flex:none; width:44px; padding:12px 8px 12px 0; text-align:right;
+    font-family:var(--f-code); font-size:13.5px; line-height:1.65;
+    color:#6b7780; background:var(--code-bg2); overflow:hidden;
+    -webkit-user-select:none; user-select:none;
+    white-space:pre;          /* 1行ずつ縦に並べる */
+  }
+  .edbox textarea{
+    flex:1; border:none; outline:none; resize:none;
+    background:var(--code-bg); color:#e8e6df; caret-color:#ffd479;
+    font-family:var(--f-code); font-size:13.5px; line-height:1.65;
+    padding:12px 14px 12px 10px; tab-size:2; white-space:pre; overflow-wrap:normal;
+  }
+  .edbox textarea::placeholder{ color:#6b7780; }
+
+  /* ---- プレビュー ---- */
+  .pv{ display:flex; flex-direction:column; min-height:520px; }
+  .pv-head{
+    display:flex; align-items:center; gap:6px; padding:7px 12px;
+    background:linear-gradient(#f2efe6,#e6e1d3);
+    border:1.5px solid rgba(44,58,66,.22); border-bottom:none; border-radius:7px 7px 0 0;
+  }
+  .pv-head i{ width:10px; height:10px; border-radius:50%; display:block; background:#c9c3b4; }
+  .pv-head i:nth-child(1){ background:#e0796c; }
+  .pv-head i:nth-child(2){ background:#e6c069; }
+  .pv-head i:nth-child(3){ background:#8dc08a; }
+  .pv-head span{
+    margin-left:8px; font-family:var(--f-code); font-size:12px; color:#6d6555;
+    background:#fff; border:1px solid rgba(44,58,66,.16); border-radius:10px;
+    padding:2px 12px; flex:1;
+  }
+  .pv iframe{
+    flex:1; width:100%; border:1.5px solid rgba(44,58,66,.22); border-top:none;
+    background:#fff; min-height:300px;
+  }
+  .pv.wide iframe{ border-radius:0; }
+
+  /* ---- コンソール ---- */
+  .con{
+    background:var(--code-bg2); color:#c9d1d9; border:1.5px solid rgba(44,58,66,.22);
+    border-top:none; border-radius:0 0 7px 7px;
+    font-family:var(--f-code); font-size:12.5px; line-height:1.75;
+    max-height:132px; min-height:44px; overflow:auto; padding:8px 12px;
+  }
+  .con .ttl{ color:#6b7780; font-size:11px; letter-spacing:.1em; }
+  .con .log{ color:#9fd39f; }
+  .con .err{ color:#ff9c92; }
+  .con .warn{ color:#ffd479; }
+  .con .empty{ color:#59636b; }
+
+  /* ---- レシピ一覧 ---- */
+  .recipes{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px; }
+  @media (max-width:960px){ .recipes{ grid-template-columns:repeat(2,1fr); } }
+  .rc{
+    text-align:left; font:inherit; font-size:14px; cursor:pointer;
+    background:rgba(255,255,255,.75); border:1.5px solid rgba(44,58,66,.2);
+    border-left:5px solid var(--blue); border-radius:6px; padding:9px 13px;
+    transition:transform .12s, border-color .12s;
+  }
+  .rc:hover{ transform:translateX(2px); border-left-color:var(--red); }
+  .rc b{ display:block; font-size:15px; }
+  .rc span{ font-size:12.5px; color:var(--ink-2); }
+  .rc[data-lv="1"]{ border-left-color:#e0796c; }
+  .rc[data-lv="2"]{ border-left-color:#2a6ca8; }
+  .rc[data-lv="3"]{ border-left-color:#4f8a5b; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>ライブエディタ</h1>
+  <p class="lead">左に書くと、<b>右がすぐ変わる</b>。保存もリロードも要らない。<br>
+    <span class="mk">壊しても大丈夫</span>なので、値をどんどん変えて何が起きるか見て。</p>
+
+  <div class="bar">
+    <button class="btn on" id="tabAll" data-view="all">3つとも表示</button>
+    <button class="btn" id="tabWide" data-view="wide">結果を大きく</button>
+    <div class="sp"></div>
+    <button class="btn" id="btnReset">この例を最初から</button>
+    <button class="btn" id="btnClear">まっさらにする</button>
+    <button class="btn" id="btnCopy">3つまとめてコピー</button>
+  </div>
+
+  <div class="work" id="work">
+    <div class="ed">
+      <div class="tabs">
+        <button class="tab on" data-k="html"><span class="dot"></span>index.html</button>
+        <button class="tab" data-k="css"><span class="dot"></span>style.css</button>
+        <button class="tab" data-k="js"><span class="dot"></span>script.js</button>
+      </div>
+      <div class="edbox">
+        <div class="gutter" id="gutter">1</div>
+        <textarea id="code" spellcheck="false" placeholder="ここに書きます"></textarea>
+      </div>
+    </div>
+
+    <div class="pv" id="pv">
+      <div class="pv-head"><i></i><i></i><i></i><span id="pvUrl">結果</span></div>
+      <iframe id="frame" title="結果" sandbox="allow-scripts allow-modals"></iframe>
+      <div class="con" id="con"><div class="ttl">CONSOLE</div><div class="empty">（ここに console.log とエラーが出る）</div></div>
+    </div>
+  </div>
+
+  <h2 id="rec-head">お手本（クリックで読み込み）</h2>
+  <p class="note">読み込んだら、<b>数字や色を書き換えて</b>どう変わるか見て。それがいちばん速く覚える方法。</p>
+  <div class="recipes" id="recipes"></div>
+
+  <div class="fusen" data-c="blue">
+    <b>エラーが出たら</b>
+    右下の黒い帯（CONSOLE）に赤い文字で出る。行番号も出るので、左の番号と見比べて。
+    F12 を開かなくてもここで分かる。
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>書いたものは自動で保存される</b>
+    このブラウザに保存されるので、閉じても残る。消したいときは「まっさらにする」。<br>
+    自分のフォルダで作りたくなったら「3つまとめてコピー」で持ち出せる。
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>ここでできないこと</b>
+    ファイルの読み込み（画像・別ページへのリンク）は使えない。画像は
+    <code>https://…</code> のURLなら表示できる。<br>
+    <b>本番は自分のフォルダで</b>。ここは試す場所。
+  </div>
+
+  <p style="margin-top:22px">
+    → <a href="css-lab.html">CSS体験ラボ</a>（スライダーを動かして見た目の変化を見る）<br>
+    → <a href="ask-ai.html">AIへの質問文メーカー</a>
+  </p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+/* =========================================================
+   お手本のデータ
+   ========================================================= */
+const RECIPES = [
+  { id:"hello", lv:1, name:"はじめてのページ", desc:"DAY 1 / HTMLだけ",
+    html:'<h1>はじめてのページ</h1>\n<p>今日から Web を作ります。</p>', css:"", js:"" },
+
+  { id:"list", lv:1, name:"見出しとリスト", desc:"DAY 1 / ul・ol",
+    html:'<h1>ユウのトリセツ</h1>\n\n<h2>燃料</h2>\n<ul>\n  <li>からあげ</li>\n  <li>炭酸</li>\n  <li>睡眠</li>\n</ul>\n\n<h2>すきなもの ベスト3</h2>\n<ol>\n  <li>夜のコンビニ</li>\n  <li>雨の音</li>\n  <li>全部乗せ</li>\n</ol>', css:"", js:"" },
+
+  { id:"table", lv:1, name:"表を作る", desc:"DAY 2 / table",
+    html:'<h2>スペック表</h2>\n\n<table border="1">\n  <tr>\n    <th>項目</th>\n    <th>値</th>\n  </tr>\n  <tr>\n    <td>起動時刻</td>\n    <td>11:00</td>\n  </tr>\n  <tr>\n    <td>連続稼働</td>\n    <td>4 時間</td>\n  </tr>\n</table>', css:"", js:"" },
+
+  { id:"form", lv:1, name:"入力欄", desc:"DAY 2 / form",
+    html:'<h2>おたより</h2>\n\n<label for="n">おなまえ</label><br>\n<input type="text" id="n" placeholder="うさぎ"><br><br>\n\n<label for="m">本文</label><br>\n<textarea id="m" rows="4" cols="30"></textarea><br><br>\n\n<button>送信する</button>', css:"", js:"" },
+
+  { id:"color", lv:2, name:"色と文字を変える", desc:"DAY 3 / CSSの基本",
+    html:'<h1>ユウのトリセツ</h1>\n<p>お腹がすくと <strong>無言</strong> になります。</p>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  background-color: #f4f1e8;\n  color: #33333d;\n  line-height: 1.9;\n  padding: 24px;\n}\n\nh1 {\n  color: #d97b57;\n  font-size: 34px;\n}\n\nstrong {\n  background-color: #ffe9a8;\n}', js:"" },
+
+  { id:"box", lv:2, name:"箱を作る", desc:"DAY 3 / ボックスモデル",
+    html:'<div class="box">\n  <h2>基本仕様</h2>\n  <p>起動は 11:00 ごろ。</p>\n</div>\n\n<div class="box">\n  <h2>取扱注意</h2>\n  <p>お腹がすくと無言になります。</p>\n</div>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  background: #f4f1e8;\n  padding: 24px;\n}\n\n/* この数字を変えてみて！ */\n.box {\n  background: #ffffff;\n  border-left: 6px solid #d97b57;\n  border-radius: 8px;\n  padding: 20px 24px;\n  margin-bottom: 20px;\n}\n\n.box h2 {\n  margin: 0 0 10px;\n  font-size: 20px;\n  color: #d97b57;\n}\n\n.box p { margin: 0; }', js:"" },
+
+  { id:"flex", lv:2, name:"横に3枚ならべる", desc:"DAY 4 / Flexbox",
+    html:'<div class="cards">\n  <div class="card">起動</div>\n  <div class="card">燃料</div>\n  <div class="card">稼働</div>\n</div>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  background: #f4f1e8;\n  padding: 24px;\n}\n\n/* 親に書く！ */\n.cards {\n  display: flex;\n  gap: 18px;\n}\n\n.card {\n  flex: 1;\n  background: #fff;\n  border-radius: 12px;\n  padding: 30px 20px;\n  text-align: center;\n  transition: transform 0.2s;\n}\n\n/* マウスを乗せてみて */\n.card:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 12px 24px rgba(0,0,0,.15);\n}', js:"" },
+
+  { id:"grid", lv:2, name:"格子にならべる", desc:"DAY 4 / Grid",
+    html:'<div class="tiles">\n  <div class="tile">夜のコンビニ</div>\n  <div class="tile">雨の音</div>\n  <div class="tile">全部乗せ</div>\n  <div class="tile">帰り道</div>\n  <div class="tile">冷房25℃</div>\n  <div class="tile">土曜の朝</div>\n</div>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  background: #f4f1e8;\n  padding: 24px;\n}\n\n/* 3 を 2 や 4 に変えてみて */\n.tiles {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}\n\n.tile {\n  background: #fff;\n  border: 1px dashed #ccc;\n  border-radius: 10px;\n  padding: 26px 10px;\n  text-align: center;\n}', js:"" },
+
+  { id:"anim", lv:2, name:"ふわふわ動かす", desc:"DAY 4 / keyframes",
+    html:'<div class="heart">♥</div>\n<p class="c">CSSだけで動いています</p>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  background: #201c1f;\n  display: grid;\n  place-items: center;\n  min-height: 90vh;\n  margin: 0;\n}\n\n.heart {\n  font-size: 70px;\n  color: #d1495b;\n  animation: bob 1.4s ease-in-out infinite;\n}\n\n/* 数字を変えると速さが変わる */\n@keyframes bob {\n  0%   { transform: translateY(0); }\n  50%  { transform: translateY(-24px); }\n  100% { transform: translateY(0); }\n}\n\n.c { color: #888; font-size: 14px; }', js:"" },
+
+  { id:"btn", lv:3, name:"押したら文字が変わる", desc:"DAY 5 / はじめてのJS",
+    html:'<p id="out">まだ押されていません。</p>\n<button id="btn">押してみる</button>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  padding: 24px;\n}\n#out { font-size: 20px; }\nbutton {\n  font: inherit;\n  padding: 8px 24px;\n  border-radius: 999px;\n  border: none;\n  background: #2f6d68;\n  color: #fff;\n  cursor: pointer;\n}',
+    js:'// ① 取ってくる\nconst btn = document.getElementById("btn");\nconst out = document.getElementById("out");\n\n// ② 押されたら\nbtn.addEventListener("click", function () {\n  // ③ 書き戻す\n  out.textContent = "押されました！";\n\n  console.log("ボタンが押された");\n});' },
+
+  { id:"count", lv:3, name:"カウンター", desc:"DAY 5 / 変数とif",
+    html:'<p>からあげを食べた数：<span id="num">0</span> 個</p>\n<button id="plus">＋1</button>\n<button id="minus">−1</button>\n<button id="reset">リセット</button>\n<p id="msg"></p>',
+    css:'body { font-family: "Yu Gothic", sans-serif; padding: 24px; font-size: 18px; }\n#num { font-size: 30px; font-weight: bold; color: #e2794f; }\nbutton {\n  font: inherit; font-size: 15px; padding: 6px 18px; margin-right: 6px;\n  border-radius: 999px; border: none; background: #2f6d68; color: #fff; cursor: pointer;\n}\n#msg { color: #888; font-size: 15px; }',
+    js:'let count = 0;   // 関数の外に置くのがポイント\n\nconst num = document.getElementById("num");\nconst msg = document.getElementById("msg");\n\nfunction draw() {\n  num.textContent = count;\n\n  if (count >= 10) {\n    msg.textContent = "食べすぎです。";\n  } else if (count >= 5) {\n    msg.textContent = "いいペースですね。";\n  } else {\n    msg.textContent = "";\n  }\n}\n\ndocument.getElementById("plus").addEventListener("click", function () {\n  count += 1;\n  draw();\n});\n\ndocument.getElementById("minus").addEventListener("click", function () {\n  count -= 1;\n  if (count < 0) count = 0;\n  draw();\n});\n\ndocument.getElementById("reset").addEventListener("click", function () {\n  count = 0;\n  draw();\n});' },
+
+  { id:"omikuji", lv:3, name:"おみくじ", desc:"DAY 5 / 配列とランダム",
+    html:'<h2>今日のおみくじ</h2>\n<div id="result">？</div>\n<button id="btn">ひく</button>',
+    css:'body {\n  font-family: "Yu Gothic", sans-serif;\n  padding: 30px; text-align: center;\n  background: #fdf6ef;\n}\n#result {\n  font-size: 42px; font-weight: bold; color: #d1495b;\n  margin: 24px 0; min-height: 56px;\n}\nbutton {\n  font: inherit; font-size: 16px; padding: 10px 34px;\n  border-radius: 999px; border: none;\n  background: #d1495b; color: #fff; cursor: pointer;\n}',
+    js:'// ここに言葉を足すと、そのまま候補が増えます\nconst kuji = ["大吉", "中吉", "小吉", "吉", "末吉", "凶"];\n\ndocument.getElementById("btn").addEventListener("click", function () {\n  const i = Math.floor(Math.random() * kuji.length);\n  document.getElementById("result").textContent = kuji[i];\n\n  console.log("出た番号:", i, kuji[i]);\n});' },
+
+  { id:"arr", lv:3, name:"配列からリストを作る", desc:"DAY 6 / データ→画面",
+    html:'<h2>すきなもの</h2>\n<ul id="list"></ul>\n<button id="add">1つ足す</button>',
+    css:'body { font-family: "Yu Gothic", sans-serif; padding: 24px; }\nul { list-style: none; padding: 0; }\nli {\n  background: #f4f1e8; border-left: 4px solid #2f6d68;\n  padding: 8px 14px; margin-bottom: 6px; border-radius: 0 6px 6px 0;\n}\nbutton {\n  font: inherit; font-size: 14px; padding: 6px 18px;\n  border-radius: 999px; border: none; background: #2f6d68; color: #fff; cursor: pointer;\n}',
+    js:'// これがデータ\nlet items = ["夜のコンビニ", "雨の音", "全部乗せ"];\n\nconst list = document.getElementById("list");\n\n// データを見て画面を作り直す\nfunction draw() {\n  list.innerHTML = "";   // ← これを消すとどうなるか試してみて\n\n  items.forEach(function (text, index) {\n    const li = document.createElement("li");\n    li.textContent = (index + 1) + ". " + text;\n    list.appendChild(li);\n  });\n}\n\ndraw();\n\nconst more = ["帰り道", "冷房25℃", "土曜の朝"];\nlet n = 0;\n\ndocument.getElementById("add").addEventListener("click", function () {\n  if (n < more.length) {\n    items.push(more[n]);   // ① データを直して\n    n++;\n    draw();                // ② 描き直す\n  }\n});' },
+
+  { id:"dark", lv:3, name:"夜モードに切り替える", desc:"DAY 5 / classList",
+    html:'<h1>ユウのトリセツ</h1>\n<p>ボタンを押すと配色が変わります。</p>\n<button id="btn">夜モードにする</button>',
+    css:':root {\n  --bg: #f6f3ec;\n  --ink: #2f3338;\n}\n\n/* body に .dark が付いたときだけ、色を差し替える */\nbody.dark {\n  --bg: #22262b;\n  --ink: #e6e2d8;\n}\n\nbody {\n  font-family: "Yu Gothic", sans-serif;\n  background: var(--bg);\n  color: var(--ink);\n  padding: 24px;\n  transition: background 0.3s, color 0.3s;\n}\n\nbutton {\n  font: inherit; padding: 8px 22px; border-radius: 999px;\n  border: none; background: #2f6d68; color: #fff; cursor: pointer;\n}',
+    js:'const btn = document.getElementById("btn");\n\nbtn.addEventListener("click", function () {\n  // toggle ＝ 付いてなければ付ける、付いていれば外す\n  document.body.classList.toggle("dark");\n\n  if (document.body.classList.contains("dark")) {\n    btn.textContent = "昼モードに戻す";\n  } else {\n    btn.textContent = "夜モードにする";\n  }\n});' },
+
+  { id:"err", lv:3, name:"わざとエラーを出す", desc:"デバッグの練習",
+    html:'<p id="out">ここに出ます</p>\n<button id="btn">押す</button>',
+    css:'body { font-family: "Yu Gothic", sans-serif; padding: 24px; }',
+    js:'// わざと間違えてあります。\n// 下の CONSOLE を見て、直してみてください。\n\nconst out = document.getElementById("output");   // ← id が違う\n\ndocument.getElementById("btn").addEventListener("click", function () {\n  out.textContent = "成功！";\n});' }
+];
+
+/* =========================================================
+   状態
+   ========================================================= */
+const KEY = "web-lesson-playground";
+let cur = "html";
+let files = { html:"", css:"", js:"" };
+let curRecipe = "hello";
+
+const $ = (s) => document.querySelector(s);
+const code   = $("#code");
+const gutter = $("#gutter");
+const frame  = $("#frame");
+const con    = $("#con");
+
+function load(recipe) {
+  const r = RECIPES.find((x) => x.id === recipe) || RECIPES[0];
+  curRecipe = r.id;
+  files = { html: r.html, css: r.css, js: r.js };
+  code.value = files[cur];
+  syncGutter();
+  run();
+  save();
+}
+
+function save() {
+  localStorage.setItem(KEY, JSON.stringify({ files: files, recipe: curRecipe, tab: cur }));
+}
+
+/* =========================================================
+   エディタ
+   ========================================================= */
+function syncGutter() {
+  const n = code.value.split("\n").length;
+  let s = "";
+  for (let i = 1; i <= n; i++) s += i + "\n";
+  gutter.textContent = s;
+  gutter.scrollTop = code.scrollTop;
+}
+
+code.addEventListener("scroll", function () { gutter.scrollTop = code.scrollTop; });
+
+code.addEventListener("input", function () {
+  files[cur] = code.value;
+  syncGutter();
+  save();
+  schedule();
+});
+
+// Tab キーで2つ分の空白を入れる（フォーカスが飛ばないように）
+code.addEventListener("keydown", function (e) {
+  if (e.key === "Tab") {
+    e.preventDefault();
+    const s = code.selectionStart, t = code.selectionEnd;
+    code.value = code.value.slice(0, s) + "  " + code.value.slice(t);
+    code.selectionStart = code.selectionEnd = s + 2;
+    files[cur] = code.value;
+    syncGutter(); save(); schedule();
+  }
+});
+
+document.querySelectorAll(".tab").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll(".tab").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    cur = b.dataset.k;
+    code.value = files[cur];
+    syncGutter();
+    save();
+  });
+});
+
+/* =========================================================
+   実行（プレビュー）
+   ========================================================= */
+let timer = null;
+function schedule() {
+  clearTimeout(timer);
+  timer = setTimeout(run, 400);
+}
+
+function run() {
+  clearCon();
+
+  // iframe の中で console とエラーを親に転送するための仕込み
+  const hook =
+    'window.onerror=function(m,src,line,col){' +
+      'parent.postMessage({t:"err",m:m+"  （'+ 'およそ "+line+" 行目）"},"*");return false;};' +
+    'window.addEventListener("unhandledrejection",function(e){' +
+      'parent.postMessage({t:"err",m:String(e.reason)},"*");});' +
+    '(function(){var o=console.log,w=console.warn,r=console.error;' +
+      'function j(a){return Array.prototype.map.call(a,function(x){' +
+        'try{return typeof x==="object"?JSON.stringify(x):String(x);}catch(e){return String(x);}}).join(" ");}' +
+      'console.log=function(){parent.postMessage({t:"log",m:j(arguments)},"*");o.apply(console,arguments);};' +
+      'console.warn=function(){parent.postMessage({t:"warn",m:j(arguments)},"*");w.apply(console,arguments);};' +
+      'console.error=function(){parent.postMessage({t:"err",m:j(arguments)},"*");r.apply(console,arguments);};' +
+    '})();';
+
+  const doc =
+    '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<scr' + 'ipt>' + hook + '</scr' + 'ipt>' +
+    '<style>' + files.css + '</style></head><body>' +
+    files.html +
+    '<scr' + 'ipt>try{' + files.js + '}catch(e){parent.postMessage({t:"err",m:e.message},"*");}</scr' + 'ipt>' +
+    '</body></html>';
+
+  frame.srcdoc = doc;
+}
+
+/* =========================================================
+   コンソール表示
+   ========================================================= */
+let conEmpty = true;
+function clearCon() {
+  con.innerHTML = '<div class="ttl">CONSOLE</div>';
+  conEmpty = true;
+  setTimeout(function () {
+    if (conEmpty) {
+      const d = document.createElement("div");
+      d.className = "empty";
+      d.textContent = "（エラーなし）";
+      con.appendChild(d);
+    }
+  }, 500);
+}
+
+window.addEventListener("message", function (e) {
+  const d = e.data;
+  if (!d || !d.t) return;
+  if (conEmpty) {
+    con.innerHTML = '<div class="ttl">CONSOLE</div>';
+    conEmpty = false;
+  }
+  const line = document.createElement("div");
+  line.className = d.t === "err" ? "err" : d.t === "warn" ? "warn" : "log";
+  line.textContent = (d.t === "err" ? "✕ " : d.t === "warn" ? "! " : "› ") + d.m;
+  con.appendChild(line);
+  con.scrollTop = con.scrollHeight;
+});
+
+/* =========================================================
+   ボタン類
+   ========================================================= */
+$("#btnReset").addEventListener("click", function () { load(curRecipe); });
+
+$("#btnClear").addEventListener("click", function () {
+  files = { html:"", css:"", js:"" };
+  code.value = "";
+  syncGutter(); save(); run();
+});
+
+$("#btnCopy").addEventListener("click", function (e) {
+  const text =
+    "<!-- index.html -->\n" + files.html +
+    "\n\n/* style.css */\n" + files.css +
+    "\n\n// script.js\n" + files.js;
+  const btn = e.currentTarget;
+  const done = function (ok) {
+    btn.textContent = ok ? "コピーした！" : "コピーできない";
+    setTimeout(function () { btn.textContent = "3つまとめてコピー"; }, 1400);
+  };
+  const fallback = function () {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta); done(ok);
+    } catch (err) { done(false); }
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+  } else { fallback(); }
+});
+
+document.querySelectorAll("[data-view]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-view]").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    const work = $("#work");
+    if (b.dataset.view === "wide") {
+      work.style.gridTemplateColumns = "0.8fr 2fr";
+    } else {
+      work.style.gridTemplateColumns = "";
+    }
+  });
+});
+
+/* =========================================================
+   お手本のボタンを作る
+   ========================================================= */
+const rec = $("#recipes");
+RECIPES.forEach(function (r) {
+  const b = document.createElement("button");
+  b.className = "rc";
+  b.dataset.lv = r.lv;
+  b.innerHTML = "<b>" + r.name + "</b><span>" + r.desc + "</span>";
+  b.addEventListener("click", function () { load(r.id); });
+  rec.appendChild(b);
+});
+
+/* =========================================================
+   起動
+   ========================================================= */
+const saved = localStorage.getItem(KEY);
+if (saved !== null) {
+  try {
+    const s = JSON.parse(saved);
+    if (s.files) files = s.files;
+    if (s.recipe) curRecipe = s.recipe;
+    if (s.tab) cur = s.tab;
+    document.querySelectorAll(".tab").forEach(function (x) {
+      x.classList.toggle("on", x.dataset.k === cur);
+    });
+    code.value = files[cur] || "";
+    syncGutter();
+    run();
+  } catch (err) { load("hello"); }
+} else {
+  load("hello");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 0 ｜ はじめに — Webサイトのつくりかた</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- ============ 01 表紙 ============ -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">00</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;0 &nbsp;/ &nbsp;G E T &nbsp;R E A D Y</div>
+    <h1 class="t">Webサイトの<br>つくりかた</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">ぜんぶ自分の手で、1ページずつ。<br>
+      最後は<span class="mk">オリジナルのパーティゲーム</span>まで作る。</p>
+    <p class="xs mt2">全9回 ／ 第0回：これから何をするのか・道具をそろえる</p>
+  </div>
+  <div class="chara nana" style="right:96px; bottom:54px;"><img src="../assets/char/nanamoon.webp" alt=""></div>
+  <div class="fuki l" style="right:70px; bottom:210px; max-width:250px;">
+    9回もあるけど、<br>1回ずつは短いから。<br>今日は<b>入れるだけ</b>で終わり。
+  </div>
+</section>
+
+<!-- ============ 02 全体地図 ============ -->
+<section class="slide" data-title="全体の地図">
+  <div class="body">
+    <div class="kicker"><b>この講座の地図</b></div>
+    <h2 class="t">9回で、ここまで行く</h2>
+    <div class="g2 top" style="gap:22px">
+      <table class="tbl sm">
+        <tr><th style="width:78px">回</th><th>やること</th><th style="width:150px">できるようになる</th></tr>
+        <tr><td>DAY 0</td><td>準備・道具そろえ</td><td>ファイルを作って開ける</td></tr>
+        <tr><td>DAY 1</td><td><b>HTMLだけ</b>でサイト①</td><td>文章のページが作れる</td></tr>
+        <tr><td>DAY 2</td><td>HTML②（表・リンク・複数ページ）</td><td>ページを行き来できる</td></tr>
+        <tr><td>DAY 3</td><td><b>CSS</b>①（色・文字・余白）</td><td>見た目が整う</td></tr>
+        <tr><td>DAY 4</td><td>CSS②（並べる・動かす）</td><td>レイアウトが組める</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th style="width:78px">回</th><th>やること</th><th style="width:150px">できるようになる</th></tr>
+        <tr><td>DAY 5</td><td><b>JavaScript</b>①（動きの基本）</td><td>ボタンが反応する</td></tr>
+        <tr><td>DAY 6</td><td>JS②（配列・状態・保存）</td><td>データを扱える</td></tr>
+        <tr><td>DAY 7</td><td><span class="pen">総合制作</span>パーティゲーム</td><td>ゼロから設計できる</td></tr>
+        <tr><td>DAY 8</td><td>デバッグ・公開</td><td>人に見せられる</td></tr>
+      </table>
+    </div>
+    <div class="row mt2 push" style="align-items:center; gap:18px">
+      <div class="fusen" data-c="blue" style="flex:1">
+        <b>ここが大事</b>
+        1回ごとに「動くもの」が手元に残る。積み上げ式なので、前の回のファイルをそのまま育てていく。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>わからなくていい</b>
+        全部おぼえてる人はいない。調べ方と直し方さえ分かれば、あとは何とかなる。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 ゴール ============ -->
+<section class="slide" data-title="最終ゴール">
+  <div class="body">
+    <div class="kicker"><b>ゴール</b></div>
+    <h2 class="t">最後に作るのは、これ</h2>
+    <div class="g32">
+      <div>
+        <div class="card tilt">
+          <h4>『プロポーズの言葉を君に捧ぐよ』</h4>
+          <p class="sm">配られた<b>ことば</b>を言いまわしに当てはめて、プロポーズの文を作る。
+            親がいちばんグッときた文を選ぶ——それだけの、
+            ばかばかしいパーティ用のことば遊び。</p>
+          <ul class="dot r mt" style="font-size:17px">
+            <li>手札のことばが配られる（配列・ランダム）</li>
+            <li>穴に当てはめて文ができる（文字の置きかえ）</li>
+            <li>全員ぶんを並べて親が選ぶ（DOM操作）</li>
+            <li>指輪を3つ渡したら勝ち（if）</li>
+          </ul>
+        </div>
+        <div class="fusen" data-c="pink" style="margin-top:18px">
+          <b>なぜこれを作るのか</b>
+          「動く・記録する・分岐する」というWebの必須3点セットが、遊びながら全部入るから。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>file:///.../final/propose/index.html</span></div>
+          <img src="../assets/shots/game-title.png" alt="完成したゲームのタイトル画面"
+               style="display:block; width:100%; height:392px; object-fit:cover; object-position:top center">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chara usa" style="left:24px; bottom:20px; width:70px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+<!-- ============ 04 Webサイトって何 ============ -->
+<section class="slide" data-title="Webサイトの正体">
+  <div class="body">
+    <div class="kicker"><b>そもそも</b></div>
+    <h2 class="t">Webサイトって、結局なに？</h2>
+    <p class="lead">答え：<span class="mk">ブラウザというアプリが読み込む「ただのテキストファイル」</span>。</p>
+    <div class="g2 mt2">
+      <div class="card">
+        <h4>あなたが書くもの</h4>
+        <p class="sm">メモ帳で書ける文字だけのファイル。拡張子を <span class="ic">.html</span> にして保存するだけ。
+          特別なソフトも、お金も、インターネットすら要らない。</p>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="sm">
+<h1>はじめまして</h1>
+<p>これがWebサイトです。</p>
+        </script>
+      </div>
+      <div class="card">
+        <h4>ブラウザがやること</h4>
+        <p class="sm">上のファイルを読んで、「<b>h1 は大きい見出しだな</b>」と解釈して、画面に絵として描く。
+          この<b>翻訳作業</b>をしてくれるのがブラウザ。</p>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>index.html</span></div>
+          <div class="paneview">
+            <div style="font-family:'Times New Roman',serif; font-size:30px; font-weight:bold">はじめまして</div>
+            <div style="font-family:'Times New Roman',serif; font-size:16px; margin-top:12px">これがWebサイト。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="green" style="max-width:none">
+      <b>つまり</b>
+      Webサイト作りとは「ブラウザに伝わる書き方でテキストを書くこと」。難しいのは技術じゃなくて<span class="mk">お作法</span>だけ。
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 3つの役割 ============ -->
+<section class="slide" data-title="HTML・CSS・JSの役割">
+  <div class="body">
+    <div class="kicker"><b>登場人物は3人だけ</b></div>
+    <h2 class="t">HTML・CSS・JavaScript</h2>
+    <div class="g3 grow">
+      <div class="card v" style="transform:rotate(-.7deg)">
+        <h4 style="color:var(--red)">HTML ／ 骨組み</h4>
+        <p class="sm">「ここは見出し」「ここは画像」と<b>意味</b>を決める。家でいう<b>柱と部屋</b>。<br>
+          <span class="xs">これが無いと何も始まらない。</span></p>
+        <script type="text/plain" class="code" data-lang="html" data-size="xs">
+<h1>お店の名前</h1>
+<p>営業時間 10:00-19:00</p>
+        </script>
+      </div>
+      <div class="card v" style="transform:rotate(.5deg)">
+        <h4 style="color:var(--blue)">CSS ／ 見た目</h4>
+        <p class="sm">色・大きさ・並び方を決める。家でいう<b>壁紙と家具の配置</b>。<br>
+          <span class="xs">無くても動くが、ダサい。</span></p>
+        <script type="text/plain" class="code" data-lang="css" data-size="xs">
+h1 {
+  color: crimson;
+  text-align: center;
+}
+        </script>
+      </div>
+      <div class="card v" style="transform:rotate(-.4deg)">
+        <h4 style="color:var(--green)">JavaScript ／ 動き</h4>
+        <p class="sm">押したら変わる、計算する、覚える。家でいう<b>電気とスイッチ</b>。<br>
+          <span class="xs">ここで初めて「プログラム」。</span></p>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+button.onclick = function () {
+  alert("押したね");
+};
+        </script>
+      </div>
+    </div>
+    <div class="row mt2 push" style="align-items:center; gap:14px">
+      <div class="card" style="flex:1; padding:12px 16px">
+        <p class="sm"><b>順番も、この通り。</b>
+          骨組みが無いのに壁紙は貼れないし、電気配線もできない。だから
+          <span class="pen">HTML → CSS → JS</span> の順で覚えるのが一番ラクなんだ。</p>
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="right:30px; bottom:14px; width:74px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- ============ 06 なぜPythonじゃない ============ -->
+<section class="slide" data-title="なぜPythonじゃないのか">
+  <div class="body">
+    <div class="kicker"><b>よくある疑問 ①</b></div>
+    <h2 class="t">「プログラミング＝Python」じゃないの？</h2>
+    <div class="g32">
+      <div>
+        <p class="lead" style="font-size:20px">よく聞く言語だけど、この講座では<b>1行も使わない</b>。理由はシンプルで——</p>
+        <div class="fusen" data-c="pink" style="margin-top:16px">
+          <b>ブラウザは Python を読めない</b>
+          世界中のブラウザが理解できる言語は、今のところ <span class="mk">JavaScript ただ一つ</span>。
+          Python のファイルを置いても、ブラウザには「ただの文字」にしか見えない。
+        </div>
+        <table class="tbl sm mt2">
+          <tr><th style="width:150px">言語</th><th>おもな居場所</th><th>この講座</th></tr>
+          <tr><td>HTML / CSS</td><td>ブラウザの中（見た目）</td><td>使う</td></tr>
+          <tr><td>JavaScript</td><td>ブラウザの中（動き）</td><td>使う</td></tr>
+          <tr><td>Python</td><td>サーバー・AI・データ分析</td><td>使わない</td></tr>
+          <tr><td>C / C++</td><td>アプリ本体・組み込み・ゲーム</td><td>使わない</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="card">
+          <h4>じゃあ Python はいつ使う？</h4>
+          <ul class="dot" style="font-size:17px">
+            <li>サイトの<b>裏側</b>（会員データを保存する等）を自作したくなったとき</li>
+            <li>AI・機械学習をやりたいとき</li>
+            <li>Excel処理やスクレイピングの自動化</li>
+          </ul>
+          <p class="xs mt">ただし今回は、裏側は DAY 8 で紹介する
+            <b>Firebase</b>（プログラムを書かずにデータ保存できる仕組み）に任せる。<br>
+            <span class="mk g">だから Python を覚えなくても、動くサービスは作れる。</span></p>
+        </div>
+        <div class="fusen mt2" style="max-width:none">
+          <b>結論</b>
+          「Webサイトを作る」という目的に対して、Python は<b>遠回り</b>。最短距離は HTML → CSS → JS 。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 Cとの比較 ============ -->
+<section class="slide" data-title="C言語とくらべると">
+  <div class="body">
+    <div class="kicker"><b>よくある疑問 ②</b></div>
+    <h2 class="t">C言語をかじった人へ</h2>
+    <p class="lead" style="font-size:19px">C を少しでも触ったことがあるなら、<span class="mk">その感覚はかなり役に立つ</span>。ちがうのは主に3点だけ。</p>
+    <table class="tbl sm mt">
+      <tr><th style="width:180px"></th><th>C言語</th><th>JavaScript</th></tr>
+      <tr><td><b>実行のしかた</b></td><td>コンパイルして <span class="ic">.exe</span> を作ってから実行</td><td><span class="mk">保存してブラウザで開くだけ</span>。ビルド不要</td></tr>
+      <tr><td><b>型の宣言</b></td><td><span class="ic">int x = 5;</span> と型を書く</td><td><span class="ic">let x = 5;</span> 型は書かない（勝手に判断）</td></tr>
+      <tr><td><b>画面に出す</b></td><td><span class="ic">printf("hi");</span></td><td><span class="ic">console.log("hi");</span></td></tr>
+      <tr><td><b>ループ・if</b></td><td colspan="2" style="background:rgba(185,236,208,.35)"><b>ほぼ同じ。</b> <span class="ic">for (i=0; i&lt;5; i++)</span> も <span class="ic">if (a == b)</span> もそのまま通じる</td></tr>
+      <tr><td><b>メモリ管理</b></td><td>自分で <span class="ic">malloc</span> / <span class="ic">free</span></td><td>考えなくていい（自動）</td></tr>
+    </table>
+    <div class="g2 mt2 push">
+      <div class="fusen" data-c="green">
+        <b>うれしい違い</b>
+        書き換えて <b>Ctrl+S → F5</b> で結果が出る。コンパイル待ちがないので、試行錯誤の回転がめちゃくちゃ速い。
+      </div>
+      <div class="fusen" data-c="pink">
+        <b>気をつける違い</b>
+        型が無いぶん <span class="ic">"5" + 1</span> が <span class="ic">"51"</span> になったりする。DAY 5 でちゃんと扱う。
+      </div>
+    </div>
+  </div>
+  <div class="chara usa" style="right:22px; bottom:16px; width:66px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+<!-- ============ 08 章扉：道具 ============ -->
+<section class="slide" data-kind="chapter" data-title="── 道具をそろえる">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 1</div>
+    <div class="chapter-ttl">道具をそろえる</div>
+    <div class="cover-rule"></div>
+    <p class="lead">必要なのは2つだけ。<b>ブラウザ</b>と<b>VSCode</b>。<br>どちらも無料。</p>
+  </div>
+  <div class="chara rian" style="right:150px; bottom:80px;"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- ============ 09 VSCodeとは ============ -->
+<section class="slide" data-title="VSCodeを入れる">
+  <div class="body">
+    <div class="kicker"><b>道具 ①</b></div>
+    <h2 class="t blue">VSCode ＝ 高機能なメモ帳</h2>
+    <div class="g32">
+      <div>
+        <p class="sm">正式名称 <b>Visual Studio Code</b>。Microsoft が配っている無料のテキストエディタ。
+          メモ帳でもサイトは作れるが、VSCode を使うと——</p>
+        <ul class="check mt" style="font-size:18px">
+          <li>タグに<b>色</b>がついて読みやすい</li>
+          <li>打ち間違いに<b>波線</b>で警告が出る</li>
+          <li>途中まで打つと<b>続きを提案</b>してくれる</li>
+          <li>フォルダごと開いて管理できる</li>
+        </ul>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>入れかた</b>
+          <span class="ic">code.visualstudio.com</span> → 大きい青ボタン → exe を実行 → 次へ連打でOK。<br>
+          手順は <span class="ic">reference/setup.html</span> に画面つきで載せてある。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>Visual Studio Code</span></div>
+          <img src="../assets/shots/vscode-intro.png" alt="VSCodeの画面">
+        </div>
+        <p class="xs mt">左が<b>ファイル一覧</b>、右が<b>編集エリア</b>。慣れるとこの2つしか見ない。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 拡張機能 ============ -->
+<section class="slide" data-title="最初に入れる拡張機能">
+  <div class="body">
+    <div class="kicker"><b>道具 ②</b></div>
+    <h2 class="t blue">最初に入れる拡張機能は2つだけ</h2>
+    <p class="sm">左の縦バーの <b>四角が4つのアイコン</b>（拡張機能）をクリック → 名前で検索 → Install。</p>
+    <div class="g2 mt grow">
+      <div class="card">
+        <h4>① Japanese Language Pack</h4>
+        <p class="sm">メニューが日本語になる。検索窓に <span class="ic">Japanese</span> と入力。
+          入れたあと「Restart」を押すと反映。</p>
+        <p class="xs">※ 英語のままが良ければ入れなくても大丈夫。</p>
+      </div>
+      <div class="card">
+        <h4>② Live Server</h4>
+        <p class="sm">保存した瞬間にブラウザが<b>自動でリロード</b>される神拡張。
+          検索窓に <span class="ic">Live Server</span>。</p>
+        <p class="xs">使い方：html ファイルを右クリック → <b>Open with Live Server</b></p>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px; align-items:stretch">
+      <div class="fusen" data-c="pink" style="flex:1">
+        <b>入れすぎ注意</b>
+        「便利そう」で10個入れると重くなるし、勝手にコードを書き換える拡張もある。困ってから足すのが正解。
+      </div>
+      <div class="fusen" data-c="green" style="flex:1">
+        <b>Live Server が無くても</b>
+        html ファイルを<b>ダブルクリック</b>すればブラウザで開ける。更新は F5。まずはこれで十分。
+      </div>
+    </div>
+  </div>
+  <div class="chara nana" style="right:34px; bottom:8px; width:112px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+<!-- ============ 11 フォルダ ============ -->
+<section class="slide" data-title="フォルダの作り方">
+  <div class="body">
+    <div class="kicker"><b>いちばん最初の一歩</b></div>
+    <h2 class="t">置き場所を決める</h2>
+    <div class="g32">
+      <div>
+        <ol class="step">
+          <li>デスクトップに <span class="ic">web</span> フォルダを作る<span class="xs">（名前は<b>半角英数字</b>で）</span></li>
+          <li>その中に <span class="ic">day1</span> フォルダを作る</li>
+          <li>VSCode を開いて <b>ファイル → フォルダーを開く</b> で <span class="ic">day1</span> を選ぶ</li>
+          <li>左上の「新しいファイル」アイコンで <span class="ic">index.html</span> を作る</li>
+        </ol>
+        <div class="fusen mt2" style="max-width:none">
+          <b>なぜ index.html？</b>
+          Webの世界では <span class="mk">index.html ＝ そのフォルダの玄関</span> という決まりがある。
+          公開したとき、この名前だと自動で最初に表示される。
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h4>おすすめの構成</h4>
+          <script type="text/plain" class="code" data-lang="txt" data-size="sm">
+web/
+├─ day1/
+│   ├─ index.html
+│   └─ img/
+│       └─ cat.png
+├─ day2/
+└─ day3/
+          </script>
+          <p class="xs mt">画像は <span class="ic">img</span> フォルダにまとめる。
+            これだけで後々の「画像が出ない！」が激減する。</p>
+        </div>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>やりがちなミス</b>
+          <span class="ic">index.html.txt</span> になる事故。「表示 → ファイル名拡張子」に<b>チェック</b>を。
+          くわしくは <span class="ic">reference/basics.html</span>。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 ファイルを作る ============ -->
+<section class="slide" data-title="ファイルを作って保存するまで">
+  <div class="body">
+    <div class="kicker"><b>画面のどこを押すか</b></div>
+    <h2 class="t">ファイルを作って、保存するまで</h2>
+
+    <div class="row" style="justify-content:center; align-items:stretch; margin-top:2px">
+
+      <div class="card v" style="width:342px; padding:14px 20px 16px">
+        <h4 style="font-size:18px">① フォルダを開く</h4>
+        <img src="../assets/shots/flow-c1-empty.png" width="302" height="100"
+             alt="day1 フォルダを開いた直後のエクスプローラー"
+             style="display:block; border:1px solid rgba(44,58,66,.32); border-radius:4px">
+        <p class="xs" style="margin-top:10px"><b>ファイル → フォルダーを開く</b><br>
+          左上にフォルダ名が出れば成功。<br>中はまだ空っぽ。</p>
+      </div>
+
+      <div class="card v" style="width:342px; padding:14px 20px 16px">
+        <h4 style="font-size:18px">② 「新しいファイル」</h4>
+        <div style="position:relative; width:302px; height:100px">
+          <img src="../assets/shots/flow-c2-newicon.png" width="302" height="100"
+               alt="新しいファイルのアイコンが並んだところ"
+               style="display:block; border:1px solid rgba(44,58,66,.32); border-radius:4px">
+          <span style="position:absolute; left:197px; top:26px; width:33px; height:29px;
+                       border:2.5px solid #cf4436; border-radius:50%"></span>
+        </div>
+        <p class="xs" style="margin-top:10px">フォルダ名の行に<b>マウスを乗せる</b>と<br>
+          アイコンが出る。<span class="mk">いちばん左</span>が新規ファイル。</p>
+      </div>
+
+      <div class="card v" style="width:342px; padding:14px 20px 16px">
+        <h4 style="font-size:18px">③ 名前を打つ</h4>
+        <img src="../assets/shots/flow-c3-filename.png" width="302" height="100"
+             alt="index.html と入力しているところ"
+             style="display:block; border:1px solid rgba(44,58,66,.32); border-radius:4px">
+        <p class="xs" style="margin-top:10px"><span class="ic">index.html</span> と打って <b>Enter</b>。<br>
+          <span class="mk">.html まで自分で打つ</span>のを忘れずに。</p>
+      </div>
+
+    </div>
+
+    <div class="card mt" style="padding:13px 22px 15px">
+      <div class="row" style="align-items:center; gap:20px">
+        <div style="flex:none">
+          <h4 style="font-size:18px; margin-bottom:2px">④ 書いたら保存（Ctrl + S）</h4>
+          <p class="xs">保存できたかは<b>タブの右</b>で見分ける。</p>
+        </div>
+        <div style="flex:none; text-align:center">
+          <img src="../assets/shots/flow-c4-dirty.png" width="136" height="40" alt="未保存のタブ"
+               style="display:block; border:1px solid rgba(44,58,66,.32); border-radius:4px">
+          <p class="xs" style="margin-top:4px; color:var(--red)"><b>● まだ保存していない</b></p>
+        </div>
+        <div class="arrow" style="width:44px; height:34px; align-self:flex-start; margin-top:4px"></div>
+        <div style="flex:none; text-align:center">
+          <img src="../assets/shots/flow-c5-saved.png" width="136" height="40" alt="保存後のタブ"
+               style="display:block; border:1px solid rgba(44,58,66,.32); border-radius:4px">
+          <p class="xs" style="margin-top:4px; color:var(--green)"><b>× 保存できた</b></p>
+        </div>
+        <p class="xs" style="flex:1; min-width:150px">この <b>●</b> が出ているあいだは、
+          ブラウザで見ても<span class="mk">さっきのまま</span>。</p>
+      </div>
+    </div>
+
+    <div class="row mt" style="align-items:flex-start; gap:24px">
+      <div class="fusen" style="flex:1; max-width:none; font-size:16px; line-height:1.68">
+        <b style="font-size:17px">● を押すと閉じてしまう</b>
+        保存すると <b>●</b> は <b>×</b>（閉じる）に変わる。同じ場所なので
+        <span class="mk">うっかり押さない</span>。閉じてもファイルは残っている。
+      </div>
+      <div class="fusen" data-c="blue" style="flex:1; max-width:none; font-size:16px; line-height:1.68">
+        <b style="font-size:17px">保存せずに閉じようとしたら</b>
+        「保存しますか？」と聞かれる。<span class="mk">保存</span>を押せば大丈夫。
+        「保存しない」だと書いた分が消える。
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="right:16px; bottom:8px; width:62px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- ============ 13 やってみよう ============ -->
+<section class="slide" data-title="やってみよう：最初の1行">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">今日のうちに、1回だけ動かす</h2>
+    <div class="g2">
+      <div>
+        <h3 class="st">① これを打ち込む</h3>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html">
+<h1>はじめてのページ</h1>
+<p>今日から Web を作ります。</p>
+        </script>
+        <h3 class="st b mt2">② Ctrl + S で保存</h3>
+        <p class="sm">タブの右にあった <b>●</b> が消えたら保存できている。</p>
+        <h3 class="st g mt2">③ ダブルクリックで開く</h3>
+        <p class="sm">エクスプローラーで <span class="ic">index.html</span> をダブルクリック。ブラウザが開けば成功。</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>file:///C:/Users/.../day1/index.html</span></div>
+          <img src="../assets/shots/day0-first.png" alt="実行結果">
+        </div>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>これで「Webサイトを作った人」</b>
+          たった2行でも、ブラウザが読んで表示した時点で立派なWebページ。ここがスタートライン。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="left:18px; bottom:10px; width:66px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- ============ 14 書く→保存→見る ============ -->
+<section class="slide" data-title="書く→保存→見る のループ">
+  <div class="body">
+    <div class="kicker"><b>これから何十回もくり返す動き</b></div>
+    <h2 class="t">書く → 保存 → 見る</h2>
+
+    <div class="row" style="justify-content:center; align-items:stretch; margin-top:4px">
+
+      <div class="card v" style="width:314px">
+        <h4>① 書く</h4>
+        <p class="xs" style="margin-bottom:9px">VSCode でタグを打つ。</p>
+        <script type="text/plain" class="code" data-lang="html" data-size="xs">
+<h1>はじめてのページ</h1>
+        </script>
+        <p class="xs" style="margin-top:10px">打ちまちがえても<b>こわれない</b>。<br>何度でも直せる。</p>
+      </div>
+
+      <div class="arrow"></div>
+
+      <div class="card v" style="width:314px">
+        <h4>② 保存する</h4>
+        <p class="xs" style="margin-bottom:12px">キーボードで。</p>
+        <p style="margin-bottom:12px">
+          <span style="display:inline-block; font-family:var(--f-code); font-size:19px; font-weight:700; background:#fff; border:2px solid rgba(44,58,66,.45); border-bottom-width:4px; border-radius:6px; padding:4px 12px; box-shadow:1px 2px 0 rgba(44,58,66,.10)">Ctrl</span>
+          <span style="font-size:19px; margin:0 5px">＋</span>
+          <span style="display:inline-block; font-family:var(--f-code); font-size:19px; font-weight:700; background:#fff; border:2px solid rgba(44,58,66,.45); border-bottom-width:4px; border-radius:6px; padding:4px 15px; box-shadow:1px 2px 0 rgba(44,58,66,.10)">S</span>
+        </p>
+        <p class="xs">タブの右の <b style="color:var(--red)">●</b> が消えたら、<br>保存できた合図。</p>
+      </div>
+
+      <div class="arrow"></div>
+
+      <div class="card v" style="width:314px">
+        <h4>③ 見る</h4>
+        <p class="xs" style="margin-bottom:12px">ブラウザに切り替えて。</p>
+        <p style="margin-bottom:12px">
+          <span style="display:inline-block; font-family:var(--f-code); font-size:19px; font-weight:700; background:#fff; border:2px solid rgba(44,58,66,.45); border-bottom-width:4px; border-radius:6px; padding:4px 15px; box-shadow:1px 2px 0 rgba(44,58,66,.10)">F5</span>
+          <span class="xs" style="margin-left:9px">（更新）</span>
+        </p>
+        <p class="xs">ブラウザは<b>閉じなくていい</b>。<br>開いたまま更新するだけ。</p>
+      </div>
+
+    </div>
+
+    <div style="position:relative; height:88px; margin-top:2px">
+      <svg viewBox="0 0 1116 88" preserveAspectRatio="none" style="position:absolute; left:0; right:0; top:0; width:100%; height:52px">
+        <path d="M966,2 C966,30 960,40 900,40 L216,40 C156,40 150,30 150,2"
+              fill="none" stroke="#cf4436" stroke-width="3" stroke-linecap="round"/>
+        <path d="M141,13 L150,1 L159,13"
+              fill="none" stroke="#cf4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="hand" style="position:absolute; left:0; right:0; top:50px; text-align:center; font-size:18px">
+        直したいところが出てきたら、また ① へ。この3つの往復だけで1ページができあがる。
+      </div>
+    </div>
+
+    <div class="fusen mt" data-c="pink" style="max-width:none">
+      <b>つまずくのは、ほぼ「②をやっていない」</b>
+      画面が変わらないときは、まず<span class="mk">保存できているか</span>。
+      書いただけではファイルはまだ変わっていない。
+    </div>
+  </div>
+  <div class="chara nana" style="right:14px; bottom:8px; width:70px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+<!-- ============ 15 作り方の型（ユーザーのメモ） ============ -->
+<section class="slide" data-title="ものづくりの型">
+  <div class="body">
+    <div class="kicker"><b>技術より、たぶんこっちが大事</b></div>
+    <h2 class="t">作りたいものが先。技術はあと</h2>
+    <p class="lead" style="font-size:19px">コードが書けるようになっても、<span class="mk">何を作るか決まっていないと1行も進まない</span>。
+      この講座は毎回、次の順番で進める。</p>
+    <div class="g3 mt grow" style="gap:16px">
+      <div class="card">
+        <h4 style="color:var(--red)">1. イメージ</h4>
+        <p class="sm">どんなものを作りたいか。絵でも箇条書きでもいい。<b>ここが9割。</b></p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--blue)">2. 分解</h4>
+        <p class="sm">欲しい機能を言葉にして、必要な部品を並べる。「このボタンを押したらこうなる」まで細かく。</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--green)">3. 作って直す</h4>
+        <p class="sm">動かす → 壊れる → 直す。この往復が上達そのもの。<b>一発で完成させようとしない。</b></p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>DAY 7 でこの型をフルで使う</b>
+      「作りたい → 機能を出す → 問題点を潰す → 図にする → 実装 → 触って直す」。
+      くわしくは <span class="ic">reference/workflow.html</span> にまとめてある。
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 AIの使い方 ============ -->
+<section class="slide" data-title="AIとの付き合い方">
+  <div class="body">
+    <div class="kicker"><b>先に言っておく</b></div>
+    <h2 class="t">AIは使っていい。ただし使い方がある</h2>
+    <div class="g2 grow">
+      <div class="card">
+        <h4 style="color:var(--green)">○ こう使う</h4>
+        <ul class="dot" style="font-size:17px">
+          <li>エラー文をそのまま貼って「これ何？」と聞く</li>
+          <li>「こういう機能を足したい。何が必要？」と相談する</li>
+          <li>作った後に「もっと短く書ける？」とレビューさせる</li>
+          <li>大まかな下書きを出させて、<b>自分で読んで直す</b></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--red)">× これは伸びない</h4>
+        <ul class="dot r" style="font-size:17px">
+          <li>丸投げして、出てきたコードを読まずに貼る</li>
+          <li>動かないとき、理由を見ずに何度も作り直させる</li>
+          <li>何を作りたいか決まってないのに聞く</li>
+        </ul>
+        <p class="xs mt">→ 結局<b>直せない</b>ので、一歩も進めなくなる。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" style="max-width:none">
+      <b>プロも使っている</b>
+      下書きを出させたり、面倒な部分を任せるのは普通のこと。大事なのは
+      <span class="mk">出てきたものを判断できる自分でいること</span>。そのための9回。
+    </div>
+  </div>
+  <div class="chara nana" style="right:26px; bottom:6px; width:104px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+<!-- ============ 17 まとめ ============ -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 0 おわり</b></div>
+    <h2 class="t">今日のチェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>VSCode をインストールした</li>
+      <li>拡張機能（日本語 / Live Server）を入れた</li>
+      <li>デスクトップに <span class="ic">web/day1/</span> フォルダを作った</li>
+      <li><span class="ic">index.html</span> を作って、ブラウザで開けた</li>
+      <li>HTML・CSS・JavaScript の役割が言える</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px; align-items:stretch">
+      <div class="fusen" data-c="blue" style="flex:1.2">
+        <b>次回 DAY 1 ／ HTMLだけでサイトを作る</b>
+        タグの読み方から始めて、1ページぶんの<b>自己紹介サイト</b>を完成させる。
+        CSSはまだ使わない。地味だけどここが一番の土台。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（5分）</b>
+        好きなサイトを1つ開いて <b>F12</b> を押してみる。<br>
+        中身が全部 HTML なのが見える。
+      </div>
+    </div>
+  </div>
+  <div class="chara usa" style="right:120px; bottom:18px; width:78px"><img src="../assets/char/usagi.webp" alt=""></div>
+  <div class="fuki l" style="right:24px; bottom:120px; max-width:220px">
+    ……まだ1文字も<br>プログラム書いてない。
+  </div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

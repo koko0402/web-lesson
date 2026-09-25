@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>チートシート（印刷用）｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .sheet{ max-width:900px; padding:32px 38px 40px; }
+  h1{ font-size:32px; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px 20px; align-items:start; }
+  .blk{ break-inside:avoid; page-break-inside:avoid; margin-bottom:6px; }
+  .blk h3{
+    font-size:15px; margin:0 0 6px; padding:3px 10px; border-radius:4px;
+    background:var(--ink); color:var(--paper); display:inline-block; letter-spacing:.04em;
+  }
+  .blk.r h3{ background:var(--red); }
+  .blk.b h3{ background:var(--blue); }
+  .blk.g h3{ background:var(--green); }
+  table{ font-size:13px; margin-bottom:0; }
+  th,td{ padding:4px 8px; }
+  code,.ic{ font-size:12.5px; padding:0 4px; }
+  .note{ font-size:12px; }
+  .page-break{ page-break-before:always; height:0; }
+  @media print{
+    @page{ size:A4; margin:12mm; }
+    body{ background:none; padding:0; }
+    .sheet{ box-shadow:none; max-width:none; padding:0; background:none; }
+    .sheet::before{ display:none; }
+    .search,.back,.crumb,.noprint{ display:none !important; }
+    .grid{ gap:10px 16px; }
+    table{ font-size:11px; }
+    th,td{ padding:2px 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>チートシート</h1>
+  <p class="lead" style="margin-bottom:16px">よく使うものだけ。<b>A4で2枚</b>に収まる。
+    <span class="noprint">（<code>Ctrl + P</code> で印刷して手元に置いて）</span></p>
+
+  <div class="fusen noprint" data-c="blue" style="margin:0 0 22px">
+    <b>これは「思い出す」ための紙</b>
+    説明は書いてない。意味を知りたいときは
+    <a href="html-tags.html">タグ一覧</a>・<a href="css-props.html">CSS一覧</a>・<a href="js-syntax.html">JS一覧</a> へ。
+  </div>
+
+  <!-- ============ 1枚目 ============ -->
+  <div class="grid">
+
+    <div class="blk r">
+      <h3>HTML ／ 骨組み</h3>
+      <script type="text/plain" class="code" data-lang="html">
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1">
+    <title>ページの名前</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    ここに中身
+
+    <script src="script.js"><\/script>
+  </body>
+</html>
+      </script>
+      <p class="note">VSCodeで <code>!</code> ＋ Tab で出る。</p>
+    </div>
+
+    <div class="blk r">
+      <h3>HTML ／ よく使うタグ</h3>
+      <table>
+        <tr><td><code>&lt;h1&gt;〜&lt;h6&gt;</code></td><td>見出し</td></tr>
+        <tr><td><code>&lt;p&gt;</code></td><td>段落</td></tr>
+        <tr><td><code>&lt;br&gt;</code></td><td>改行</td></tr>
+        <tr><td><code>&lt;strong&gt;</code></td><td>強調（太字）</td></tr>
+        <tr><td><code>&lt;ul&gt;&lt;li&gt;</code></td><td>リスト（点）</td></tr>
+        <tr><td><code>&lt;ol&gt;&lt;li&gt;</code></td><td>リスト（番号）</td></tr>
+        <tr><td><code>&lt;a href="…"&gt;</code></td><td>リンク</td></tr>
+        <tr><td><code>&lt;img src="…" alt="…"&gt;</code></td><td>画像</td></tr>
+        <tr><td><code>&lt;div&gt;</code> <code>&lt;span&gt;</code></td><td>ただの箱</td></tr>
+        <tr><td><code>&lt;table&gt;&lt;tr&gt;&lt;th&gt;&lt;td&gt;</code></td><td>表</td></tr>
+        <tr><td><code>&lt;input&gt;</code> <code>&lt;button&gt;</code></td><td>入力欄・ボタン</td></tr>
+        <tr><td><code>&lt;!-- … --&gt;</code></td><td>コメント</td></tr>
+      </table>
+    </div>
+
+    <div class="blk b">
+      <h3>CSS ／ 形</h3>
+      <script type="text/plain" class="code" data-lang="css">
+セレクタ {
+  プロパティ: 値;
+}
+
+p       { }   /* タグ全部 */
+.box    { }   /* class="box" */
+#head   { }   /* id="head" */
+.box p  { }   /* box の中の p */
+a:hover { }   /* マウスが乗ったとき */
+      </script>
+    </div>
+
+    <div class="blk b">
+      <h3>CSS ／ よく使うプロパティ</h3>
+      <table>
+        <tr><td><code>color</code></td><td>文字の色</td></tr>
+        <tr><td><code>background-color</code></td><td>背景の色</td></tr>
+        <tr><td><code>font-size</code></td><td>文字の大きさ</td></tr>
+        <tr><td><code>line-height</code></td><td>行の高さ（1.8）</td></tr>
+        <tr><td><code>text-align</code></td><td>center / left / right</td></tr>
+        <tr><td><code>margin</code></td><td>外の余白</td></tr>
+        <tr><td><code>padding</code></td><td>内の余白</td></tr>
+        <tr><td><code>border</code></td><td>1px solid #ccc</td></tr>
+        <tr><td><code>border-radius</code></td><td>角丸</td></tr>
+        <tr><td><code>box-shadow</code></td><td>0 2px 8px #0002</td></tr>
+        <tr><td><code>max-width</code> + <code>margin: 0 auto</code></td><td>中央に置く</td></tr>
+        <tr><td><code>display: none</code></td><td>消す</td></tr>
+      </table>
+    </div>
+
+    <div class="blk b">
+      <h3>CSS ／ 並べる</h3>
+      <script type="text/plain" class="code" data-lang="css">
+/* 横に並べる（親に書く） */
+.cards {
+  display: flex;
+  gap: 18px;
+  justify-content: center;  /* 横 */
+  align-items: center;      /* 縦 */
+}
+.card { flex: 1; }      /* 均等に伸びる */
+.photo { flex: none; }  /* 縮まない */
+
+/* 格子に並べる */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* ど真ん中 */
+.center {
+  display: grid;
+  place-items: center;
+}
+      </script>
+    </div>
+
+    <div class="blk b">
+      <h3>CSS ／ 動き・スマホ</h3>
+      <script type="text/plain" class="code" data-lang="css">
+.card {
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* 700px以下のときだけ */
+@media (max-width: 700px) {
+  .cards { flex-direction: column; }
+}
+
+/* 色をまとめる */
+:root { --main: #2f6d68; }
+.btn  { background: var(--main); }
+      </script>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ============ 2枚目 ============ -->
+  <div class="grid">
+
+    <div class="blk g">
+      <h3>JavaScript ／ 3ステップ</h3>
+      <script type="text/plain" class="code" data-lang="js">
+// ① 取ってくる
+const btn = document.getElementById("btn");
+const out = document.getElementById("out");
+
+// ② 「押されたら」を予約
+btn.addEventListener("click", function () {
+
+  // ③ 書き戻す
+  out.textContent = "押されました";
+});
+      </script>
+    </div>
+
+    <div class="blk g">
+      <h3>JavaScript ／ 基本</h3>
+      <table>
+        <tr><td><code>const</code> / <code>let</code></td><td>変えない／変える箱</td></tr>
+        <tr><td><code>===</code> <code>!==</code></td><td>等しい／等しくない</td></tr>
+        <tr><td><code>&amp;&amp;</code> <code>||</code> <code>!</code></td><td>かつ／または／でない</td></tr>
+        <tr><td><code>Number("5")</code></td><td>文字→数値</td></tr>
+        <tr><td><code>console.log(x)</code></td><td>F12に出す</td></tr>
+        <tr><td><code>Math.floor(Math.random()*6)+1</code></td><td>1〜6の乱数</td></tr>
+        <tr><td><code>`こんにちは ${name}`</code></td><td>変数を埋め込む</td></tr>
+      </table>
+    </div>
+
+    <div class="blk g">
+      <h3>JavaScript ／ 画面をさわる</h3>
+      <table>
+        <tr><td><code>.textContent</code></td><td>文字を読み書き</td></tr>
+        <tr><td><code>.value</code></td><td>入力欄の中身</td></tr>
+        <tr><td><code>.style.width = "50%"</code></td><td>CSSを直接</td></tr>
+        <tr><td><code>.classList.add("x")</code></td><td>クラスを付ける</td></tr>
+        <tr><td><code>.classList.toggle("x")</code></td><td>付け外し</td></tr>
+        <tr><td><code>.disabled = true</code></td><td>ボタンを止める</td></tr>
+        <tr><td><code>createElement("li")</code></td><td>タグを作る</td></tr>
+        <tr><td><code>appendChild(li)</code></td><td>くっつける</td></tr>
+        <tr><td><code>innerHTML = ""</code></td><td>中身を空に</td></tr>
+      </table>
+    </div>
+
+    <div class="blk g">
+      <h3>JavaScript ／ 配列・オブジェクト</h3>
+      <script type="text/plain" class="code" data-lang="js">
+const a = ["あ", "い", "う"];
+a[0]            // "あ"（0から）
+a.length        // 3
+a.push("え");   // 末尾に足す
+a.includes("い")// 入ってる？
+
+a.forEach(function (item, i) {
+  console.log(i, item);
+});
+
+const state = { love: 0, pos: 0 };
+state.love = 50;
+      </script>
+    </div>
+
+    <div class="blk g">
+      <h3>JavaScript ／ 分岐・関数・保存</h3>
+      <script type="text/plain" class="code" data-lang="js">
+if (n >= 10)      { }
+else if (n >= 5)  { }
+else              { }
+
+function clamp(n) {
+  if (n > 100) return 100;
+  return n;
+}
+
+setTimeout(f, 500);      // 0.5秒後に1回
+const t = setInterval(f, 80);
+clearInterval(t);        // 止める
+
+localStorage.setItem("k", JSON.stringify(a));
+const s = localStorage.getItem("k");
+if (s !== null) a = JSON.parse(s);
+      </script>
+    </div>
+
+    <div class="blk">
+      <h3>ショートカット</h3>
+      <table>
+        <tr><td><code>Ctrl + S</code></td><td>保存</td></tr>
+        <tr><td><code>Ctrl + Z</code></td><td>元に戻す</td></tr>
+        <tr><td><code>Ctrl + /</code></td><td>コメントアウト</td></tr>
+        <tr><td><code>Shift + Alt + F</code></td><td>整形</td></tr>
+        <tr><td><code>Ctrl + F</code></td><td>検索</td></tr>
+        <tr><td><code>Ctrl + D</code></td><td>同じ単語を次々選択</td></tr>
+        <tr><td><code>Ctrl + B</code></td><td>ファイル一覧の表示切替</td></tr>
+        <tr><td><code>F5</code></td><td>ブラウザ更新</td></tr>
+        <tr><td><code>Ctrl + Shift + R</code></td><td>強制更新</td></tr>
+        <tr><td><code>F12</code></td><td>開発者ツール</td></tr>
+      </table>
+    </div>
+
+    <div class="blk">
+      <h3>Emmet（打って Tab）</h3>
+      <table>
+        <tr><td><code>!</code></td><td>HTMLの骨組み</td></tr>
+        <tr><td><code>.box</code></td><td>div class="box"</td></tr>
+        <tr><td><code>ul&gt;li*5</code></td><td>li が5個</td></tr>
+        <tr><td><code>h2{文字}</code></td><td>中身つき見出し</td></tr>
+        <tr><td><code>table&gt;(tr&gt;th*3)+(tr&gt;td*3)*4</code></td><td>3列4行の表</td></tr>
+      </table>
+    </div>
+
+    <div class="blk r">
+      <h3>動かないとき</h3>
+      <table>
+        <tr><td>1</td><td>保存した？（<code>Ctrl+S</code>）</td></tr>
+        <tr><td>2</td><td>F12 の Console に赤い文字は？</td></tr>
+        <tr><td>3</td><td><code>;</code> や <code>}</code> の抜けは？</td></tr>
+        <tr><td>4</td><td>全角が混ざってない？</td></tr>
+        <tr><td>5</td><td>直前に足した所を消すと直る？</td></tr>
+        <tr><td>6</td><td><code>Ctrl+Shift+R</code> で強制更新</td></tr>
+      </table>
+      <p class="note"><b>書く → Ctrl+S → F5</b> をこまめに。</p>
+    </div>
+  </div>
+
+  <a class="back noprint" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

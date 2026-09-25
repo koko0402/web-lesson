@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教える側の進行メモ｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .plan{ background:rgba(255,255,255,.7); border:1.5px solid rgba(44,58,66,.18);
+         border-left:6px solid var(--blue); border-radius:6px; padding:16px 20px; margin-bottom:20px; }
+  .plan h3{ margin:0 0 10px; font-size:20px; display:flex; align-items:center; gap:10px; }
+  .plan h3 .n{ font-family:var(--f-code); font-size:12px; background:var(--ink); color:var(--paper);
+               border-radius:4px; padding:2px 9px; }
+  .plan.key{ border-left-color:var(--red); background:rgba(253,243,214,.5); }
+  .time{ font-family:var(--f-code); font-size:13px; color:var(--red); }
+  .say{ background:#eef4fb; border-left:4px solid var(--blue); padding:8px 14px; margin:8px 0;
+        font-size:15px; border-radius:0 5px 5px 0; }
+  .say::before{ content:'「'; } .say::after{ content:'」'; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料（教える人向け）</div>
+  <h1>教える側の進行メモ</h1>
+  <p class="lead">各回の時間配分、詰まりやすい所、そのときの声かけ。<br>
+    <b>これは教える人だけが見る資料</b>。</p>
+
+  <div class="toc">
+    <a href="#base">基本の進め方</a><a href="#prep">毎回の準備</a><a href="#plan">各回のメモ</a>
+    <a href="#tsumazuki">詰まったときの対応</a><a href="#kotoba">言い方のコツ</a>
+  </div>
+
+  <!-- ========================================================= -->
+  <section>
+    <h2 id="base">基本の進め方</h2>
+
+    <h3>1回の組み立て（60〜90分）</h3>
+    <table>
+      <tr><th style="width:120px">時間</th><th style="width:180px">やること</th><th>ポイント</th></tr>
+      <tr><td class="time">0〜5分</td><td>前回のふりかえり</td><td>前回作ったものを<b>開いて見せる</b>。話すより見せる</td></tr>
+      <tr><td class="time">5〜10分</td><td>今日のゴール</td><td>完成イメージのスクショを見せる。<b>「今日これが作れる」</b></td></tr>
+      <tr><td class="time">10〜35分</td><td>説明（スライド前半）</td><td><span class="mk">25分が限界</span>。それ以上は入らない</td></tr>
+      <tr><td class="time">35〜75分</td><td><b>実習</b>（章扉のあと）</td><td>ここが本体。<b>黙って見る時間</b>を作る</td></tr>
+      <tr><td class="time">75〜85分</td><td>詰まった所の共有</td><td>「どこで止まった？」を聞く。直し方を一緒に</td></tr>
+      <tr><td class="time">85〜90分</td><td>まとめ・宿題</td><td>チェックリストに印を付けてもらう</td></tr>
+    </table>
+
+    <div class="fusen" data-c="pink">
+      <b>いちばんやりがちな失敗</b>
+      説明を最後まで通してから実習に入ること。<br>
+      前半を全部聞いた時点で、最初のほうは忘れている。<b>説明はスライド1〜2枚ごとに切って、
+      すぐ打たせる</b>ほうが定着する。時間が足りなければ、説明を削って実習を残して。
+    </div>
+
+    <h3>毎回のリズム</h3>
+    <p>この3つを<b>体で覚えてもらう</b>のが、9回を通しての裏テーマ。</p>
+    <ol class="step">
+      <li><b>書く → Ctrl+S → F5</b> をこまめに。まとめて書かせない</li>
+      <li>動かなくなったら<b>まず直前に足した所を消す</b></li>
+      <li>分からなければ<b>F12を開く</b></li>
+    </ol>
+  </section>
+
+  <!-- ========================================================= -->
+  <section>
+    <h2 id="prep">毎回の準備（5分）</h2>
+    <ul class="check">
+      <li>その回のスライドを開いて、<b>F</b> で全画面にしておく</li>
+      <li><code>practice/</code> の該当フォルダを VSCode で開いておく（見せる用）</li>
+      <li>相手のPCで前回のファイルが開けるか、最初に確認する</li>
+      <li>電源・ネット・画面共有の確認</li>
+    </ul>
+
+    <div class="fusen" data-c="blue">
+      <b>相手の画面が見えるようにする</b>
+      横に並ぶか、画面共有してもらうか。<span class="mk">相手の手元が見えないと、詰まりに気づけない</span>。
+      「できた？」と聞いても、たいてい「はい」と返ってくる。
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <section>
+    <h2 id="plan">各回のメモ</h2>
+
+    <div class="plan">
+      <h3><span class="n">DAY 0</span>はじめに・道具をそろえる</h3>
+      <p><b>目的：</b>手を動かす前に「何を作るのか」を共有し、環境を整える。</p>
+      <ul class="dot">
+        <li><b>時間の大半はインストール</b>に取られる。事前に <a href="setup.html">はじめての準備</a> を渡して、
+          <span class="mk">当日までに済ませてもらう</span>と1回分浮く</li>
+        <li>最終作品（パーティゲーム）を<b>実際に遊ばせる</b>。ここでやる気が決まる</li>
+        <li>「なぜPythonじゃないのか」は、聞かれる前に説明しておくと後がスムーズ</li>
+      </ul>
+      <p><b>詰まりポイント：</b>拡張子が見えていない／インストール時のPATH／管理者権限</p>
+      <div class="say">今日はまだプログラムは書かない。道具を用意するだけ</div>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 1</span>HTMLだけでサイトを作る</h3>
+      <p><b>目的：</b>タグの形に慣れる。「保存して開く」の往復を体に入れる。</p>
+      <ul class="dot">
+        <li>見た目が地味なので、<b>「今日はダサくていい」と最初に宣言</b>しておく</li>
+        <li>Emmet（<code>!</code> + Tab）は<span class="mk">最初に教えると感動される</span></li>
+        <li>実習は「見本を写す → 自分の内容に書き換える」の2段階。<b>書き換えまでやらせる</b></li>
+      </ul>
+      <p><b>詰まりポイント：</b><span class="mk">全角の記号</span>（最頻出）／終了タグの閉じ忘れ／画像のパス／改行されない</p>
+      <div class="say">色が付いてないタグは、たぶん全角が混ざってる</div>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 2</span>ページを増やす・表・フォーム</h3>
+      <p><b>目的：</b>1枚のページを「サイト」にする。パスの感覚をつかむ。</p>
+      <ul class="dot">
+        <li>同じ nav を3ページに貼るのは面倒だが、<b>その面倒さを味わってもらう</b>のが狙い</li>
+        <li>表は Emmet で骨組みを出させると速い</li>
+        <li>フォームは<b>「今は送れない」を必ず言う</b>。言わないと後で混乱する</li>
+      </ul>
+      <p><b>詰まりポイント：</b>リンク先のファイル名／表のマス数がそろわない／img フォルダのコピー忘れ</p>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 3</span>CSS ① 色・文字・余白</h3>
+      <p><b>目的：</b>見た目が変わる楽しさを体験する。ボックスモデルを理解する。</p>
+      <ul class="dot">
+        <li><b>最初に body の背景色だけ変えさせて、link が効いているか確認</b>させる。
+          ここを飛ばすと、あとで原因の切り分けができない</li>
+        <li>ボックスモデルは<span class="mk">図で説明してから、実際に padding を大きくして見せる</span></li>
+        <li>ここで初めて「楽しい」と言われる回。時間を多めに取っていい</li>
+      </ul>
+      <p><b>詰まりポイント：</b>link の書き忘れ／セミコロン／<code>.</code> や <code>#</code> の付け忘れ</p>
+      <div class="say">効かないときは、まず F12 で検証。取り消し線が付いてたら負けてる</div>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 4</span>CSS ② 並べる・動かす</h3>
+      <p><b>目的：</b>Flexbox で「作れる人の見た目」にする。</p>
+      <ul class="dot">
+        <li><b>「親に書く」</b>を何度も繰り返す。ここだけは丸暗記でいい</li>
+        <li>hover の演出は反応がいいので、早めに1つ作らせる</li>
+        <li>レスポンシブは<b>窓を細くして見せる</b>のが一番わかりやすい</li>
+      </ul>
+      <p><b>詰まりポイント：</b>子に flex を書いてしまう／<code>box-sizing</code> を入れず幅がずれる／
+        中央寄せが効かない（width がない）</p>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 5</span>JavaScript ① 動きの基本</h3>
+      <p><b>目的：</b>「取ってくる → 何かする → 書き戻す」の型を入れる。</p>
+      <ul class="dot">
+        <li><b>1個目のボタンが動くまで、次に進まない。</b>ここが全体の分岐点</li>
+        <li>動いた瞬間に<span class="mk">「今、プログラムを書いた」と言ってあげる</span></li>
+        <li>C言語の経験があるなら、対応表（<a href="js-syntax.html#c">JS構文一覧</a>）を見せると安心される</li>
+      </ul>
+      <p><b>詰まりポイント：</b><code>null</code>（idのスペル／scriptの位置）／<code>"5"+1</code>／
+        <code>=</code> と <code>===</code>／大文字小文字</p>
+      <div class="say">エラーは敵じゃない。場所と理由が書いてあるので、読めば9割わかる</div>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 6</span>JavaScript ② データを扱う</h3>
+      <p><b>目的：</b>「データを直す → 描き直す」という設計の考え方を入れる。</p>
+      <ul class="dot">
+        <li>ここが<b>技術的には一番の山</b>。焦らず、①の配列→リストだけで1時間使ってもいい</li>
+        <li><code>innerHTML = ""</code> を忘れさせて<b>わざと増え続けさせる</b>と、意味が体でわかる</li>
+        <li>次回の宿題（作りたいもの3つ）を<span class="mk">必ず出す</span>。これが無いと DAY 7 が成立しない</li>
+      </ul>
+      <p><b>詰まりポイント：</b>描画関数の呼び忘れ／リストが増え続ける／保存が <code>[object Object]</code></p>
+    </div>
+
+    <div class="plan key">
+      <h3><span class="n">DAY 7</span>総合制作（この講座の山場）</h3>
+      <p><b>目的：</b>文法ではなく<b>作り方の手順</b>を教える。ここだけは他で教われない。</p>
+      <ul class="dot">
+        <li><b>コードを書く時間より、紙に書く時間を長く取る。</b>
+          STEP 1〜7 を相手の「作りたいもの」で実際にやらせるのが理想</li>
+        <li>宿題の「作りたいもの3つ」を出させて、<span class="mk">その1つを題材に STEP を通す</span></li>
+        <li>最終作品のコードは<b>読ませるだけ</b>でよい。全部書かせる必要はない</li>
+        <li>時間が足りなければ<b>2回に分けて</b>ください。ここを急ぐと意味がなくなる</li>
+      </ul>
+      <p><b>相手が固まったら：</b>「誰が使う？」「何が楽しい？」の2つを聞くと、たいてい動き出す。</p>
+      <div class="say">作りたいものが決まってれば、コードは最悪AIでもどうにかなる。逆は無理</div>
+    </div>
+
+    <div class="plan">
+      <h3><span class="n">DAY 8</span>直す・公開する・これから</h3>
+      <p><b>目的：</b>自分で直せる／人に見せられる状態にする。</p>
+      <ul class="dot">
+        <li><b>わざとバグを仕込んだファイルを用意して、直させる</b>と実践的
+          （<a href="exercises.html">練習問題集</a> のデバッグ問題が使える）</li>
+        <li>GitHub のアカウント作成は時間がかかるので、<span class="mk">事前に作ってきてもらう</span></li>
+        <li>公開前に<b>個人情報と画像の権利を必ず確認</b>させる</li>
+        <li>最後に「次に何を作るか」を言わせて終わる</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <section>
+    <h2 id="tsumazuki">詰まったときの対応</h2>
+
+    <div class="fusen" data-c="pink">
+      <b>すぐ答えを言わない</b>
+      いちばん大事。<span class="mk">答えを言うと、その場は進むが力にならない。</span>
+      次の順番で誘導して。
+    </div>
+
+    <ol class="step">
+      <li><b>「どこまで動いてる？」</b> … 問題の範囲を切らせる</li>
+      <li><b>「F12 になんて出てる？」</b> … 自分で読ませる</li>
+      <li><b>「何行目って書いてある？」</b> … 場所を特定させる</li>
+      <li><b>「そこ、何をしようとしてる？」</b> … 意図を言語化させる</li>
+      <li>それでも詰まったら、<b>選択肢を2つ出す</b>（答えではなくヒント）</li>
+      <li>5分たっても進まなければ、<span class="mk">答えを見せて先に進む</span>。詰まり続けるほうが害</li>
+    </ol>
+
+    <table>
+      <tr><th style="width:280px">こう言われたら</th><th>こう返す</th></tr>
+      <tr><td>「動きません」</td><td>「どこまでは動いてる？」</td></tr>
+      <tr><td>「エラーが出た」</td><td>「なんて書いてある？　読んでみて」</td></tr>
+      <tr><td>「わからない」</td><td>「何をしたいかは分かってる？」（目的と手段を分ける）</td></tr>
+      <tr><td>「これでいいか？」</td><td>「動いた？　動いたなら正解」</td></tr>
+      <tr><td>「センスない」</td><td>「今のは道具の使い方の問題。センスは関係ない」</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section>
+    <h2 id="kotoba">言い方のコツ</h2>
+
+    <div class="cmp" style="display:grid; grid-template-columns:1fr 1fr; gap:16px">
+      <div style="background:rgba(255,255,255,.72); border-left:6px solid var(--green); border-radius:6px; padding:14px 18px">
+        <h4 style="margin:0 0 8px; color:var(--green)">○ 効く言い方</h4>
+        <ul class="dot">
+          <li>「これは覚えなくていい。調べればいい」</li>
+          <li>「全部おぼえてる人はいない」</li>
+          <li>「エラーが出るのは正常」</li>
+          <li>「今のは打ち間違い。よくある」</li>
+          <li>「動いたね。それが正解」</li>
+          <li>「1個ずつ試そう。まとめてやると原因がわからなくなる」</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,.72); border-left:6px solid var(--red); border-radius:6px; padding:14px 18px">
+        <h4 style="margin:0 0 8px; color:var(--red)">× 避けたい言い方</h4>
+        <ul class="dot r">
+          <li>「簡単だよ」（できないと落ち込む）</li>
+          <li>「さっき言ったよね」</li>
+          <li>「なんでそうなるの？」（責めに聞こえる）</li>
+          <li>「普通は〜」</li>
+          <li>専門用語を説明なしで使う</li>
+          <li>相手のキーボードを勝手に触る</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fusen" data-c="green">
+      <b>初心者が本当に困っているのは、たいてい文法ではない</b>
+      全角が混ざっている、保存していない、ファイルの場所が違う。<br>
+      <span class="mk">こういう「本に載っていない所」で止まっている。</span>
+      教える側がここを先回りできると、進み方がまるで変わる。
+      → <a href="basics.html">パソコンとファイルの基本</a> を最初に渡しておくのが効果的。
+    </div>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

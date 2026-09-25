@@ -1,0 +1,9 @@
+# OS が勝手に作るもの
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 一時ファイル
+*.tmp
+*.bak
+*~

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTMLタグ一覧｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>HTMLタグ一覧</h1>
+  <p class="lead">この講座で出てくるタグを全部まとめた。おぼえる必要はない。<b>忘れたらここを見る</b>ためのページ。</p>
+
+  <div class="search">
+    <input type="text" placeholder="タグ名や説明で検索（例：リスト、img、表）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#base">土台</a><a href="#text">文章</a><a href="#list">リスト</a>
+    <a href="#link">リンクと画像</a><a href="#box">まとまり</a><a href="#table">表</a>
+    <a href="#form">フォーム</a><a href="#attr">属性</a><a href="#esc">特殊文字</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="base">土台（毎回書くもの）</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み・由来</th><th>説明</th></tr>
+      <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>ドクタイプ</td><td>「これはHTML」という宣言。ファイルの1行目に必ず書く</td></tr>
+      <tr><td><code>&lt;html lang="ja"&gt;</code></td><td>エイチティーエムエル</td><td>全体のいれもの。<code>lang="ja"</code> で日本語のページだと伝える</td></tr>
+      <tr><td><code>&lt;head&gt;</code></td><td>ヘッド</td><td><b>画面に出ない設定</b>を書く場所</td></tr>
+      <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>メタ・キャラセット</td><td>文字コードの指定。<b>これが無いと文字化けする</b></td></tr>
+      <tr><td><code>&lt;meta name="viewport"…&gt;</code></td><td>ビューポート</td><td>スマホで正しい大きさで表示するためのおまじない</td></tr>
+      <tr><td><code>&lt;title&gt;</code></td><td>タイトル</td><td>ブラウザのタブに出る名前。検索結果の見出しにもなる</td></tr>
+      <tr><td><code>&lt;link rel="stylesheet"&gt;</code></td><td>リンク</td><td>CSSファイルを読み込む。head の中に書く</td></tr>
+      <tr><td><code>&lt;script src="…"&gt;</code></td><td>スクリプト</td><td>JavaScriptを読み込む。<b>body の一番下</b>に書く</td></tr>
+      <tr><td><code>&lt;body&gt;</code></td><td>ボディ</td><td><b>画面に出る中身</b>を書く場所</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="text">文章</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み・由来</th><th>説明</th></tr>
+      <tr><td><code>&lt;h1&gt;</code> 〜 <code>&lt;h6&gt;</code></td><td>heading（見出し）</td><td>見出し。数字が小さいほど大きい。<b>h1 は1ページに1つ</b></td></tr>
+      <tr><td><code>&lt;p&gt;</code></td><td>paragraph（段落）</td><td>文章のひとかたまり</td></tr>
+      <tr><td><code>&lt;br&gt;</code></td><td>break（改行）</td><td>その場所で改行。終了タグなし</td></tr>
+      <tr><td><code>&lt;hr&gt;</code></td><td>horizontal rule</td><td>話題の区切りの横線。終了タグなし</td></tr>
+      <tr><td><code>&lt;strong&gt;</code></td><td>ストロング</td><td><b>重要</b>という意味。初期状態では太字</td></tr>
+      <tr><td><code>&lt;em&gt;</code></td><td>emphasis（強調）</td><td>強調。初期状態では斜体</td></tr>
+      <tr><td><code>&lt;b&gt;</code></td><td>bold</td><td>ただ太くするだけ（意味なし）</td></tr>
+      <tr><td><code>&lt;small&gt;</code></td><td>スモール</td><td>注釈・補足。小さい字になる</td></tr>
+      <tr><td><code>&lt;mark&gt;</code></td><td>マーク</td><td>蛍光ペンで引いたような黄色背景</td></tr>
+      <tr><td><code>&lt;s&gt;</code></td><td>strike</td><td>取り消し線</td></tr>
+      <tr><td><code>&lt;blockquote&gt;</code></td><td>ブロッククォート</td><td>引用のかたまり</td></tr>
+      <tr><td><code>&lt;code&gt;</code></td><td>コード</td><td>プログラムのコードを示す（等幅フォントになる）</td></tr>
+      <tr><td><code>&lt;pre&gt;</code></td><td>preformatted</td><td>改行やスペースを<b>そのまま</b>表示する</td></tr>
+      <tr><td><code>&lt;!-- コメント --&gt;</code></td><td>—</td><td>画面に出ないメモ。<code>Ctrl + /</code> で切り替え</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="list">リスト</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み・由来</th><th>説明</th></tr>
+      <tr><td><code>&lt;ul&gt;</code></td><td>unordered list</td><td>順番なしのリスト（黒丸）</td></tr>
+      <tr><td><code>&lt;ol&gt;</code></td><td>ordered list</td><td>順番ありのリスト（番号は自動）</td></tr>
+      <tr><td><code>&lt;li&gt;</code></td><td>list item</td><td>リストの1項目。ul か ol の中に入れる</td></tr>
+      <tr><td><code>&lt;dl&gt;</code></td><td>description list</td><td>「用語と説明」のリスト</td></tr>
+      <tr><td><code>&lt;dt&gt;</code></td><td>description term</td><td>用語のほう</td></tr>
+      <tr><td><code>&lt;dd&gt;</code></td><td>description details</td><td>説明のほう</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="link">リンクと画像</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み・由来</th><th>説明</th></tr>
+      <tr><td><code>&lt;a href="…"&gt;</code></td><td>anchor（いかり）</td><td>リンク。<code>href</code> に飛び先を書く</td></tr>
+      <tr><td><code>&lt;a href="#id"&gt;</code></td><td>—</td><td>同じページの中の、その id の場所へ飛ぶ</td></tr>
+      <tr><td><code>&lt;a target="_blank"&gt;</code></td><td>—</td><td>新しいタブで開く</td></tr>
+      <tr><td><code>&lt;img src="…" alt="…"&gt;</code></td><td>image</td><td>画像。終了タグなし。<code>alt</code> は必ず書く</td></tr>
+      <tr><td><code>&lt;video&gt;</code> <code>&lt;audio&gt;</code></td><td>—</td><td>動画・音声。<code>controls</code> を付けると再生ボタンが出る</td></tr>
+      <tr><td><code>&lt;iframe&gt;</code></td><td>アイフレーム</td><td>他のページ（YouTube や地図）を埋め込む</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>パス（道順）の書き方</b>
+      <code>photo.png</code>＝同じフォルダ／<code>img/photo.png</code>＝img の中へ降りる／
+      <code>../photo.png</code>＝1つ上のフォルダへ上がる／<code>https://…</code>＝ネット上
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="box">まとまり・場所</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み</th><th>説明</th></tr>
+      <tr><td><code>&lt;header&gt;</code></td><td>ヘッダー</td><td>ページの上部（題名・ロゴ）</td></tr>
+      <tr><td><code>&lt;nav&gt;</code></td><td>ナビ</td><td>他のページへのリンク集</td></tr>
+      <tr><td><code>&lt;main&gt;</code></td><td>メイン</td><td>そのページの主役。<b>1ページに1つ</b></td></tr>
+      <tr><td><code>&lt;section&gt;</code></td><td>セクション</td><td>意味のまとまり。見出しとセットで使う</td></tr>
+      <tr><td><code>&lt;article&gt;</code></td><td>アーティクル</td><td>それ単体で成立する記事</td></tr>
+      <tr><td><code>&lt;aside&gt;</code></td><td>アサイド</td><td>おまけ・補足・サイドバー</td></tr>
+      <tr><td><code>&lt;footer&gt;</code></td><td>フッター</td><td>ページの下部（著作表示など）</td></tr>
+      <tr><td><code>&lt;div&gt;</code></td><td>division</td><td><b>意味のない箱</b>（ブロック）。CSSを当てる目印に</td></tr>
+      <tr><td><code>&lt;span&gt;</code></td><td>スパン</td><td><b>意味のない箱</b>（インライン）。文中の一部を囲む</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="table">表</h2>
+    <table>
+      <tr><th style="width:210px">タグ</th><th style="width:150px">読み・由来</th><th>説明</th></tr>
+      <tr><td><code>&lt;table&gt;</code></td><td>テーブル</td><td>表ぜんたい</td></tr>
+      <tr><td><code>&lt;thead&gt;</code></td><td>table head</td><td>見出し行のグループ</td></tr>
+      <tr><td><code>&lt;tbody&gt;</code></td><td>table body</td><td>データ行のグループ</td></tr>
+      <tr><td><code>&lt;tr&gt;</code></td><td>table row</td><td><b>1行</b></td></tr>
+      <tr><td><code>&lt;th&gt;</code></td><td>table header</td><td>見出しのマス（太字・中央）</td></tr>
+      <tr><td><code>&lt;td&gt;</code></td><td>table data</td><td>データのマス</td></tr>
+      <tr><td><code>colspan="2"</code></td><td>—</td><td>横に2マス分つなげる</td></tr>
+      <tr><td><code>rowspan="2"</code></td><td>—</td><td>縦に2マス分つなげる</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="form">フォーム</h2>
+    <table>
+      <tr><th style="width:230px">書き方</th><th>できるもの</th></tr>
+      <tr><td><code>&lt;form&gt;</code></td><td>入力欄のまとまり</td></tr>
+      <tr><td><code>&lt;label for="x"&gt;</code></td><td>項目名。<code>for</code> と <code>id</code> をそろえると文字を押しても反応する</td></tr>
+      <tr><td><code>&lt;input type="text"&gt;</code></td><td>1行の入力欄</td></tr>
+      <tr><td><code>&lt;input type="email"&gt;</code></td><td>メール用（形式チェック付き）</td></tr>
+      <tr><td><code>&lt;input type="number"&gt;</code></td><td>数字だけの入力欄</td></tr>
+      <tr><td><code>&lt;input type="radio"&gt;</code></td><td>1つだけ選ぶ。同じグループは <code>name</code> をそろえる</td></tr>
+      <tr><td><code>&lt;input type="checkbox"&gt;</code></td><td>複数選べる四角</td></tr>
+      <tr><td><code>&lt;input type="range"&gt;</code></td><td>スライダー</td></tr>
+      <tr><td><code>&lt;input type="color"&gt;</code></td><td>色を選ぶ</td></tr>
+      <tr><td><code>&lt;input type="date"&gt;</code></td><td>日付を選ぶ</td></tr>
+      <tr><td><code>&lt;textarea&gt;</code></td><td>複数行の入力欄</td></tr>
+      <tr><td><code>&lt;select&gt;</code> + <code>&lt;option&gt;</code></td><td>プルダウン</td></tr>
+      <tr><td><code>&lt;button&gt;</code></td><td>押せるボタン</td></tr>
+      <tr><td><code>placeholder="…"</code></td><td>入力前に薄く出る案内文</td></tr>
+      <tr><td><code>required</code></td><td>入力必須にする</td></tr>
+      <tr><td><code>disabled</code></td><td>押せない・入力できない状態にする</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="attr">よく使う属性</h2>
+    <table>
+      <tr><th style="width:210px">属性</th><th>説明</th></tr>
+      <tr><td><code>class="名前"</code></td><td>名札。<b>何個にでも</b>付けられる。CSSで <code>.名前</code> と指定</td></tr>
+      <tr><td><code>id="名前"</code></td><td>1ページに1つだけの名前。CSSで <code>#名前</code>、JSで <code>getElementById</code></td></tr>
+      <tr><td><code>style="…"</code></td><td>そのタグだけにCSSを直接書く（多用しない）</td></tr>
+      <tr><td><code>src="…"</code></td><td>読み込むファイルの場所（img, script, video）</td></tr>
+      <tr><td><code>href="…"</code></td><td>リンク先（a, link）</td></tr>
+      <tr><td><code>alt="…"</code></td><td>画像の説明文</td></tr>
+      <tr><td><code>width</code> / <code>height</code></td><td>幅・高さ（px）</td></tr>
+      <tr><td><code>data-〇〇="…"</code></td><td>自由に付けられる情報。JSから <code>要素.dataset.〇〇</code> で読める</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="esc">特殊文字（そのまま書けない文字）</h2>
+    <table>
+      <tr><th style="width:210px">書き方</th><th style="width:120px">表示</th><th>説明</th></tr>
+      <tr><td><code>&amp;lt;</code></td><td>&lt;</td><td>小なり。タグと区別するため</td></tr>
+      <tr><td><code>&amp;gt;</code></td><td>&gt;</td><td>大なり</td></tr>
+      <tr><td><code>&amp;amp;</code></td><td>&amp;</td><td>アンパサンド</td></tr>
+      <tr><td><code>&amp;quot;</code></td><td>"</td><td>ダブルクォート</td></tr>
+      <tr><td><code>&amp;nbsp;</code></td><td>（空白）</td><td>消えない半角スペース</td></tr>
+      <tr><td><code>&amp;copy;</code></td><td>&copy;</td><td>コピーライト</td></tr>
+    </table>
+  </section>
+
+  <div class="fusen" data-c="green">
+    <b>もっと詳しく知りたいとき</b>
+    <b>MDN Web Docs</b>（<code>developer.mozilla.org/ja/</code>）が公式の辞書。
+    「タグ名 mdn」で検索すると、日本語の正確な説明が出てくる。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

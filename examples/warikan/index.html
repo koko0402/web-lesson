@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>割り勘けいさん</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <main class="card">
+      <h1>割り勘けいさん</h1>
+      <p class="sub">端数は幹事が持つ or みんなで丸める</p>
+
+      <div class="row">
+        <label for="total">合計金額</label>
+        <div class="inp">
+          <input type="number" id="total" value="12800" min="0" step="100">
+          <span class="unit">円</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="people">人数</label>
+        <div class="inp">
+          <input type="number" id="people" value="5" min="1" step="1">
+          <span class="unit">人</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="round">丸め方</label>
+        <select id="round">
+          <option value="1">1円単位（きっちり）</option>
+          <option value="10">10円単位</option>
+          <option value="100" selected>100円単位</option>
+          <option value="500">500円単位</option>
+        </select>
+      </div>
+
+      <div class="out">
+        <div class="big"><span id="each">0</span><small>円 / 人</small></div>
+        <div class="sub2">
+          集まるお金 <b id="sum">0</b> 円　／
+          <span id="diffLabel">おつり</span> <b id="diff">0</b> 円
+        </div>
+      </div>
+
+      <p id="note" class="note"></p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

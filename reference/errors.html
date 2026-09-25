@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>エラー辞典｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>エラー辞典</h1>
+  <p class="lead">「動かない」ときにここを見て。<b>症状</b>から引けるようにしてある。</p>
+
+  <div class="search">
+    <input type="text" placeholder="症状やエラー文で検索（例：真っ白、画像、null、文字化け）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#step">まず試す5手</a><a href="#html">HTML</a><a href="#css">CSS</a>
+    <a href="#js">JavaScript</a><a href="#msg">エラーメッセージ</a><a href="#pub">公開したあと</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="step">まず試す5手</h2>
+    <ol class="step">
+      <li><b>直前に何をした？</b> いちばん最後に書き足した部分を消してみる。直ったらそこが原因</li>
+      <li><b>保存した？</b> VSCode のタブに ● が付いていたら未保存。<code>Ctrl + S</code></li>
+      <li><b>F12 を開く</b> Console に赤い文字が無いか。あれば<b>いちばん上のもの</b>を読む</li>
+      <li><b>console.log を挟む</b> 処理がそこまで来ているか、中身は何か</li>
+      <li><b>強制リロード</b> <code>Ctrl + Shift + R</code>（キャッシュを無視して読み直す）</li>
+    </ol>
+    <div class="fusen" data-c="pink">
+      <b>やってはいけないこと</b>
+      原因が分からないまま、あちこち書き換えること。
+      <span class="mk">直った理由が分からないと、次また同じ所で詰まる。</span>
+    </div>
+    <table>
+      <tr><th style="width:250px">症状</th><th>まず疑うもの</th></tr>
+      <tr><td>何も変わらない</td><td>保存していない／ファイルを読み込んでいない</td></tr>
+      <tr><td>途中から全部おかしい</td><td>タグ・かっこの閉じ忘れ</td></tr>
+      <tr><td>ときどき起きる</td><td>ランダムや時間が絡む処理</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="html">HTML の症状</h2>
+    <table>
+      <tr><th style="width:270px">症状</th><th style="width:250px">原因</th><th>直し方</th></tr>
+      <tr><td>文字が「譁�蟄怜喧」のように壊れる</td><td>文字コードの指定漏れ</td><td>head に <code>&lt;meta charset="UTF-8"&gt;</code> を書く</td></tr>
+      <tr><td>画像が出ない（壊れたアイコン）</td><td><code>src</code> のパスかファイル名ミス</td><td>フォルダ名・大文字小文字・拡張子を確認。<code>.jpg</code> と <code>.jpeg</code> は別物</td></tr>
+      <tr><td>Enter を押したのに改行されない</td><td>HTMLでは改行が無視される</td><td><code>&lt;br&gt;</code> か <code>&lt;p&gt;</code> を使う</td></tr>
+      <tr><td>途中からレイアウトが崩れる</td><td>終了タグの閉じ忘れ</td><td><code>Shift + Alt + F</code> で整形すると場所が分かる</td></tr>
+      <tr><td>リンクを押すと「見つかりません」</td><td><code>href</code> のファイル名ミス</td><td>拡張子 <code>.html</code> まで正確に</td></tr>
+      <tr><td>表がぐちゃぐちゃ</td><td>行ごとのマスの数が違う</td><td>すべての <code>&lt;tr&gt;</code> で <code>&lt;td&gt;</code> の数をそろえる</td></tr>
+      <tr><td>ラジオボタンが複数選べる</td><td><code>name</code> がバラバラ</td><td>同じグループは同じ <code>name</code> にする</td></tr>
+      <tr><td>ファイルを開いてもコードが表示される</td><td>拡張子が <code>.txt</code> になっている</td><td>エクスプローラーで「ファイル名拡張子」を表示して確認</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="css">CSS の症状</h2>
+    <table>
+      <tr><th style="width:270px">症状</th><th style="width:250px">原因</th><th>直し方</th></tr>
+      <tr><td>CSSがまったく効かない</td><td><code>link</code> の書き忘れ・パスミス</td><td>head に <code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td></tr>
+      <tr><td>途中から効かなくなる</td><td>セミコロンの書き忘れ</td><td><code>;</code> が無いと、そこから下がまとめて無効になる</td></tr>
+      <tr><td>1つの指定だけ効かない</td><td>セレクタのミス</td><td>class は <code>.名前</code>、id は <code>#名前</code>。点とシャープの付け忘れ</td></tr>
+      <tr><td>指定が上書きされる</td><td>詳細度の負け</td><td>F12 で見ると<b>取り消し線</b>が付いている。より細かく指定する</td></tr>
+      <tr><td>横に並ばない</td><td>ブロック要素は縦に積まれる</td><td><b>親</b>に <code>display: flex</code></td></tr>
+      <tr><td>中央に寄らない</td><td>width が無い</td><td><code>margin: 0 auto</code> は幅が決まっているときだけ効く</td></tr>
+      <tr><td>幅がはみ出す</td><td>padding が幅に加算されている</td><td><code>* { box-sizing: border-box; }</code> を書く</td></tr>
+      <tr><td>余白が思ったより狭い</td><td>マージンの相殺</td><td>上下の margin は大きいほうだけ効く。片方を padding にする</td></tr>
+      <tr><td>z-index が効かない</td><td>position が static</td><td><code>position: relative</code> などを付ける</td></tr>
+      <tr><td>スマホで文字が極小</td><td>viewport の meta が無い</td><td>head に viewport の meta を追加</td></tr>
+      <tr><td>直したのに反映されない</td><td>キャッシュ</td><td><code>Ctrl + Shift + R</code></td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="js">JavaScript の症状</h2>
+    <table>
+      <tr><th style="width:270px">症状</th><th style="width:250px">原因</th><th>直し方</th></tr>
+      <tr><td>何も起きない・エラーも出ない</td><td>script が読み込まれていない</td><td><code>&lt;script src="script.js"&gt;</code> のファイル名を確認</td></tr>
+      <tr><td>ボタンを押しても反応しない</td><td>id のミス／script の位置</td><td>script は <code>&lt;/body&gt;</code> の直前に置く</td></tr>
+      <tr><td>数が「11」でなく「101」になる</td><td>文字列の連結になっている</td><td><code>Number()</code> で数値に変換してから計算</td></tr>
+      <tr><td>押すたびリストが増え続ける</td><td>描き直す前に空にしていない</td><td>先頭で <code>innerHTML = ""</code></td></tr>
+      <tr><td>データは変わったのに画面が変わらない</td><td>描画関数の呼び忘れ</td><td>データを直した直後に <code>draw()</code> を呼ぶ</td></tr>
+      <tr><td>リロードすると全部消える</td><td>読み込み処理が無い</td><td>起動時に <code>getItem</code> → <code>JSON.parse</code></td></tr>
+      <tr><td>保存したら <code>[object Object]</code></td><td>そのまま保存した</td><td><code>JSON.stringify()</code> を通す</td></tr>
+      <tr><td>アニメーションが止まらない</td><td><code>clearInterval</code> を呼んでいない</td><td>回数を数えて止める</td></tr>
+      <tr><td>連打すると二重に動く</td><td>処理中も押せる状態</td><td>処理中は <code>btn.disabled = true</code></td></tr>
+      <tr><td>カウンターが増えない</td><td><code>let</code> を関数の中で宣言している</td><td>変数は関数の<b>外</b>に置く</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="msg">エラーメッセージの読み方</h2>
+    <p>Console の赤い文字には <b>①種類 ②内容 ③場所（ファイル名:行番号）</b> が必ず書いてある。行番号をクリックすると該当箇所へ飛べる。</p>
+    <table>
+      <tr><th style="width:340px">メッセージ</th><th style="width:230px">意味</th><th>だいたいの原因</th></tr>
+      <tr><td><code>Cannot read properties of null</code></td><td>存在しないものを触った</td><td>id のスペルミス／script が head にある／HTMLに無い</td></tr>
+      <tr><td><code>〇〇 is not defined</code></td><td>そんな名前は無い</td><td>変数名・関数名のタイプミス（大文字小文字も別物）</td></tr>
+      <tr><td><code>〇〇 is not a function</code></td><td>関数じゃないものを呼んだ</td><td>メソッド名のつづり違い（<code>addEventListner</code> など）</td></tr>
+      <tr><td><code>Unexpected token</code></td><td>文法がおかしい</td><td>かっこ・クォートの閉じ忘れ、全角文字の混入</td></tr>
+      <tr><td><code>Unexpected end of input</code></td><td>途中で終わっている</td><td><code>}</code> の閉じ忘れ</td></tr>
+      <tr><td><code>Assignment to constant variable</code></td><td>const を書き換えた</td><td><code>let</code> にする</td></tr>
+      <tr><td><code>Cannot read properties of undefined</code></td><td>配列の範囲外など</td><td>配列は0から数える。<code>a[3]</code> は3個の配列に無い</td></tr>
+      <tr><td><code>Maximum call stack size exceeded</code></td><td>無限に呼び合っている</td><td>関数が自分を呼び続けている</td></tr>
+      <tr><td><code>Failed to load resource: 404</code></td><td>ファイルが見つからない</td><td>パスかファイル名のミス</td></tr>
+      <tr><td><code>Uncaught SyntaxError</code></td><td>書き方の間違い</td><td>行番号の<b>1つ前</b>の行も見ること</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>英語が分からなくても大丈夫</b>
+      エラー文をそのままコピーして、AIか検索窓に貼って。
+      これは「ズル」ではなく、プロが毎日やっていること。<br>
+      → <a href="../playground/ask-ai.html">AIへの質問文メーカー</a> が、貼る文を作ってくれる。
+    </div>
+    <div class="fusen" data-c="green">
+      <b>いちばん最初のエラーだけ見る</b>
+      10個出ていても、たいてい1個目が原因で残りはその巻き添え。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="pub">公開したあとの症状</h2>
+    <table>
+      <tr><th style="width:270px">症状</th><th style="width:250px">原因</th><th>直し方</th></tr>
+      <tr><td>URLを開くと 404</td><td><code>index.html</code> が一番上に無い</td><td>フォルダごとではなく<b>中身</b>をアップロードする</td></tr>
+      <tr><td>ローカルでは出た画像が出ない</td><td>大文字小文字の違い</td><td>公開サーバーは区別が厳しい。<code>Photo.png</code> と <code>photo.png</code> は別物</td></tr>
+      <tr><td>CSSだけ当たらない</td><td>パスが絶対パスになっている</td><td><code>/style.css</code> ではなく <code>style.css</code> と書く</td></tr>
+      <tr><td>反映されるまで時間がかかる</td><td>公開処理の待ち時間</td><td>1〜2分待ってから <code>Ctrl + Shift + R</code></td></tr>
+      <tr><td>スマホで見ると崩れる</td><td>viewport とレスポンシブ未対応</td><td>meta viewport と <code>@media</code> を確認</td></tr>
+    </table>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

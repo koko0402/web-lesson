@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>おたんじょうびカード</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <!-- 紙吹雪はJavaScriptがここに作ります -->
+    <div id="confetti" class="confetti"></div>
+
+    <main class="stage">
+
+      <!-- 閉じている状態 -->
+      <div id="closed" class="envelope">
+        <div class="seal">♥</div>
+        <p class="to">To. <span id="toName">きみ</span></p>
+        <button id="open" class="btn">あける</button>
+      </div>
+
+      <!-- 開いた状態（最初は隠れている） -->
+      <div id="opened" class="card hidden">
+        <p class="eyebrow">H A P P Y &nbsp; B I R T H D A Y</p>
+        <h1 id="title">おたんじょうび<br>おめでとう</h1>
+        <p class="msg" id="msg">
+          今年もよろしく。<br>
+          とりあえず、なんかおごって。
+        </p>
+        <div class="cake">🎂</div>
+        <button id="again" class="btn small">閉じる</button>
+      </div>
+
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

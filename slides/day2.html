@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 2 ｜ ページを増やす・表・フォーム</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">02</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;2 &nbsp;/ &nbsp;H T M L</div>
+    <h1 class="t">1枚のページから<br>「サイト」へ</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">ページを増やして、行き来できるようにする。<br>
+      あとは<span class="mk">表</span>とフォーム。まだCSSは使わない。</p>
+    <p class="xs mt2">第2回 ／ 意味のあるタグ・複数ページ・table・form</p>
+  </div>
+  <div class="chara nana" style="right:88px; bottom:48px; width:126px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+  <div class="fuki l" style="right:60px; bottom:200px; max-width:236px">
+    今日ちょっと種類が多い。<br>ごめん、<b>おぼえなくていい</b>から。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日のゴール">
+  <div class="body">
+    <div class="kicker"><b>今日のゴール</b></div>
+    <h2 class="t">3ページを行き来できるサイト</h2>
+    <div class="g3">
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>index.html</span></div>
+          <img src="../assets/shots/day2-index.png" alt="トップ" style="height:250px; object-fit:cover; object-position:top left">
+        </div>
+        <p class="xs mt">トップ</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>spec.html</span></div>
+          <img src="../assets/shots/day2-spec.png" alt="スペック表" style="height:250px; object-fit:cover; object-position:top left">
+        </div>
+        <p class="xs mt">表のページ</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>contact.html</span></div>
+          <img src="../assets/shots/day2-contact.png" alt="フォーム" style="height:250px; object-fit:cover; object-position:top left">
+        </div>
+        <p class="xs mt">フォームのページ</p>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="blue" style="flex:1">
+        <b>「サイト」の定義</b>
+        リンクでつながった複数のページのかたまり。今日でそれが作れる。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>まだ見た目は素っ気ない</b>
+        でも次回 CSS を当てた瞬間、この3ページがかなり変わる。楽しみにしていて。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="ブロックとインライン">
+  <div class="body">
+    <div class="kicker"><b>タグの2つの性格</b></div>
+    <h2 class="t">縦に積まれるか、横に並ぶか</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">ブロック要素</h4>
+        <p class="sm"><b>横幅いっぱい</b>を占めて、<b>縦に積み重なる</b>。前後で改行される。</p>
+        <p class="sm"><span class="ic">h1</span> <span class="ic">p</span> <span class="ic">ul</span> <span class="ic">li</span>
+          <span class="ic">div</span> <span class="ic">section</span> <span class="ic">header</span> <span class="ic">table</span> <span class="ic">form</span></p>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>イメージ</span></div>
+          <div class="paneview" style="padding:10px">
+            <div style="background:#f6d5cd; padding:6px 10px; margin-bottom:5px; font-size:13px">ブロック</div>
+            <div style="background:#f6d5cd; padding:6px 10px; font-size:13px">ブロック</div>
+          </div>
+        </div>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">インライン要素</h4>
+        <p class="sm"><b>中身のぶんだけ</b>の幅で、<b>文章の中に横に並ぶ</b>。改行されない。</p>
+        <p class="sm"><span class="ic">a</span> <span class="ic">strong</span> <span class="ic">em</span>
+          <span class="ic">span</span> <span class="ic">small</span> <span class="ic">img</span> <span class="ic">br</span></p>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>イメージ</span></div>
+          <div class="paneview" style="padding:10px; font-size:13px">
+            文章のなかに <span style="background:#cfe0f2; padding:3px 8px">インライン</span> と
+            <span style="background:#cfe0f2; padding:3px 8px">インライン</span> が並ぶ
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+      <b>ここを知らないとハマる</b>
+      「なんで横に並ばないの？」の答えはだいたいこれ。ブロックは縦に積まれる決まりだから。
+      横に並べる方法は DAY 4 の Flexbox でやる。
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="意味のあるタグ">
+  <div class="body">
+    <div class="kicker"><b>ページの地図を作る</b></div>
+    <h2 class="t">場所に名前をつけるタグ</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<body>
+  <header>
+    <h1>ユウのトリセツ</h1>
+    <nav>
+      <a href="index.html">トップ</a>
+      <a href="spec.html">スペック表</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>ようこそ</h2>
+      <p>本文</p>
+    </section>
+    <aside>おまけ情報</aside>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 ユウ</p>
+  </footer>
+</body>
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:110px">タグ</th><th>その場所の意味</th></tr>
+          <tr><td>&lt;header&gt;</td><td>ページの上部・題名やロゴ</td></tr>
+          <tr><td>&lt;nav&gt;</td><td>他のページへのリンク集</td></tr>
+          <tr><td>&lt;main&gt;</td><td><b>そのページの主役</b>。1ページに1つ</td></tr>
+          <tr><td>&lt;section&gt;</td><td>意味のまとまり。見出しとセット</td></tr>
+          <tr><td>&lt;article&gt;</td><td>それ単体で成立する記事</td></tr>
+          <tr><td>&lt;aside&gt;</td><td>おまけ・補足・サイドバー</td></tr>
+          <tr><td>&lt;footer&gt;</td><td>ページの下部・著作表示</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>見た目は1ミリも変わらない</b>
+          これらはブラウザや読み上げソフトに構造を伝えるためのタグ。
+          「後から自分が読んで分かる」のも大きな利点。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="div と span">
+  <div class="body">
+    <div class="kicker"><b>意味のない箱</b></div>
+    <h2 class="t">div と span ── ただの入れ物</h2>
+    <div class="g2">
+      <div>
+        <p class="sm">意味を持たないタグ。「ここをまとめてCSSで飾りたい」というときの<b>目印</b>として使う。</p>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<div class="box">
+  <h2>基本仕様</h2>
+  <p>起動は 11:00 ごろ。</p>
+</div>
+
+<p>燃料は <span class="hilight">からあげ</span> です。</p>
+        </script>
+        <ul class="dot mt" style="font-size:18px">
+          <li><span class="ic">div</span> ＝ ブロックの入れ物</li>
+          <li><span class="ic">span</span> ＝ インラインの入れ物</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="st b">class 属性 ＝ 名札</h3>
+        <p class="sm">タグに付ける名前。同じ名前を<b>何個でも</b>付けられる。
+          次回、この名札を目印にしてCSSで色を付ける。</p>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<div class="box">…</div>
+<div class="box">…</div>
+<div class="box caution">…</div>
+        </script>
+        <p class="xs mt">半角スペースで区切ると<b>複数の名札</b>を付けられる。</p>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>div を使いすぎない</b>
+          意味のあるタグ（section・header など）が使える場所ではそちらを使う。
+          全部 div のページは、<span class="mk">後から読むと何がどこか分からない</span>。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="ページを増やす">
+  <div class="body">
+    <div class="kicker"><b>ここが今日の本題</b></div>
+    <h2 class="t">ページを増やして、つなぐ</h2>
+    <div class="g32">
+      <div>
+        <ol class="step">
+          <li>同じフォルダに <span class="ic">spec.html</span> を新しく作る</li>
+          <li>骨組み（<span class="ic">!</span> + Tab）を書く</li>
+          <li>両方のページに<b>同じナビ</b>を貼る</li>
+          <li>ブラウザで開いて、行き来できるか試す</li>
+        </ol>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm" data-file="どのページにも同じものを貼る">
+<nav>
+  <a href="index.html">トップ</a> ｜
+  <a href="spec.html">スペック表</a> ｜
+  <a href="contact.html">おたより</a>
+</nav>
+        </script>
+      </div>
+      <div>
+        <h3 class="st b">パスの復習</h3>
+        <script type="text/plain" class="code" data-lang="txt" data-size="sm">
+day2/
+├─ index.html
+├─ spec.html
+├─ contact.html
+└─ img/
+    └─ photo.webp
+        </script>
+        <p class="sm mt">同じ階層なら<b>ファイル名だけ</b>でつながる。
+          <span class="ic">href="spec.html"</span></p>
+        <div class="fusen mt2 push" style="max-width:none">
+          <b>同じものを何度も書くのがつらい？</b>
+          その通り。今は手でコピーするが、この「共通部分の使い回し」を
+          楽にする仕組みが世の中にはたくさんある。<span class="mk">つらさを覚えておくと、後で有り難みが分かる。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="left:16px; bottom:10px; width:58px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="表 table">
+  <div class="body">
+    <div class="kicker"><b>タグ ⑦</b></div>
+    <h2 class="t">表 ── table</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<table border="1">
+  <thead>
+    <tr>
+      <th>項目</th>
+      <th>値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>起動時刻</td>
+      <td>11:00</td>
+    </tr>
+  </tbody>
+</table>
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:110px">タグ</th><th>意味</th></tr>
+          <tr><td>&lt;table&gt;</td><td>表ぜんたい</td></tr>
+          <tr><td>&lt;thead&gt;</td><td>見出し行のグループ</td></tr>
+          <tr><td>&lt;tbody&gt;</td><td>データ行のグループ</td></tr>
+          <tr><td>&lt;tr&gt;</td><td><b>1行</b>（table row）</td></tr>
+          <tr><td>&lt;th&gt;</td><td>見出しのマス（太字・中央）</td></tr>
+          <tr><td>&lt;td&gt;</td><td>データのマス（table data）</td></tr>
+        </table>
+        <div class="yodan">昔は<b>ページ全体のレイアウトを table で組む</b>のが当たり前だった。今やると怒られる。</div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>組み立ての順番</b>
+          <span class="mk">行（tr）を作ってから、その中にマス（td）を入れる</span>。横1行ずつ作るイメージ。<br>
+          なお <span class="ic">border="1"</span> は仮のもの。DAY 3 で CSS に置き換える。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="表の結果と dl">
+  <div class="body">
+    <div class="kicker"><b>結果を見る</b></div>
+    <h2 class="t">表と、もうひとつのリスト</h2>
+    <div class="g2">
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>spec.html</span></div>
+          <img src="../assets/shots/day2-spec.png" alt="表の結果" style="height:340px; object-fit:cover; object-position:top left">
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">説明リスト ── dl</h3>
+        <p class="sm">「用語」と「その説明」がセットのときに使う。</p>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<dl>
+  <dt>機嫌が悪いとき</dt>
+  <dd>放置してください。30分で戻ります。</dd>
+
+  <dt>無言になったとき</dt>
+  <dd>食べ物を与えてください。</dd>
+</dl>
+        </script>
+        <table class="tbl sm mt">
+          <tr><td style="width:80px"><span class="ic">dl</span></td><td>リストぜんたい（description list）</td></tr>
+          <tr><td><span class="ic">dt</span></td><td>用語（term）</td></tr>
+          <tr><td><span class="ic">dd</span></td><td>説明（description）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="フォーム form">
+  <div class="body">
+    <div class="kicker"><b>タグ ⑧</b></div>
+    <h2 class="t">入力欄 ── form</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<form>
+  <label for="name">おなまえ</label><br>
+  <input type="text" id="name" placeholder="うさぎ">
+
+  <label for="msg">本文</label><br>
+  <textarea id="msg" rows="5" cols="40"></textarea>
+
+  <input type="checkbox" id="ok">
+  <label for="ok">からあげをおごる用意がある</label>
+
+  <button type="submit">送信する</button>
+</form>
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:190px">書き方</th><th>できるもの</th></tr>
+          <tr><td>input type="text"</td><td>1行の入力欄</td></tr>
+          <tr><td>input type="email"</td><td>メール用（形式チェック付き）</td></tr>
+          <tr><td>input type="radio"</td><td>1つだけ選ぶ丸ボタン</td></tr>
+          <tr><td>input type="checkbox"</td><td>複数選べる四角</td></tr>
+          <tr><td>textarea</td><td>複数行の入力欄</td></tr>
+          <tr><td>button</td><td>押せるボタン</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>label と for＝id をセットにする</b>
+          <span class="ic">&lt;label for="name"&gt;</span> と <span class="ic">&lt;input id="name"&gt;</span> を同じ名前でつなぐと、
+          <span class="mk">文字をクリックしても入力欄が反応</span>する。地味だが親切な作りになる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="フォームは今は送れない">
+  <div class="body">
+    <div class="kicker"><b>大事な注意</b></div>
+    <h2 class="t">このフォーム、まだ送れない</h2>
+    <div class="g32">
+      <div>
+        <p class="lead" style="font-size:19px">送信ボタンを押しても、どこにも届かない。
+          <span class="mk">受け取る側の仕組みが無い</span>から。</p>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>HTMLができるのは「入力欄を出す」ところまで</b>
+          入力された内容を保存したり、メールで送ったりするのは<b>裏側（サーバー）</b>の仕事。
+          そこは HTML の担当ではない。
+        </div>
+        <table class="tbl sm mt2">
+          <tr><th style="width:130px">やりたいこと</th><th>必要なもの</th><th style="width:80px">この講座</th></tr>
+          <tr><td>入力欄を出す</td><td>HTML</td><td>DAY 2</td></tr>
+          <tr><td>入力を画面で使う</td><td>JavaScript</td><td>DAY 5</td></tr>
+          <tr><td>ブラウザに保存</td><td>localStorage</td><td>DAY 6</td></tr>
+          <tr><td>本当に送る・貯める</td><td>Firebase など</td><td>DAY 8 で紹介</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>contact.html</span></div>
+          <img src="../assets/shots/day2-contact.png" alt="フォームの結果" style="height:392px; object-fit:cover; object-position:top left">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 手を動かす">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">実習：3ページにする</div>
+    <div class="cover-rule"></div>
+    <p class="lead">DAY 1 で作ったページを土台に、<br>ページを2枚足していく。</p>
+  </div>
+  <div class="chara usa" style="right:170px; bottom:64px; width:104px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="実習の手順">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">手順</h2>
+    <div class="g2">
+      <div>
+        <ol class="step">
+          <li><span class="ic">day2</span> フォルダを作り、DAY 1 の <span class="ic">index.html</span> と <span class="ic">img</span> をコピー</li>
+          <li>index.html の中身を <span class="ic">header / main / footer</span> で囲む</li>
+          <li>header の中に <span class="ic">nav</span> を作り、3つのリンクを書く</li>
+          <li><span class="ic">spec.html</span> を作って、表を1つ作る</li>
+          <li><span class="ic">contact.html</span> を作って、フォームを作る</li>
+          <li>3ページ全部に<b>同じ nav</b> を貼る</li>
+          <li>ブラウザで開いて、3ページを行き来する</li>
+        </ol>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>表の中身は自由に</b>
+          自分のスペックを書いて。起床時間・好きな飲み物・充電方法など。
+          <span class="mk">内容がふざけているほど、後で見返して楽しい</span>。
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>行き詰まったら見本を</b>
+          <span class="ic">practice/day2/</span> に完成版がある。
+          ただし<b>先に自分で書いてから</b>見ること。写経だけだと身につかない。
+        </div>
+        <div class="fusen mt2 push">
+          <b>確認のコツ</b>
+          1ページ作るごとにブラウザで開く。<span class="mk">3ページ作ってから確認すると、どこが原因か分からなくなる。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="よくあるエラー">
+  <div class="body">
+    <div class="kicker"><b>ここでつまずく</b></div>
+    <h2 class="t">DAY 2 のつまずき</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">① リンクを押すと真っ白</h4>
+        <p class="sm">「ファイルが見つかりません」と出る。<br>
+          → <span class="ic">href</span> のファイル名ミス。<b>拡張子 .html まで</b>正確に。
+          <span class="ic">spec.html</span> と <span class="ic">Spec.html</span> は別物。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">② 表がぐちゃぐちゃ</h4>
+        <p class="sm">マスの数が合わない。<br>
+          → <span class="ic">&lt;tr&gt;</span> の閉じ忘れ、または行ごとの <span class="ic">&lt;td&gt;</span> の数が違う。
+          <b>全部の行で同じ数</b>にそろえる。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">③ 画像が出なくなった</h4>
+        <p class="sm">day1 では出ていたのに。<br>
+          → <span class="ic">img</span> フォルダをコピーし忘れ。
+          <b>HTMLだけ移動しても画像は付いてこない。</b></p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">④ ラジオボタンが複数選べる</h4>
+        <p class="sm">1つだけ選ばせたいのに。<br>
+          → 同じグループの radio には<b>同じ name</b> を付ける。
+          <span class="ic">name="yoken"</span> でそろえる。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>今日から使えるデバッグ</b>
+      ブラウザで <span class="pen">F12</span> → 上のタブの <b>Elements</b>。自分の書いたHTMLがそのまま出ている。
+      赤く出ている部分があれば、そこが壊れている。
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="今日のタグ一覧">
+  <div class="body">
+    <div class="kicker"><b>持ち帰り用</b></div>
+    <h2 class="t">DAY 2 で出たタグ</h2>
+    <div class="g3 top">
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">場所を表す</th></tr>
+        <tr><td style="width:96px">&lt;header&gt;</td><td>上部</td></tr>
+        <tr><td>&lt;nav&gt;</td><td>リンク集</td></tr>
+        <tr><td>&lt;main&gt;</td><td>主役</td></tr>
+        <tr><td>&lt;section&gt;</td><td>まとまり</td></tr>
+        <tr><td>&lt;article&gt;</td><td>独立した記事</td></tr>
+        <tr><td>&lt;aside&gt;</td><td>おまけ</td></tr>
+        <tr><td>&lt;footer&gt;</td><td>下部</td></tr>
+        <tr><td>&lt;div&gt;</td><td>ただの箱</td></tr>
+        <tr><td>&lt;span&gt;</td><td>文中のただの箱</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(207,68,54,.12)">表</th></tr>
+        <tr><td style="width:96px">&lt;table&gt;</td><td>表ぜんたい</td></tr>
+        <tr><td>&lt;thead&gt;</td><td>見出しグループ</td></tr>
+        <tr><td>&lt;tbody&gt;</td><td>データグループ</td></tr>
+        <tr><td>&lt;tr&gt;</td><td>1行</td></tr>
+        <tr><td>&lt;th&gt;</td><td>見出しマス</td></tr>
+        <tr><td>&lt;td&gt;</td><td>データマス</td></tr>
+        <tr><th colspan="2" style="background:rgba(79,138,91,.12)">説明リスト</th></tr>
+        <tr><td>&lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</td><td>用語と説明</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(232,138,114,.14)">フォーム</th></tr>
+        <tr><td style="width:110px">&lt;form&gt;</td><td>入力欄のまとまり</td></tr>
+        <tr><td>&lt;label&gt;</td><td>項目名</td></tr>
+        <tr><td>&lt;input&gt;</td><td>入力欄・選択肢</td></tr>
+        <tr><td>&lt;textarea&gt;</td><td>複数行の入力</td></tr>
+        <tr><td>&lt;select&gt;</td><td>プルダウン</td></tr>
+        <tr><td>&lt;button&gt;</td><td>ボタン</td></tr>
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">属性</th></tr>
+        <tr><td>class</td><td>名札（CSS用）</td></tr>
+        <tr><td>id</td><td>1つだけの名前</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 2 おわり</b></div>
+    <h2 class="t">チェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>ブロックとインラインの違いが言える</li>
+      <li>header / main / footer でページを区切れる</li>
+      <li>3ページを作って、リンクで行き来できる</li>
+      <li>表を1つ作れる</li>
+      <li>フォームを作れる（送信はまだできないと分かっている）</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px">
+      <div class="fusen" data-c="pink" style="flex:1.3">
+        <b>次回 DAY 3 ／ ついに CSS</b>
+        今日まで我慢した「見た目」に、いよいよ手をつける。<br>
+        <span class="mk">同じHTMLのまま、まったく別のページに見える。</span>
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（10分）</b>
+        好きなサイトを開いて <b>F12</b> で header・nav・footer を探す。<br>
+        <span class="ic">exercises.html</span> の問5〜6も解いておく。
+      </div>
+    </div>
+  </div>
+  <div class="chara nana" style="right:30px; bottom:8px; width:100px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

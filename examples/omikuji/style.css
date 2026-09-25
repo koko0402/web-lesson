@@ -1,0 +1,77 @@
+@charset "UTF-8";
+/* 今日のおみくじ ── DAY 4〜6 の内容だけで作っています */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #3a2b33, #201c1f 70%);
+  color: #33292c;
+}
+
+.box {
+  background: #f7efe1;
+  border: 3px solid #d4a441;
+  border-radius: 18px;
+  padding: 40px 44px 34px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+/* 四隅の飾り */
+.box::before, .box::after {
+  content: "❖";
+  position: absolute;
+  color: #d4a441;
+  font-size: 16px;
+}
+.box::before { top: 10px; left: 16px; }
+.box::after  { bottom: 8px; right: 16px; }
+
+.eyebrow { margin: 0; font-size: 11px; letter-spacing: 0.36em; color: #d4a441; }
+h1 { margin: 10px 0 20px; font-size: 24px; }
+
+/* ---- 結果 ---- */
+.result {
+  font-size: 52px;
+  font-weight: bold;
+  color: #d1495b;
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+  border-top: 1px dashed #d8cab2;
+  border-bottom: 1px dashed #d8cab2;
+}
+/* 引いた瞬間だけ、ふわっと出す */
+.result.pop { animation: pop 0.4s cubic-bezier(0.2, 1.4, 0.5, 1); }
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.7) rotate(-6deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.msg { font-size: 14px; color: #6d5f5f; min-height: 3.2em; margin: 14px 0 20px; }
+
+.btn {
+  font: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  background: #d1495b;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 40px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #a03546;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #a03546; }
+.btn:disabled { background: #a89b95; box-shadow: 0 4px 0 #8b807a; cursor: default; }
+
+.count { font-size: 12px; color: #a39494; margin: 18px 0 0; }

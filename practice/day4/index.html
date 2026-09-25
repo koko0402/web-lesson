@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <!-- スマホで見たときに勝手に縮まないようにするおまじない -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ユウのトリセツ</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <!-- ======== 上に固定される帯 ======== -->
+    <header class="bar">
+      <div class="bar-logo">ユウのトリセツ</div>
+      <nav class="bar-nav">
+        <a href="#spec">仕様</a>
+        <a href="#like">すきなもの</a>
+        <a href="#care">お手入れ</a>
+      </nav>
+    </header>
+
+    <!-- ======== 目立つ見出し（ヒーロー） ======== -->
+    <section class="hero">
+      <img src="img/photo.webp" alt="ユウ" class="hero-photo">
+      <div class="hero-text">
+        <p class="hero-eyebrow">TORISETSU / 2026</p>
+        <h1>この人と<br>うまくやる方法</h1>
+        <p class="hero-lead">全4項目。読めば9割うまくいきます。</p>
+        <a href="#spec" class="btn">読んでみる</a>
+      </div>
+    </section>
+
+    <main class="wrap">
+
+      <!-- ======== 横に3枚ならべる（Flexbox） ======== -->
+      <h2 id="spec" class="ttl">基本仕様</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">起動</div>
+          <h3>11:00 ごろ</h3>
+          <p>それ以前は反応が鈍いです。急ぎの用は昼から。</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">燃料</div>
+          <h3>からあげ</h3>
+          <p>炭酸と睡眠でも代用できます。レモンは要相談。</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">稼働</div>
+          <h3>最長 4 時間</h3>
+          <p>それ以降は糖分が必要になります。</p>
+        </article>
+      </div>
+
+      <!-- ======== ぴったり敷き詰める（Grid） ======== -->
+      <h2 id="like" class="ttl">すきなもの</h2>
+      <div class="tiles">
+        <div class="tile">夜のコンビニ</div>
+        <div class="tile">雨の音</div>
+        <div class="tile">全部乗せ</div>
+        <div class="tile">帰り道</div>
+        <div class="tile">冷房 25℃</div>
+        <div class="tile">名前を呼ばれる</div>
+      </div>
+
+      <!-- ======== 左右にわける ======== -->
+      <h2 id="care" class="ttl">お手入れ</h2>
+      <div class="split">
+        <div class="split-l">
+          <h3>機嫌が悪いとき</h3>
+          <p>放置してください。30分でだいたい戻ります。<br>
+          話しかけると長引きます。</p>
+        </div>
+        <div class="split-r">
+          <h3>無言になったとき</h3>
+          <p>お腹がすいています。何か食べさせてください。<br>
+          効果は即時です。</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="foot">
+      <p>&copy; 2026 ユウ ／ DAY 4（CSS 2回目・レイアウト）</p>
+    </footer>
+
+  </body>
+</html>

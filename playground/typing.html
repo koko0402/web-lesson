@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>記号タイピング｜Webのつくりかた</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  .sheet{ max-width:900px; }
+  .modes{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+
+  .field{
+    background:var(--code-bg); border-radius:10px; padding:26px 24px 22px;
+    box-shadow:2px 4px 0 rgba(44,58,66,.18); text-align:center;
+    position:relative; min-height:190px;
+  }
+  .target{
+    font-family:var(--f-code); font-size:34px; line-height:1.5;
+    letter-spacing:.06em; word-break:break-all; margin-bottom:6px;
+  }
+  .target .done{ color:#5f6d76; }
+  .target .now{
+    color:#fff; background:var(--red); border-radius:4px; padding:0 3px;
+  }
+  .target .rest{ color:#cfd6db; }
+  .target .bad{ color:#fff; background:#8a3a30; border-radius:4px; padding:0 3px; }
+
+  .hint{ font-family:var(--f-body); font-size:14px; color:#8b979e; min-height:1.6em; }
+  .keyhint{
+    display:inline-block; font-family:var(--f-code); font-size:13px;
+    background:#39434b; color:#ffd479; border-radius:5px; padding:2px 10px; margin-left:6px;
+  }
+
+  #input{
+    position:absolute; opacity:0; pointer-events:none; width:1px; height:1px;
+  }
+  .tap{
+    margin-top:14px; font-size:14px; color:#8b979e; cursor:pointer;
+  }
+  .field.focus .tap{ display:none; }
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:18px 0 6px; }
+  .st{
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.18);
+    border-radius:8px; padding:10px 14px; text-align:center;
+  }
+  .st b{ display:block; font-size:26px; color:var(--red); line-height:1.2; }
+  .st span{ font-size:12px; color:var(--ink-2); }
+  @media (max-width:700px){ .stats{ grid-template-columns:repeat(2,1fr); } .target{ font-size:26px; } }
+
+  .weak{ margin-top:8px; font-size:15px; }
+  .weak i{
+    font-family:var(--f-code); font-style:normal; background:#fbd6cd;
+    border-radius:4px; padding:1px 8px; margin-right:6px; display:inline-block;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>記号タイピング</h1>
+  <p class="lead"><code>&lt;</code> <code>{</code> <code>"</code> <code>;</code> が
+    すぐ打てないと、それだけで作るのが嫌になる。<br>
+    <span class="mk">1日1分</span>でいいので、指を慣らして。</p>
+
+  <div class="fusen" data-c="blue">
+    <b>日本語入力はオフに</b>
+    画面右下が「A」になっているか確認して。「あ」のままだと全角が入って進まない。
+  </div>
+
+  <div class="modes" id="modes">
+    <button class="btn on" data-m="sym">記号だけ</button>
+    <button class="btn" data-m="tag">HTMLタグ</button>
+    <button class="btn" data-m="css">CSS</button>
+    <button class="btn" data-m="js">JavaScript</button>
+  </div>
+
+  <div class="field" id="field">
+    <div class="target" id="target"></div>
+    <div class="hint" id="hint"></div>
+    <input type="text" id="input" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="tap">ここをクリックして開始</div>
+  </div>
+
+  <div class="stats">
+    <div class="st"><b id="stSpeed">0</b><span>1分あたりの文字数</span></div>
+    <div class="st"><b id="stAcc">100</b><span>正確さ（％）</span></div>
+    <div class="st"><b id="stDone">0</b><span>クリアした行</span></div>
+    <div class="st"><b id="stMiss">0</b><span>ミス</span></div>
+  </div>
+
+  <div class="weak" id="weak"></div>
+
+  <p class="note" style="margin-top:18px">
+    記号の位置が分からないときは <a href="../reference/basics.html#keys">記号の打ち方</a>、
+    名前が分からないときは <a href="../reference/symbols.html">記号の読み方</a> へ。
+  </p>
+
+  <div class="yodan">タイピングが速い＝プログラムが上手い、ではまったくない。
+    ただ、<b>記号でいちいち手が止まると考えが途切れる</b>ので、そこだけは慣らしておくと楽。
+    だいたい1週間で気にならなくなる。</div>
+
+  <p style="margin-top:20px">
+    → <a href="index.html">ライブエディタ</a>で実際に書いてみる
+  </p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+/* =========================================================
+   お題
+   ========================================================= */
+const SETS = {
+  sym: {
+    hint: "記号だけ。日本語入力はオフに",
+    lines: [
+      "<>", "{}", "()", "[]", '""', "''", ";", ":", "//", "/* */",
+      "<></>", '=""', "{ }", "();", "=>", "===", "!==", "&&", "||",
+      "${}", "``", "<!-- -->", "#", "$", "%", "*", "+=", "--"
+    ]
+  },
+  tag: {
+    hint: "HTMLのタグ。半角で",
+    lines: [
+      "<h1></h1>", "<p></p>", "<br>", "<ul></ul>", "<li></li>",
+      '<a href=""></a>', '<img src="" alt="">', "<div></div>", "<span></span>",
+      '<link rel="stylesheet" href="style.css">',
+      '<meta charset="UTF-8">', "<table></table>", "<tr><td></td></tr>",
+      '<button id="btn"></button>', '<input type="text" id="name">'
+    ]
+  },
+  css: {
+    hint: "CSSの1行。コロンとセミコロンに注意",
+    lines: [
+      "color: crimson;", "padding: 20px;", "margin: 0 auto;",
+      "display: flex;", "gap: 18px;", "border-radius: 8px;",
+      "background-color: #f4f1e8;", "font-size: 16px;", "line-height: 1.8;",
+      "justify-content: center;", "align-items: center;",
+      "grid-template-columns: repeat(3, 1fr);",
+      "box-shadow: 0 2px 8px rgba(0,0,0,.15);",
+      "transition: transform 0.2s;", ".box { }", "#head { }", "a:hover { }"
+    ]
+  },
+  js: {
+    hint: "JavaScript。かっこの対応に注意",
+    lines: [
+      "let count = 0;", "const name = \"ユウ\";", "count += 1;",
+      "console.log(x);", "if (a === b) { }", "} else { }",
+      "function draw() { }", "return true;",
+      "document.getElementById(\"btn\")", ".textContent = \"\";",
+      ".classList.toggle(\"dark\");", "Math.floor(Math.random() * 6) + 1",
+      "items.forEach(function (item) { });", "arr.push(x);",
+      "localStorage.setItem(\"k\", v);", "`こんにちは ${name}`"
+    ]
+  }
+};
+
+/* =========================================================
+   状態
+   ========================================================= */
+let mode = "sym";
+let line = "";
+let pos = 0;
+let miss = 0;
+let typed = 0;
+let doneLines = 0;
+let started = null;
+let badNow = false;
+const missMap = {};
+
+const $ = (s) => document.querySelector(s);
+const field  = $("#field");
+const input  = $("#input");
+const target = $("#target");
+
+function pick() {
+  const set = SETS[mode].lines;
+  let next;
+  do { next = set[Math.floor(Math.random() * set.length)]; }
+  while (set.length > 1 && next === line);
+  line = next;
+  pos = 0;
+  badNow = false;
+  draw();
+}
+
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function draw() {
+  const done = esc(line.slice(0, pos));
+  const now  = esc(line.slice(pos, pos + 1)) || "&nbsp;";
+  const rest = esc(line.slice(pos + 1));
+  target.innerHTML =
+    '<span class="done">' + done + '</span>' +
+    '<span class="' + (badNow ? "bad" : "now") + '">' + now + '</span>' +
+    '<span class="rest">' + rest + '</span>';
+  $("#hint").textContent = SETS[mode].hint;
+}
+
+function stats() {
+  const acc = typed === 0 ? 100 : Math.max(0, Math.round((typed - miss) / typed * 100));
+  $("#stAcc").textContent = acc;
+  $("#stDone").textContent = doneLines;
+  $("#stMiss").textContent = miss;
+
+  if (started !== null && typed > 0) {
+    const sec = (Date.now() - started) / 1000;
+    const cpm = Math.round((typed - miss) / sec * 60);
+    $("#stSpeed").textContent = sec < 2 ? 0 : Math.max(0, cpm);
+  }
+
+  // 苦手な文字を出す
+  const arr = Object.keys(missMap).sort((a, b) => missMap[b] - missMap[a]).slice(0, 6);
+  $("#weak").innerHTML = arr.length
+    ? "よく間違える文字： " + arr.map((c) => "<i>" + esc(c) + " ×" + missMap[c] + "</i>").join("")
+    : "";
+}
+
+/* =========================================================
+   入力
+   ========================================================= */
+field.addEventListener("click", function () { input.focus(); });
+input.addEventListener("focus", function () { field.classList.add("focus"); });
+input.addEventListener("blur",  function () { field.classList.remove("focus"); });
+
+input.addEventListener("keydown", function (e) {
+  // 修飾キーや矢印は無視
+  if (e.key.length !== 1) return;
+  e.preventDefault();
+
+  if (started === null) started = Date.now();
+  typed++;
+
+  if (e.key === line[pos]) {
+    pos++;
+    badNow = false;
+    if (pos >= line.length) {
+      doneLines++;
+      pick();
+    } else {
+      draw();
+    }
+  } else {
+    miss++;
+    const c = line[pos];
+    missMap[c] = (missMap[c] || 0) + 1;
+    badNow = true;
+    draw();
+  }
+  stats();
+});
+
+/* =========================================================
+   モード切り替え
+   ========================================================= */
+document.querySelectorAll("[data-m]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-m]").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    mode = b.dataset.m;
+    pos = 0; miss = 0; typed = 0; doneLines = 0; started = null;
+    for (const k in missMap) delete missMap[k];
+    pick();
+    stats();
+    input.focus();
+  });
+});
+
+pick();
+stats();
+</script>
+</body>
+</html>

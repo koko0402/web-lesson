@@ -1,0 +1,299 @@
+@charset "UTF-8";
+/* ============================================================
+   推し紹介サイト ── スターター
+
+   ★ が付いているところが、自分で書く場所です。
+   値に迷ったら CSS見本帳（playground/css-gallery.html）から選んでください。
+   完成見本は ../sample/ にあります。先に見ずに、まず自分で書くこと。
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   ① おまじない（これはそのままでよい）
+   ------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ------------------------------------------------------------
+   ② 色を3つ決める
+        ★A 推しのイメージカラーに書きかえる。
+           「濃い色・薄い色・差し色」の3つで足ります。
+   ------------------------------------------------------------ */
+:root {
+  --main:   #555555;   /* ★A 濃い色（見出し・ヘッダー・ボタン） */
+  --sub:    #f2f2f2;   /* ★A 薄い色（ページの背景） */
+  --accent: #999999;   /* ★A 差し色（線・数字） */
+  --text:   #333333;   /* 文字の色 */
+}
+
+
+/* ------------------------------------------------------------
+   ③ ページ全体
+   ------------------------------------------------------------ */
+body {
+  font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", sans-serif;
+
+  /* ★B 本文の大きさと行間を、読みやすい値にする。2行書く */
+
+  color: var(--text);
+  background: var(--sub);
+}
+
+/* 中身の入れ物 */
+.wrap {
+  /* ★C 「広い画面では900pxで止めて中央、狭い画面では画面いっぱい」にする。
+         3行ぶん必要です（width / max-width / margin） */
+
+  padding: 0 20px 60px;
+}
+
+h2 {
+  font-size: 26px;
+  color: var(--main);
+  margin: 54px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--accent);
+}
+
+h3 { font-size: 19px; margin-bottom: 6px; }
+p  { margin-bottom: 14px; }
+
+
+/* ------------------------------------------------------------
+   ④ ヘッダー ── 左にサイト名、右にメニュー
+   ------------------------------------------------------------ */
+.header {
+  /* ★D 横に並べて、左右の端に寄せて、高さの中央でそろえる。
+         3行必要です（display / justify-content / align-items） */
+
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  background: var(--main);
+  padding: 14px 24px;
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: #fff;
+  font-size: 14px;
+
+  /* ★E リンクの下線を消す */
+
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .2s;
+}
+
+.nav a:hover {
+  border-bottom-color: var(--accent);
+}
+
+
+/* ------------------------------------------------------------
+   ⑤ 主役の一枚
+   ------------------------------------------------------------ */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  background: #fff;
+  padding: 44px 24px;
+}
+
+.hero-img {
+  width: 190px;
+  height: 190px;
+
+  /* ★F 写真をつぶさずに正方形を埋めて、まるく切り抜く。2行必要です */
+
+  border: 5px solid #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+}
+
+.hero-sub {
+  font-size: 13px;
+
+  /* ★G 字間を広げてロゴっぽくする */
+
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.hero-name {
+  font-size: 44px;
+  line-height: 1.3;
+  color: var(--main);
+  margin-bottom: 10px;
+}
+
+.hero-copy { margin: 0; }
+
+
+/* ------------------------------------------------------------
+   ⑥ 好きなところ ── カードを3枚よこに並べる
+   ------------------------------------------------------------ */
+.cards {
+  /* ★H 横に並べる。すき間は gap で。
+         狭い画面で折り返すように flex-wrap も忘れずに */
+
+}
+
+.card {
+  flex: 1;           /* 空いた幅を等分する */
+  min-width: 230px;  /* これより狭くなるなら次の行へ折り返す */
+
+  background: #fff;
+
+  /* ★I 角を丸めて、内側に余白をとって、影をつける。3行 */
+
+  transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover {
+  /* ★J マウスを乗せたときに、少し浮かせる */
+
+}
+
+.card-no {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.card p:last-child { font-size: 15px; margin-bottom: 0; }
+
+
+/* ------------------------------------------------------------
+   ⑦ ギャラリー
+   ------------------------------------------------------------ */
+.gallery {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.gallery img {
+  flex: 1;
+  min-width: 180px;
+  height: 200px;
+
+  /* ★K 大きさがバラバラの画像を、つぶさずにそろえる */
+
+  border-radius: 10px;
+  background: #fff;
+}
+
+
+/* ------------------------------------------------------------
+   ⑧ 基本データの表
+   ------------------------------------------------------------ */
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.spec th,
+.spec td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e4e4;
+  text-align: left;
+  font-size: 15px;
+}
+
+.spec th {
+  width: 130px;
+  background: #f6f6f6;
+  color: var(--main);
+  white-space: nowrap;
+}
+
+.spec tr:last-child th,
+.spec tr:last-child td { border-bottom: none; }
+
+
+/* ------------------------------------------------------------
+   ⑨ ボタン
+   ------------------------------------------------------------ */
+.links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--main);
+  color: #fff;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 10px 26px;
+
+  /* ★L カプセル形（両端がまるいボタン）にする */
+
+  transition: background .2s;
+}
+
+.btn:hover {
+  /* ★M 乗せたときの色。--main より少し濃い色にする */
+
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--main);
+  border: 2px solid var(--main);
+}
+
+.btn.ghost:hover {
+  background: var(--main);
+  color: #fff;
+}
+
+
+/* ------------------------------------------------------------
+   ⑩ フッター
+   ------------------------------------------------------------ */
+.footer {
+  background: var(--main);
+  color: #fff;
+  text-align: center;
+  padding: 26px 20px;
+  font-size: 14px;
+}
+
+.footer p { margin-bottom: 4px; }
+.footer .small { font-size: 12px; opacity: .8; margin-bottom: 0; }
+
+
+/* ------------------------------------------------------------
+   ⑪ スマホ向けの調整（余裕があれば）
+        画面の幅が600px以下のときだけ、ここの中身が効きます
+   ------------------------------------------------------------ */
+@media (max-width: 600px) {
+  /* ★N 大きすぎる文字や画像を、スマホ用に小さくする */
+
+}

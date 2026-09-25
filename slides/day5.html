@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 5 ｜ JavaScript 1回目 — 動きの基本</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">05</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;5 &nbsp;/ &nbsp;J A V A S C R I P T</div>
+    <h1 class="t">押したら、<br>変わる</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">ここからが「プログラミング」。<br>
+      でも、やることは<span class="mk">たった3ステップ</span>しかない。</p>
+    <p class="xs mt2">第5回 ／ 変数・イベント・DOM操作・if・関数</p>
+  </div>
+  <div class="chara nana" style="right:100px; bottom:50px; width:128px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+  <div class="fuki l" style="right:52px; bottom:206px; max-width:246px">
+    ここで止まる人が多い。<br>けど<b>覚えるのは3つ</b>だけ。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日のゴール">
+  <div class="body">
+    <div class="kicker"><b>今日のゴール</b></div>
+    <h2 class="t">5つのボタンを作る</h2>
+    <div class="g32">
+      <div>
+        <ul class="check" style="font-size:18px">
+          <li>押したら<b>文字が変わる</b>ボタン</li>
+          <li>押すたび<b>数が増える</b>カウンター</li>
+          <li>入力した名前で<b>あいさつする</b></li>
+          <li>サイコロを振って<b>結果が分岐する</b></li>
+          <li>ページ全体を<b>夜モードに切り替える</b></li>
+        </ul>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>この5つで、Webアプリの基本は全部入り</b>
+          「表示を変える」「数える」「入力を受け取る」「ランダム」「見た目の切り替え」。
+          <span class="mk">最終課題のパーティゲームも、この組み合わせだけ</span>でできている。
+        </div>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>C言語をやった人へ</b>
+          <span class="ic">if</span> も <span class="ic">for</span> も、書き方はほぼ同じ。
+          違うのは<b>型を書かない</b>こととコンパイルが要らないことだけ。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>day5/index.html</span></div>
+          <img src="../assets/shots/day5-index.png" alt="完成イメージ" style="height:480px; object-fit:cover; object-position:top center">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="JSはどこに書く">
+  <div class="body">
+    <div class="kicker"><b>準備</b></div>
+    <h2 class="t blue">JavaScript を置く場所</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="sm">
+<body>
+
+  <h1>ユウのトリセツ</h1>
+  <button id="btn">押してみる</button>
+
+  <!-- いちばん下、</body> の直前に置く -->
+  <script src="script.js"><\/script>
+</body>
+        </script>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>なぜ「下」なのか</b>
+          JavaScript は<span class="mk">HTMLの部品を探しに行く</span>プログラム。
+          上に書くと、まだ部品が作られていないので <b>null</b>（見つからない）になる。
+        </div>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:130px">書き方</th><th>いつ使う</th></tr>
+          <tr><td>別ファイル<br><span class="ic">&lt;script src="script.js"&gt;</span></td><td><b>これ。</b>CSSと同じで、分けたほうが読みやすい</td></tr>
+          <tr><td>HTMLに直接<br><span class="ic">&lt;script&gt;…&lt;/script&gt;</span></td><td>数行の試し書きだけ</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>3つのファイルが揃った</b>
+          <div class="row" style="gap:14px; align-items:center">
+            <img src="../assets/shots/day5-3files.png" alt="day5フォルダに index.html・script.js・style.css が並んでいるところ"
+                 width="182" height="87" style="flex:none; border:1px solid rgba(44,58,66,.32); border-radius:4px; object-fit:cover; object-position:top left">
+            <div style="font-size:16px; line-height:1.6">
+              <span class="ic">index.html</span> 骨組み<br>
+              <span class="ic">style.css</span> 見た目<br>
+              <span class="ic">script.js</span> 動き
+            </div>
+          </div>
+          <span class="mk">これがWebサイトの基本セット。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="3ステップ">
+  <div class="body">
+    <div class="kicker"><b>今日の核心</b></div>
+    <h2 class="t">やることは、いつもこの3つ</h2>
+    <div class="g3">
+      <div class="card v">
+        <h4 style="color:var(--red)">① 取ってくる</h4>
+        <p class="sm">HTMLの中から、動かしたい部品を探して変数に入れる。</p>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+const btn =
+  document.getElementById("btn");
+        </script>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">② 何かする</h4>
+        <p class="sm">「クリックされたら」を予約して、その中で計算や判定をする。</p>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+btn.addEventListener("click",
+  function () {
+    // ここに処理
+  });
+        </script>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">③ 書き戻す</h4>
+        <p class="sm">結果を画面に反映する。文字・見た目・クラスなど。</p>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+hello.textContent =
+  "押されました！";
+        </script>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="blue" style="flex:1.4">
+        <b>今日書くコードは、全部この形</b>
+        長いプログラムに見えても、<span class="mk">この3ステップの繰り返し</span>。<br>
+        止まったら「今どれをやろうとしてる？」と自分に聞くと、だいたい進む。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>順番は必ずこの通り</b>
+        取ってこないと動かせない。予約しないと実行されない。書き戻さないと見えない。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="変数">
+  <div class="body">
+    <div class="kicker"><b>基本 ①</b></div>
+    <h2 class="t">変数 ── 値に名前をつける箱</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// あとで中身を変える箱
+let count = 0;
+count = count + 1;   // OK
+count += 1;          // 同じ意味の省略形
+
+// 中身を変えない箱
+const name = "ユウ";
+const btn = document.getElementById("btn");
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:80px"></th><th>使うとき</th></tr>
+          <tr><td><b>const</b></td><td><span class="mk">まずこれ</span>。書き換えないものすべて</td></tr>
+          <tr><td><b>let</b></td><td>数を増やすなど、<b>変える必要があるとき</b>だけ</td></tr>
+          <tr><td><s>var</s></td><td>昔の書き方。使わない</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3 class="st b">型（データの種類）</h3>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+const n    = 42;          // 数値
+const s    = "からあげ";   // 文字列（クォートで囲む）
+const flag = true;        // 真偽値（true / false）
+const list = [1, 2, 3];   // 配列（DAY 6）
+const obj  = { a: 1 };    // オブジェクト（DAY 6）
+        </script>
+        <div class="yodan">JavaScript と Java は<b>まったく別の言語</b>。
+          当時 Java が流行っていたので、名前を借りて注目を集めようとしただけ。
+          今でもこれで混乱する人がいる。</div>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>C との違い</b>
+          <span class="ic">int</span> や <span class="ic">char</span> のような<b>型を書かない</b>。
+          代入された値を見て、JavaScript が勝手に判断する。
+          楽だが、<span class="mk">間違いに気づきにくい</span>という副作用もある。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="型の落とし穴">
+  <div class="body">
+    <div class="kicker"><b>基本 ②</b></div>
+    <h2 class="t">「5」と 5 は別物</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+5 + 1        // → 6    （数値どうしの足し算）
+"5" + 1      // → "51" （文字列の連結！）
+
+"5" - 1      // → 4    （引き算は数値に変換される）
+Number("5") + 1   // → 6（明示的に数値へ）
+        </script>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>いちばんハマる罠</b>
+          <span class="ic">input</span> から取り出した値は、数字に見えても
+          <span class="mk">必ず文字列</span>。計算する前に <span class="ic">Number()</span> で変換する。
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">比べるときは === を使う</h3>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+5 === 5      // true
+"5" === 5    // false （型が違う）
+"5" ==  5    // true  （型を勝手にそろえてしまう）
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:90px">記号</th><th>意味</th></tr>
+          <tr><td>===</td><td><b>厳密に等しい</b>。いつもこれを使う</td></tr>
+          <tr><td>!==</td><td>等しくない</td></tr>
+          <tr><td>&gt; &lt; &gt;= &lt;=</td><td>大小（C と同じ）</td></tr>
+          <tr><td>&amp;&amp; ｜｜ !</td><td>かつ・または・否定（C と同じ）</td></tr>
+        </table>
+        <p class="xs mt">※ 代入は <span class="ic">=</span> 1個、比較は <span class="ic">===</span> 3個。ここも定番のミス。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="console.log と F12">
+  <div class="body">
+    <div class="kicker"><b>基本 ③</b></div>
+    <h2 class="t blue">console.log ── 中身をのぞく</h2>
+    <div class="g32">
+      <div>
+        <p class="sm">C言語の <span class="ic">printf</span> にあたるもの。画面には出ないが、
+          <b>F12 の Console タブ</b>に表示される。</p>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+const dice = 4;
+console.log("出た目:", dice);
+
+console.log(typeof dice);   // 型を調べる
+console.log(btn);           // 部品が取れているか確認
+        </script>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>デバッグの9割はこれ</b>
+          「動かない」と思ったら、まず <span class="ic">console.log</span> を仕込んで
+          <span class="mk">どこまで来ているか・何が入っているか</span>を確認する。これが最短の直し方。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>F12 → Console</span></div>
+          <img src="../assets/shots/dt-console.png" alt="F12のConsoleタブに console.log の中身が出ているところ"
+               style="display:block; width:100%; height:auto">
+        </div>
+        <p class="xs mt">右端の <span class="ic">script.js:12</span> をクリックすると、
+          <b>その行へ飛べる</b>。どこで出した log かが一目で分かる。<br>
+          赤い文字が出たらそれが<b>エラー</b>。次のページで読み方をやる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="部品を取ってくる">
+  <div class="body">
+    <div class="kicker"><b>ステップ ①</b></div>
+    <h2 class="t">HTMLの部品を取ってくる</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<p id="hello">まだ押されていません。</p>
+<button id="btnHello">押してみる</button>
+        </script>
+        <div class="arrow down"></div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// id で1つだけ取ってくる
+const hello = document.getElementById("hello");
+
+// CSSと同じ書き方で取ってくる
+const hello2 = document.querySelector("#hello");
+const cards  = document.querySelectorAll(".card");
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:190px">書き方</th><th>取れるもの</th></tr>
+          <tr><td>getElementById("x")</td><td>id="x" の要素<b>1つ</b></td></tr>
+          <tr><td>querySelector("...")</td><td>条件に合う<b>最初の1つ</b></td></tr>
+          <tr><td>querySelectorAll("...")</td><td>合うもの<b>全部</b>（一覧）</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>querySelector は CSS と同じ書き方</b>
+          <span class="ic">"#hello"</span> は id、<span class="ic">".card"</span> は class。
+          <span class="mk">CSSのセレクタがそのまま使える。</span>
+        </div>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>null が返ってきたら</b>
+          ① id のスペルミス　② script を head に書いている　③ そもそも HTML に無い。
+          この3つのどれか。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="画面に書き戻す">
+  <div class="body">
+    <div class="kicker"><b>ステップ ③</b></div>
+    <h2 class="t">画面に書き戻す4つの方法</h2>
+    <table class="tbl">
+      <tr><th style="width:210px">書き方</th><th style="width:250px">変わるもの</th><th>例</th></tr>
+      <tr><td><span class="ic">.textContent</span></td><td><b>文字</b>を差し替える</td><td><span class="ic">hello.textContent = "こんにちは";</span></td></tr>
+      <tr><td><span class="ic">.value</span></td><td><b>入力欄</b>の中身（読み書き両方）</td><td><span class="ic">const n = input.value;</span></td></tr>
+      <tr><td><span class="ic">.style.〇〇</span></td><td>CSSを<b>直接</b>書き換える</td><td><span class="ic">bar.style.width = "60%";</span></td></tr>
+      <tr><td><span class="ic">.classList</span></td><td><b>クラスを付け外し</b>する</td><td><span class="ic">body.classList.toggle("dark");</span></td></tr>
+    </table>
+    <div class="g2 mt2 push">
+      <div class="fusen" data-c="green">
+        <b>おすすめは classList</b>
+        <span class="ic">.style</span> で1つずつ書き換えるより、<span class="mk">CSSにまとめて書いておいてクラスを付け替える</span>ほうが
+        断然きれい。見た目の管理がCSS側に集まる。
+      </div>
+      <div class="fusen" data-c="pink">
+        <b>classList の3つ</b>
+        <span class="ic">add("x")</span> 付ける／<span class="ic">remove("x")</span> 外す／
+        <span class="ic">toggle("x")</span> <b>付いてなければ付ける、付いていれば外す</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="イベント">
+  <div class="body">
+    <div class="kicker"><b>ステップ ②</b></div>
+    <h2 class="t blue">イベント ── 「〜されたら」を予約する</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+btn.addEventListener("click", function () {
+  hello.textContent = "押されました！";
+});
+        </script>
+        <div class="g3 mt" style="gap:8px; text-align:center">
+          <div><div class="hand" style="font-size:14px">どれが</div><div class="ic">btn</div></div>
+          <div><div class="hand" style="font-size:14px">何をされたら</div><div class="ic">"click"</div></div>
+          <div><div class="hand" style="font-size:14px">これをやる</div><div class="ic">function(){…}</div></div>
+        </div>
+        <p class="sm mt"><b>予約するだけ</b>で、その場では実行されない。
+          実際に押された<span class="mk">そのとき</span>に中身が動く。</p>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:120px">イベント名</th><th>タイミング</th></tr>
+          <tr><td>click</td><td>クリックされた</td></tr>
+          <tr><td>input</td><td>入力欄が<b>変わるたび</b></td></tr>
+          <tr><td>change</td><td>入力が確定した</td></tr>
+          <tr><td>keydown</td><td>キーが押された</td></tr>
+          <tr><td>submit</td><td>フォームが送信された</td></tr>
+          <tr><td>mouseover</td><td>マウスが乗った</td></tr>
+        </table>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// Enter キーで実行したいとき
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") addTodo();
+});
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="if による分岐">
+  <div class="body">
+    <div class="kicker"><b>基本 ④</b></div>
+    <h2 class="t">if ── 場合分け</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+if (count >= 10) {
+  msg.textContent = "食べすぎです。";
+} else if (count >= 5) {
+  msg.textContent = "いいペースですね。";
+} else {
+  msg.textContent = "";
+}
+        </script>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>C言語とほぼ同じ</b>
+          <span class="ic">else if</span> が2語に分かれている（C の <span class="ic">else if</span> と同じ）だけ。
+          <span class="mk">丸かっこ・波かっこの使い方も同一</span>。
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">上から順に判定される</h3>
+        <p class="sm">最初に当てはまった1つだけが実行され、<b>残りは無視</b>される。
+          だから<span class="mk">条件は厳しいものから書く</span>のが鉄則。</p>
+        <div class="card">
+          <p class="sm"><b>× よくある間違い</b></p>
+          <script type="text/plain" class="code" data-lang="js" data-size="xs">
+if (count >= 5)  { /* ゆるい条件が先 */ }
+else if (count >= 10) { /* 永遠に来ない */ }
+          </script>
+          <p class="xs mt">count が 12 でも、先に <span class="ic">&gt;= 5</span> に当たってしまう。</p>
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>最終課題で使う</b>
+          「まだ作っていない人がいるか」「指輪が0になったか」で進む先が変わるのも、まさにこの
+          <span class="ic">if / else if / else</span> 。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="関数">
+  <div class="body">
+    <div class="kicker"><b>基本 ⑤</b></div>
+    <h2 class="t">関数 ── 処理に名前をつける</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// 定義（この時点では動かない）
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+
+// 呼び出し（ここで動く）
+const dice = rollDice();
+
+// 値を受け取る関数
+function clamp(n) {
+  if (n > 100) return 100;
+  if (n < 0)   return 0;
+  return n;
+}
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:110px">言葉</th><th>意味</th></tr>
+          <tr><td>function</td><td>「関数を作るよ」の合図</td></tr>
+          <tr><td>rollDice</td><td>付けた名前</td></tr>
+          <tr><td>( n )</td><td><b>引数</b>。受け取る値</td></tr>
+          <tr><td>return</td><td><b>返す値</b>。ここで関数は終了</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>C言語との違いは1つだけ</b>
+          <span class="ic">int rollDice()</span> のような<b>戻り値の型を書かない</b>。
+          それ以外の考え方は同じ。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>いつ関数にするか</b>
+          <span class="mk">同じ処理を2回以上書きそうになったら</span>。
+          あとは「名前を付けたら読みやすくなるとき」。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="ランダム">
+  <div class="body">
+    <div class="kicker"><b>基本 ⑥</b></div>
+    <h2 class="t">サイコロを作る</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+Math.random()
+// → 0 以上 1 未満の小数  例: 0.7234...
+
+Math.random() * 6
+// → 0 以上 6 未満        例: 4.34...
+
+Math.floor(Math.random() * 6)
+// → 0, 1, 2, 3, 4, 5     （floor = 切り捨て）
+
+Math.floor(Math.random() * 6) + 1
+// → 1, 2, 3, 4, 5, 6     サイコロ完成
+        </script>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>公式にすると</b>
+          <span class="ic">Math.floor(Math.random() * 個数) + 最小値</span><br>
+          <span class="mk">この形は一生使う。</span>丸暗記でOK。
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h4>ステップで見る</h4>
+          <table class="tbl sm">
+            <tr><th style="width:130px">式</th><th>結果の例</th></tr>
+            <tr><td>Math.random()</td><td>0.7234…</td></tr>
+            <tr><td>× 6</td><td>4.340…</td></tr>
+            <tr><td>Math.floor()</td><td>4</td></tr>
+            <tr><td>+ 1</td><td><b>5</b></td></tr>
+          </table>
+        </div>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>他にもよく使う Math</b>
+          <span class="ic">Math.round()</span> 四捨五入<br>
+          <span class="ic">Math.max(a, b)</span> 大きいほう<br>
+          <span class="ic">Math.min(a, b)</span> 小さいほう
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 手を動かす">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">実習：5つのボタン</div>
+    <div class="cover-rule"></div>
+    <p class="lead">1つずつ作って、1つずつ動かす。<br>全部できたら、今日はおしまい。</p>
+  </div>
+  <div class="chara usa" style="right:176px; bottom:58px; width:108px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="実習：最初の1つ">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">まずは1個目だけ、確実に動かす</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="sm">
+<p id="hello">まだ押されていません。</p>
+<button id="btnHello">押してみる</button>
+
+<script src="script.js"><\/script>
+        </script>
+        <script type="text/plain" class="code" data-lang="js" data-file="script.js" data-size="sm">
+// ① 取ってくる
+const btnHello = document.getElementById("btnHello");
+const hello    = document.getElementById("hello");
+
+// ② 予約する
+btnHello.addEventListener("click", function () {
+  // ③ 書き戻す
+  hello.textContent = "押されました！ こんにちは。";
+});
+        </script>
+      </div>
+      <div>
+        <ol class="step">
+          <li>HTMLに <span class="ic">id</span> を付ける（これが目印）</li>
+          <li><span class="ic">script.js</span> を作って読み込む</li>
+          <li>3ステップを書く</li>
+          <li><b>保存 → F5 → 押す</b></li>
+          <li>動かなければ <span class="pen">F12</span> でエラーを見る</li>
+        </ol>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>ここでつまずいたら先に進まない</b>
+          1個目が動けば、残り4つは同じ形の応用。
+          <span class="mk">最初の1個に時間をかけて。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="実習：残りの4つ">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">残りは同じ形の応用</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">② カウンター</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+let count = 0;
+btnPlus.addEventListener("click", function () {
+  count += 1;
+  countEl.textContent = count;
+});
+        </script>
+        <p class="xs mt">ポイント：<span class="ic">let</span> を<b>関数の外</b>に置く（中に書くと毎回0に戻る）</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">③ 入力を受け取る</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+const name = nameInput.value;
+greet.textContent = `こんにちは、${name} さん。`;
+        </script>
+        <p class="xs mt">ポイント：入力欄は <span class="ic">.value</span>。
+          バッククォート <span class="ic">`</span> で囲むと <span class="ic">${ }</span> が使える</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">④ サイコロ判定</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+const dice = Math.floor(Math.random() * 6) + 1;
+if (dice === 6)      { /* 絶好調 */ }
+else if (dice >= 4)  { /* ふつう */ }
+else                 { /* 眠い   */ }
+        </script>
+        <p class="xs mt">ポイント：<b>厳しい条件から</b>書く</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:#8a5fb0">⑤ 夜モード</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+document.body.classList.toggle("dark");
+        </script>
+        <p class="xs mt">ポイント：CSS側に <span class="ic">body.dark { … }</span> を書いておく。
+          <span class="mk">JSは1行だけ</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16b 小ネタ -->
+<section class="slide" data-title="小ネタ：音・スクロール・ダイアログ">
+  <div class="body">
+    <div class="kicker"><b>1行で楽しくなるやつ</b></div>
+    <h2 class="t">おまけ ── 覚えると盛り上がる3つ</h2>
+    <div class="g3">
+      <div class="card v">
+        <h4 style="color:var(--red)">① 音を鳴らす</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+const audio = new Audio("sound.mp3");
+audio.play();
+        </script>
+        <p class="sm mt">HTMLと<b>同じフォルダ</b>に <span class="ic">sound.mp3</span> を置くだけ。
+          <span class="ic">practice/day5/</span> に1つ入れてあるので、すぐ試せる。</p>
+        <p class="xs"><span class="mk">最初のクリックより前には鳴らない</span>（ブラウザの決まり）。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">② なめらかにスクロール</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+window.scrollBy({
+  top: 900,
+  left: 0,
+  behavior: "smooth"
+});
+        </script>
+        <p class="sm mt">下に900pxぶん、<b>すーっと</b>移動する。
+          「答えを見る」ボタンなどに使うと気持ちいい。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">③ ダイアログを出す</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+window.alert("あたり！");
+
+const ok = window.confirm("本当に消す？");
+        </script>
+        <p class="sm mt"><span class="ic">alert</span> は知らせるだけ。
+          <span class="ic">confirm</span> は OK / キャンセルで <b>true / false</b> が返る。</p>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="blue" style="flex:1.3">
+        <b>JavaScript の文の形</b>
+        <span class="ic">window.alert("こんにちは");</span> は
+        <span class="mk">「誰の」「何をする」「材料」</span>という形をしている。<br>
+        <b>window</b>（画面）の alert（知らせる）を、"こんにちは" という材料で実行せよ。
+        この <span class="ic">もの . 動作( 材料 )</span> の形は、これから何度も出てくる。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>alert は使いすぎない</b>
+        押すまで<span class="mk">操作が止まる</span>。
+        テストのときは便利だが、完成品では画面に文字を出すほうが親切。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="よくあるエラー">
+  <div class="body">
+    <div class="kicker"><b>ここでつまずく</b></div>
+    <h2 class="t">JavaScript のつまずき</h2>
+    <table class="tbl sm">
+      <tr><th style="width:330px">エラー / 症状</th><th>原因</th><th style="width:250px">直し方</th></tr>
+      <tr><td><span class="ic">Cannot read properties of null</span></td><td>部品が取れていない</td><td>id のスペル確認／script を body の最後に</td></tr>
+      <tr><td><span class="ic">〇〇 is not defined</span></td><td>変数名・関数名のミス</td><td>大文字小文字も区別される</td></tr>
+      <tr><td><span class="ic">〇〇 is not a function</span></td><td>メソッド名のミス</td><td><span class="ic">addEventListner</span> ではなく <span class="ic">addEventListener</span></td></tr>
+      <tr><td><span class="ic">Unexpected token</span></td><td>かっこ・クォートの閉じ忘れ</td><td>VSCode の赤い波線を見る</td></tr>
+      <tr><td>何も起きない・エラーも出ない</td><td>script が読み込まれていない</td><td><span class="ic">src</span> のファイル名を確認</td></tr>
+      <tr><td>数が「11」ではなく「101」になる</td><td>文字列の連結になっている</td><td><span class="ic">Number()</span> で数値に変換</td></tr>
+    </table>
+    <div class="row mt2 push" style="gap:18px; align-items:flex-start">
+      <div class="win" style="flex:none; width:420px">
+        <div class="bar"><i></i><i></i><i></i><span>F12 → Console</span></div>
+        <img src="../assets/shots/dt-error.png" alt="Consoleに出た TypeError の実例"
+             style="display:block; width:100%; height:auto">
+      </div>
+      <div class="fusen" data-c="blue" style="flex:1; max-width:none">
+        <b>エラーは敵ではない</b>
+        赤い文字には<span class="mk">「何行目で」「何が起きたか」</span>が書いてある。
+        読まずに直そうとするのが一番の遠回り。分からない英語はそのままAIに貼れば訳してくれる。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-title="今日の構文一覧">
+  <div class="body">
+    <div class="kicker"><b>持ち帰り用</b></div>
+    <h2 class="t">DAY 5 の構文</h2>
+    <div class="g2 top">
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(207,68,54,.12)">基本</th></tr>
+        <tr><td style="width:220px">const / let</td><td>変数を作る</td></tr>
+        <tr><td>function 名前() { }</td><td>関数を定義</td></tr>
+        <tr><td>return</td><td>値を返す</td></tr>
+        <tr><td>if / else if / else</td><td>場合分け</td></tr>
+        <tr><td>=== / !== / &gt;= </td><td>比較</td></tr>
+        <tr><td>&amp;&amp; / ｜｜ / !</td><td>かつ・または・否定</td></tr>
+        <tr><td>console.log( )</td><td>中身をのぞく</td></tr>
+        <tr><td>Math.random( )</td><td>0以上1未満の乱数</td></tr>
+        <tr><td>Math.floor( )</td><td>切り捨て</td></tr>
+        <tr><td>Number( )</td><td>数値に変換</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">画面をさわる</th></tr>
+        <tr><td style="width:230px">getElementById( )</td><td>id で取ってくる</td></tr>
+        <tr><td>querySelector( )</td><td>CSSの書き方で1つ</td></tr>
+        <tr><td>querySelectorAll( )</td><td>CSSの書き方で全部</td></tr>
+        <tr><td>.textContent</td><td>文字を読み書き</td></tr>
+        <tr><td>.value</td><td>入力欄の中身</td></tr>
+        <tr><td>.style.〇〇</td><td>CSSを直接変える</td></tr>
+        <tr><td>.classList.add( )</td><td>クラスを付ける</td></tr>
+        <tr><td>.classList.remove( )</td><td>クラスを外す</td></tr>
+        <tr><td>.classList.toggle( )</td><td>付け外しを切り替え</td></tr>
+        <tr><td>addEventListener( )</td><td>「〜されたら」を予約</td></tr>
+      </table>
+    </div>
+    <p class="xs mt push"><span class="ic">reference/js-syntax.html</span> に全部まとめてある。</p>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 5 おわり</b></div>
+    <h2 class="t">チェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>「取ってくる → 何かする → 書き戻す」が言える</li>
+      <li>ボタンを押して文字を変えられる</li>
+      <li>const と let の使い分けができる</li>
+      <li>if で分岐が書ける</li>
+      <li>F12 の Console でエラーを読める</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px">
+      <div class="fusen" data-c="blue" style="flex:1.3">
+        <b>次回 DAY 6 ／ データを扱う</b>
+        1個の文字ではなく、<b>まとまったデータ</b>を持って画面を組み立てる。
+        <span class="mk">ここができると、作れるものが一気に増える。</span>
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（15分）</b>
+        サイコロを<span class="mk">20面</span>にして、判定の文も自分の言葉に。<br>
+        <span class="ic">exercises.html</span> の<b>問12〜14</b>も解く。
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="right:38px; bottom:14px; width:70px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

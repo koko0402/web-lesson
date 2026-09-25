@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>色のページ ── 作る・調べる・試す</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  /* ---- ① 色を作る ---- */
+  .maker{ display:grid; grid-template-columns:260px 1fr; gap:22px; align-items:start; }
+  @media (max-width:820px){ .maker{ grid-template-columns:1fr; } }
+
+  .swatch{
+    height:170px; border-radius:10px; border:1.5px solid rgba(44,58,66,.25);
+    display:grid; place-items:center; gap:4px; text-align:center;
+  }
+  .swatch b{ font-size:19px; }
+  .swatch small{ font-size:12px; opacity:.75; }
+
+  .vals{ display:grid; gap:8px; }
+  .val-row{
+    display:grid; grid-template-columns:78px 1fr auto; gap:10px; align-items:center;
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.18);
+    border-radius:7px; padding:8px 12px;
+  }
+  .val-row .k{ font-size:13px; color:var(--ink-2); }
+  .val-row .v{ font-family:var(--f-code); font-size:15px; word-break:break-all; }
+  .copy{
+    font:inherit; font-size:12px; border:1.5px solid rgba(44,58,66,.28);
+    background:#fff; border-radius:999px; padding:3px 12px; cursor:pointer; white-space:nowrap;
+  }
+  .copy:hover{ border-color:var(--red); color:var(--red); }
+  .copy.done{ background:var(--green); border-color:var(--green); color:#fff; }
+
+  .contrast{ display:flex; gap:10px; margin-top:10px; }
+  .contrast div{
+    flex:1; border-radius:7px; padding:9px 12px; font-size:13px; text-align:center;
+    border:1.5px solid rgba(44,58,66,.18);
+  }
+
+  /* ---- ② 名前の表 ---- */
+  .finder{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:10px 0 16px; }
+  .finder input{ flex:1; min-width:200px; }
+  .hit{ font-size:13px; color:var(--ink-2); font-family:var(--f-code); }
+
+  .fam{ margin-bottom:20px; }
+  .fam h3{ margin:14px 0 8px; }
+  .names{ display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:8px; }
+  .name{
+    display:flex; align-items:center; gap:9px; cursor:pointer;
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.16);
+    border-radius:7px; padding:6px 9px; text-align:left; font:inherit;
+  }
+  .name:hover{ border-color:var(--red); }
+  .name i{ width:26px; height:26px; border-radius:5px; flex:none;
+           border:1px solid rgba(44,58,66,.25); }
+  .name span{ display:block; min-width:0; font-family:var(--f-code); font-size:12.5px; line-height:1.4;
+              overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .name span em{ display:block; font-style:normal; color:var(--ink-2); font-size:11.5px; }
+  .name span{ overflow:hidden; }
+  .name span > :first-child{ display:block; }
+  .fam[hidden]{ display:none; }
+  .name[hidden]{ display:none; }
+
+  /* ---- ③ 3色で組む ---- */
+  .three{ display:grid; grid-template-columns:230px 1fr; gap:22px; align-items:start; }
+  @media (max-width:820px){ .three{ grid-template-columns:1fr; } }
+  .pick{ display:grid; grid-template-columns:1fr; gap:10px; }
+  .pick label{ font-size:13px; display:block; margin-bottom:3px; }
+  .pick input[type=color]{ width:100%; height:38px; border:none; background:none; cursor:pointer; }
+
+  /* 見本サイト */
+  .mock{ border:1.5px solid rgba(44,58,66,.25); border-radius:10px; overflow:hidden; }
+  .mock-head{ display:flex; justify-content:space-between; align-items:center;
+              padding:11px 18px; font-size:14px; }
+  .mock-body{ padding:20px 18px 24px; }
+  .mock-body h4{ font-size:20px; margin:0 0 6px; padding-bottom:6px; }
+  .mock-body p{ font-size:14px; margin-bottom:14px; }
+  .mock-cards{ display:flex; gap:10px; flex-wrap:wrap; }
+  .mock-card{ flex:1; min-width:120px; background:#fff; border-radius:9px; padding:12px 14px;
+              box-shadow:0 2px 8px rgba(0,0,0,.08); font-size:13px; }
+  .mock-card b{ display:block; font-size:20px; line-height:1.2; margin-bottom:3px; }
+  .mock-btn{ display:inline-block; color:#fff; border-radius:999px;
+             padding:8px 22px; font-size:14px; margin-top:14px; }
+
+  /* ---- ④ 配色見本 ---- */
+  .palettes{ display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; }
+  .pal{ background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.18);
+        border-radius:8px; padding:10px 12px 12px; cursor:pointer; text-align:left; font:inherit; }
+  .pal:hover{ border-color:var(--red); }
+  .pal .bars{ display:flex; height:34px; border-radius:5px; overflow:hidden; margin-bottom:7px; }
+  .pal .bars i{ flex:1; }
+  .pal b{ font-size:14px; }
+  .pal small{ display:block; font-size:12px; color:var(--ink-2); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>色のページ</h1>
+  <p class="lead">色を<b>作る</b>・名前から<b>調べる</b>・サイトに当てて<b>試す</b>。<br>
+    値はどこでもクリックすればコピーできる。</p>
+
+  <div class="toc">
+    <a href="#make">① 色を作る</a>
+    <a href="#names">② 名前の表</a>
+    <a href="#try">③ 3色で試す</a>
+    <a href="#pal">④ 配色の見本</a>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="make">① 色を作る ── これだとこの値になる</h2>
+  <p class="note">スライダーを動かすと、同じ色の<b>4通りの書き方</b>が同時に出る。どれを使っても結果は同じ。</p>
+
+  <div class="maker">
+    <div>
+      <div class="swatch" id="swatch">
+        <b id="swTxt">この色</b>
+        <small id="swSub">文字は白のほうが読める</small>
+      </div>
+      <p style="margin:10px 0 4px"><label for="cPick" style="font-size:13px">色をつまんで選ぶ</label></p>
+      <input type="color" id="cPick" value="#cf4436" style="width:100%; height:40px; border:none; background:none; cursor:pointer">
+    </div>
+
+    <div>
+      <div class="ctrl"><label for="cH">色あい（H）</label><input type="range" id="cH" min="0" max="360" value="6"><span class="val" id="cHv">6</span></div>
+      <div class="ctrl"><label for="cS">あざやかさ（S）</label><input type="range" id="cS" min="0" max="100" value="60"><span class="val" id="cSv">60%</span></div>
+      <div class="ctrl"><label for="cL">明るさ（L）</label><input type="range" id="cL" min="0" max="100" value="51"><span class="val" id="cLv">51%</span></div>
+      <div class="ctrl"><label for="cA">透明度（A）</label><input type="range" id="cA" min="0" max="100" value="100"><span class="val" id="cAv">1</span></div>
+
+      <div class="vals" style="margin-top:14px">
+        <div class="val-row"><span class="k">16進</span><span class="v" id="vHex">#cf4436</span><button type="button" class="copy" data-c="vHex">コピー</button></div>
+        <div class="val-row"><span class="k">rgb</span><span class="v" id="vRgb">rgb(207, 68, 54)</span><button type="button" class="copy" data-c="vRgb">コピー</button></div>
+        <div class="val-row"><span class="k">hsl</span><span class="v" id="vHsl">hsl(6, 60%, 51%)</span><button type="button" class="copy" data-c="vHsl">コピー</button></div>
+        <div class="val-row"><span class="k">名前</span><span class="v" id="vName">いちばん近い名前を出す</span><button type="button" class="copy" data-c="vName">コピー</button></div>
+      </div>
+
+      <div class="contrast">
+        <div id="ctWhite" style="background:#fff">白い文字を乗せると</div>
+        <div id="ctBlack" style="background:#000">黒い文字を乗せると</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>どれを使えばいい？</b>
+    ふだんは <span class="mk">16進（#cf4436）</span> でいい。コピペしやすく、どこでも通じる。<br>
+    <b>hsl</b> は「同じ色あいで明るさだけ変えた色」を作りたいときに強い。
+    L だけを 51% → 35% にすれば、ボタンの hover 用の濃い色がすぐ作れる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="names">② 名前の表 ── これはこの色</h2>
+  <p class="note">CSSには<b>名前で書ける色が140種類</b>ある。押すと①に取り込んで、値を見られる。</p>
+
+  <div class="finder">
+    <input type="text" id="q" placeholder="名前で探す（red / blue / green …）">
+    <span class="hit" id="hit"></span>
+    <button type="button" class="btn sm" id="clearQ">ぜんぶ出す</button>
+  </div>
+
+  <div id="nameList"></div>
+
+  <div class="fusen">
+    <b>名前は便利だが、実戦では使わない</b>
+    <span class="mk">名前で出せる色は、だいたい派手すぎる</span>。<code>red</code> や <code>blue</code> をそのまま使うと、
+    どうしても素人っぽくなる。<b>試しに置いてみる用</b >と思っておいて、最後は16進で微調整する。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="try">③ 3色で試す ── 実際のサイトに当ててみる</h2>
+  <p class="note">サイトの色は<b>3つ決めれば足りる</b>。濃い色・薄い色・差し色。下の見本がその場で変わる。</p>
+
+  <div class="three">
+    <div class="pick">
+      <div>
+        <label for="pMain">濃い色（見出し・ヘッダー）</label>
+        <input type="color" id="pMain" value="#b5584a">
+      </div>
+      <div>
+        <label for="pSub">薄い色（背景）</label>
+        <input type="color" id="pSub" value="#fdf3ec">
+      </div>
+      <div>
+        <label for="pAcc">差し色（線・数字）</label>
+        <input type="color" id="pAcc" value="#e0a33c">
+      </div>
+      <div class="outcode" id="palCode"></div>
+      <button type="button" class="btn sm" id="copyPal">この3色をコピー</button>
+    </div>
+
+    <div class="mock" id="mock">
+      <div class="mock-head" id="mkHead">
+        <b>○○のすべて</b>
+        <span style="font-size:12px">どんな人　好きなところ　データ</span>
+      </div>
+      <div class="mock-body" id="mkBody">
+        <h4 id="mkH">好きなところ ベスト3</h4>
+        <p>色を変えると、ここの見出しの色と下線、カードの数字、ボタンがまとめて変わる。</p>
+        <div class="mock-cards">
+          <div class="mock-card"><b id="mkN1">01</b>顔がずるい</div>
+          <div class="mock-card"><b id="mkN2">02</b>とにかく寝る</div>
+          <div class="mock-card"><b id="mkN3">03</b>がんばらない</div>
+        </div>
+        <span class="mock-btn" id="mkBtn">もっと見る</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>そのまま <a href="../final/oshi/index.html">推しの紹介サイト</a> に使える</b>
+    上に出ている <code>:root { … }</code> を、自分の <code>style.css</code> のいちばん上に貼るだけ。
+    <span class="mk">色を1か所で決めておくと、あとから全部まとめて変えられる。</span>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="pal">④ 配色の見本 ── 迷ったらここから</h2>
+  <p class="note">押すと ③ に入る。<b>自分で3色えらぶのが難しいうちは、ここから持っていっていい。</b></p>
+
+  <div class="palettes" id="palettes"></div>
+
+  <div class="fusen" data-c="pink">
+    <b>色選びで迷ったときの逃げ道</b>
+    ① 推しの画像から<span class="mk">スポイトで3色抜く</span>（Windowsなら「切り取り＆スケッチ」でも拾える）<br>
+    ② それでも決まらないなら、上の見本をそのまま使う<br>
+    <b>色で止まって作業が進まないのが、いちばんもったいない。</b>
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+/* =========================================================
+   小道具
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+
+/* hsl → rgb（0〜255の配列） */
+function hsl2rgb(h, s, l) {
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [f(0), f(8), f(4)].map(v => Math.round(v * 255));
+}
+
+/* rgb → hsl */
+function rgb2hsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  let h = 0, s = 0;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r)      h = ((g - b) / d + (g < b ? 6 : 0));
+    else if (max === g) h = ((b - r) / d + 2);
+    else                h = ((r - g) / d + 4);
+    h *= 60;
+  }
+  return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
+}
+
+const hex2 = v => v.toString(16).padStart(2, '0');
+const rgb2hex = (r, g, b) => '#' + hex2(r) + hex2(g) + hex2(b);
+
+function hex2rgb(hex) {
+  const m = hex.replace('#', '');
+  const f = m.length === 3 ? m.split('').map(c => c + c).join('') : m;
+  return [parseInt(f.slice(0, 2), 16), parseInt(f.slice(2, 4), 16), parseInt(f.slice(4, 6), 16)];
+}
+
+/* 明るさ（0〜1）。白と黒どちらの文字が読めるかの判定に使う */
+function luminance(r, g, b) {
+  const f = v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+function contrast(rgbA, rgbB) {
+  const a = luminance(...rgbA), b = luminance(...rgbB);
+  const hi = Math.max(a, b), lo = Math.min(a, b);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/* クリップボード */
+function copyFrom(el, btn) {
+  const t = el.textContent.trim();
+  navigator.clipboard.writeText(t).then(() => {
+    btn.textContent = 'コピーした';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('done'); }, 1200);
+  }).catch(() => {});
+}
+
+
+/* =========================================================
+   ① 色を作る
+   ========================================================= */
+/* h/s/l は表示用。実際の色は rgb を正とする。
+   HSL を整数で持つと、つまみで選んだ色と16進が1〜2ずれてしまうため */
+const state = { h: 6, s: 60, l: 51, a: 1, rgb: [207, 68, 54] };
+
+function drawMaker() {
+  const [r, g, b] = state.rgb;
+  const hex = rgb2hex(r, g, b);
+
+  $('#cHv').textContent = state.h;
+  $('#cSv').textContent = state.s + '%';
+  $('#cLv').textContent = state.l + '%';
+  $('#cAv').textContent = state.a === 1 ? '1' : String(state.a);
+
+  const css = state.a === 1 ? hex : `rgba(${r}, ${g}, ${b}, ${state.a})`;
+  $('#swatch').style.background = css;
+  $('#cPick').value = hex;
+
+  $('#vHex').textContent = hex;
+  $('#vRgb').textContent = state.a === 1 ? `rgb(${r}, ${g}, ${b})` : `rgba(${r}, ${g}, ${b}, ${state.a})`;
+  $('#vHsl').textContent = state.a === 1
+    ? `hsl(${state.h}, ${state.s}%, ${state.l}%)`
+    : `hsla(${state.h}, ${state.s}%, ${state.l}%, ${state.a})`;
+  $('#vName').textContent = nearestName(r, g, b);
+
+  /* 白文字・黒文字のどちらが読めるか */
+  const cw = contrast([r, g, b], [255, 255, 255]);
+  const cb = contrast([r, g, b], [0, 0, 0]);
+  const white = cw >= cb;
+  $('#swatch').style.color = white ? '#fff' : '#000';
+  $('#swTxt').textContent = 'この色';
+  $('#swSub').textContent = white ? '文字は白のほうが読める' : '文字は黒のほうが読める';
+
+  const w = $('#ctWhite'), k = $('#ctBlack');
+  w.style.background = css; w.style.color = '#fff';
+  k.style.background = css; k.style.color = '#000';
+  w.textContent = '白い文字：' + cw.toFixed(1) + (cw >= 4.5 ? '（読める）' : '（読みにくい）');
+  k.textContent = '黒い文字：' + cb.toFixed(1) + (cb >= 4.5 ? '（読める）' : '（読みにくい）');
+}
+
+['cH', 'cS', 'cL'].forEach(id => {
+  $('#' + id).addEventListener('input', e => {
+    state[id[1].toLowerCase()] = +e.target.value;
+    state.rgb = hsl2rgb(state.h, state.s, state.l);
+    drawMaker();
+  });
+});
+$('#cA').addEventListener('input', e => {
+  state.a = Math.round(+e.target.value) / 100;
+  drawMaker();
+});
+$('#cPick').addEventListener('input', e => {
+  const [r, g, b] = hex2rgb(e.target.value);
+  const [h, s, l] = rgb2hsl(r, g, b);
+  state.h = h; state.s = s; state.l = l;
+  state.rgb = [r, g, b];            /* ← 丸めずにそのまま持つ */
+  $('#cH').value = h; $('#cS').value = s; $('#cL').value = l;
+  drawMaker();
+});
+
+document.querySelectorAll('.copy').forEach(btn => {
+  btn.addEventListener('click', () => copyFrom($('#' + btn.dataset.c), btn));
+});
+
+
+/* =========================================================
+   ② 名前の表
+      色の値はブラウザに計算させる（手で書くと間違えるため）
+   ========================================================= */
+const FAMILIES = {
+  '赤・ピンク': ['indianred','lightcoral','salmon','darksalmon','lightsalmon','crimson','red',
+    'firebrick','darkred','pink','lightpink','hotpink','deeppink','mediumvioletred','palevioletred'],
+  'オレンジ・黄': ['coral','tomato','orangered','darkorange','orange','gold','yellow','lightyellow',
+    'lemonchiffon','lightgoldenrodyellow','papayawhip','moccasin','peachpuff','palegoldenrod',
+    'khaki','darkkhaki'],
+  '緑': ['greenyellow','chartreuse','lawngreen','lime','limegreen','palegreen','lightgreen',
+    'mediumspringgreen','springgreen','mediumseagreen','seagreen','forestgreen','green','darkgreen',
+    'yellowgreen','olivedrab','olive','darkolivegreen','mediumaquamarine','darkseagreen',
+    'lightseagreen','darkcyan','teal'],
+  '青・水色': ['aqua','cyan','lightcyan','paleturquoise','aquamarine','turquoise','mediumturquoise',
+    'darkturquoise','cadetblue','steelblue','lightsteelblue','powderblue','lightblue','skyblue',
+    'lightskyblue','deepskyblue','dodgerblue','cornflowerblue','royalblue','blue','mediumblue',
+    'darkblue','navy','midnightblue'],
+  '紫': ['lavender','thistle','plum','violet','orchid','fuchsia','magenta','mediumorchid',
+    'mediumpurple','blueviolet','darkviolet','darkorchid','darkmagenta','purple','indigo',
+    'slateblue','darkslateblue','mediumslateblue'],
+  '茶': ['cornsilk','blanchedalmond','bisque','navajowhite','wheat','burlywood','tan','rosybrown',
+    'sandybrown','goldenrod','darkgoldenrod','peru','chocolate','saddlebrown','sienna','brown','maroon'],
+  '白っぽい': ['white','snow','honeydew','mintcream','azure','aliceblue','ghostwhite','whitesmoke',
+    'seashell','beige','oldlace','floralwhite','ivory','antiquewhite','linen','lavenderblush','mistyrose'],
+  'グレー・黒': ['gainsboro','lightgray','silver','darkgray','gray','dimgray','lightslategray',
+    'slategray','darkslategray','black'],
+};
+
+/* 名前 → [r,g,b] をブラウザに計算させる */
+const probe = document.createElement('span');
+probe.style.display = 'none';
+document.body.appendChild(probe);
+function nameToRgb(name) {
+  probe.style.color = '';
+  probe.style.color = name;
+  const m = getComputedStyle(probe).color.match(/\d+/g);
+  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+}
+
+const ALL = [];
+for (const fam in FAMILIES) {
+  for (const n of FAMILIES[fam]) {
+    const rgb = nameToRgb(n);
+    ALL.push({ name: n, fam, rgb, hex: rgb2hex(...rgb) });
+  }
+}
+
+/* いまの色にいちばん近い名前 */
+function nearestName(r, g, b) {
+  let best = null, bd = Infinity;
+  for (const c of ALL) {
+    const d = (c.rgb[0] - r) ** 2 + (c.rgb[1] - g) ** 2 + (c.rgb[2] - b) ** 2;
+    if (d < bd) { bd = d; best = c; }
+  }
+  if (!best) return '—';
+  if (bd === 0)     return best.name;
+  if (bd <= 400)    return best.name + '（にほぼ同じ）';
+  if (bd <= 3000)   return best.name + '（に近い）';
+  return '近い名前はない（16進で指定する）';
+}
+
+function drawNames() {
+  let html = '';
+  for (const fam in FAMILIES) {
+    html += `<div class="fam" data-fam="${fam}"><h3>${fam}</h3><div class="names">`;
+    for (const n of FAMILIES[fam]) {
+      const c = ALL.find(x => x.name === n);
+      html += `<button type="button" class="name" data-name="${n}" data-hex="${c.hex}">`
+            + `<i style="background:${n}"></i>`
+            + `<span>${n}<em>${c.hex}</em></span></button>`;
+    }
+    html += '</div></div>';
+  }
+  $('#nameList').innerHTML = html;
+  $('#hit').textContent = ALL.length + ' 色';
+}
+drawNames();
+
+/* 名前を押したら ① に取り込む */
+$('#nameList').addEventListener('click', e => {
+  const b = e.target.closest('[data-name]');
+  if (!b) return;
+  const [r, g, bl] = hex2rgb(b.dataset.hex);
+  const [h, s, l] = rgb2hsl(r, g, bl);
+  state.h = h; state.s = s; state.l = l; state.a = 1;
+  state.rgb = [r, g, bl];
+  $('#cH').value = h; $('#cS').value = s; $('#cL').value = l; $('#cA').value = 100;
+  drawMaker();
+  document.getElementById('make').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* 名前で絞り込む */
+$('#q').addEventListener('input', () => {
+  const q = $('#q').value.trim().toLowerCase();
+  let n = 0;
+  document.querySelectorAll('.fam').forEach(fam => {
+    let shown = 0;
+    fam.querySelectorAll('.name').forEach(b => {
+      const hit = !q || b.dataset.name.includes(q);
+      b.hidden = !hit;
+      if (hit) shown++;
+    });
+    fam.hidden = shown === 0;
+    n += shown;
+  });
+  $('#hit').textContent = n + ' 色';
+});
+$('#clearQ').addEventListener('click', () => {
+  $('#q').value = '';
+  $('#q').dispatchEvent(new Event('input'));
+});
+
+
+/* =========================================================
+   ③ 3色で試す
+   ========================================================= */
+function drawThree() {
+  const main = $('#pMain').value, sub = $('#pSub').value, acc = $('#pAcc').value;
+
+  $('#mock').style.background = sub;
+  $('#mkHead').style.background = main;
+  $('#mkHead').style.color = '#fff';
+  $('#mkH').style.color = main;
+  $('#mkH').style.borderBottom = '3px solid ' + acc;
+  ['#mkN1', '#mkN2', '#mkN3'].forEach(id => { $(id).style.color = acc; });
+  $('#mkBtn').style.background = main;
+
+  $('#palCode').textContent =
+    ':root {\n' +
+    '  --main:   ' + main + ';\n' +
+    '  --sub:    ' + sub + ';\n' +
+    '  --accent: ' + acc + ';\n' +
+    '}';
+}
+['pMain', 'pSub', 'pAcc'].forEach(id => {
+  $('#' + id).addEventListener('input', drawThree);
+});
+$('#copyPal').addEventListener('click', () => {
+  navigator.clipboard.writeText($('#palCode').textContent).then(() => {
+    $('#copyPal').textContent = 'コピーした';
+    setTimeout(() => { $('#copyPal').textContent = 'この3色をコピー'; }, 1200);
+  }).catch(() => {});
+});
+
+
+/* =========================================================
+   ④ 配色の見本
+   ========================================================= */
+const PALETTES = [
+  { n: '椿',       s: '濃い赤と生成り',   c: ['#b5584a', '#fdf3ec', '#e0a33c'] },
+  { n: '深い青',   s: '落ち着いた定番',   c: ['#2a4e6e', '#eef3f7', '#d99b3f'] },
+  { n: '森',       s: '緑と生成り',       c: ['#3f6b46', '#f2f5ee', '#c98b3a'] },
+  { n: '夜',       s: '暗い背景',         c: ['#e8b84b', '#1f1b2e', '#d85b7a'] },
+  { n: 'さくら',   s: 'やわらかい',       c: ['#c9556f', '#fdf1f3', '#8ab6a4'] },
+  { n: 'モノトーン', s: '写真を主役に',   c: ['#2c2c2c', '#f4f4f4', '#b08d57'] },
+  { n: '海',       s: '涼しい',           c: ['#1f6f8b', '#eef7f9', '#f3a83b'] },
+  { n: 'みかん',   s: '元気',             c: ['#d2691e', '#fff6ec', '#3f7d6a'] },
+];
+
+$('#palettes').innerHTML = PALETTES.map((p, i) => `
+  <button type="button" class="pal" data-i="${i}">
+    <span class="bars">
+      <i style="background:${p.c[0]}"></i>
+      <i style="background:${p.c[1]}"></i>
+      <i style="background:${p.c[2]}"></i>
+    </span>
+    <b>${p.n}</b><small>${p.s}</small>
+  </button>`).join('');
+
+$('#palettes').addEventListener('click', e => {
+  const b = e.target.closest('[data-i]');
+  if (!b) return;
+  const p = PALETTES[+b.dataset.i];
+  $('#pMain').value = p.c[0];
+  $('#pSub').value  = p.c[1];
+  $('#pAcc').value  = p.c[2];
+  drawThree();
+  document.getElementById('try').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+
+/* ---- 最初の描画 ----
+   スライダーの初期値ではなく、色つまみ（#cPick）の色に合わせる。
+   そうしないと、開いた瞬間だけ見本と16進が1〜2ずれる */
+$('#cPick').dispatchEvent(new Event('input'));
+drawThree();
+</script>
+</body>
+</html>

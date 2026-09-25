@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 6 ｜ JavaScript 2回目 — データを扱う</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">06</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;6 &nbsp;/ &nbsp;D A T A</div>
+    <h1 class="t">データを持って、<br>画面を作る</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">前回は「1個の文字を書き換える」だった。<br>
+      今日は<span class="mk">まとまったデータ</span>から画面を組み立てる。</p>
+    <p class="xs mt2">第6回 ／ 配列・オブジェクト・状態・保存</p>
+  </div>
+  <div class="chara rian" style="right:110px; bottom:52px; width:110px"><img src="../assets/char/rian.webp" alt=""></div>
+  <div class="fuki l" style="right:40px; bottom:200px; max-width:240px">
+    今日が山。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日のゴール">
+  <div class="body">
+    <div class="kicker"><b>今日のゴール</b></div>
+    <h2 class="t">4つの仕組みを作る</h2>
+    <div class="g32">
+      <div>
+        <ul class="check" style="font-size:18px">
+          <li>配列から<b>リストを自動生成</b>する</li>
+          <li>ランダムに1つ選ぶ<b>ルーレット</b></li>
+          <li>数値をまとめて管理する<b>ステータス</b></li>
+          <li>閉じても消えない<b>チェックリスト</b></li>
+        </ul>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>これは全部、最終課題の部品</b>
+          マスの一覧＝配列／お題を引く＝ルーレット／好感度＝ステータス。
+          <span class="mk">今日作るものを組み合わせると、あのパーティゲームになる。</span>
+        </div>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>今日の合言葉</b>
+          <span class="mk">「データを直す → 画面を作り直す」</span><br>
+          画面を直接いじるのではなく、必ずデータ側を直す。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>day6/index.html</span></div>
+          <img src="../assets/shots/day6-index.png" alt="完成イメージ" style="height:490px; object-fit:cover; object-position:top center">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="配列">
+  <div class="body">
+    <div class="kicker"><b>基本 ①</b></div>
+    <h2 class="t">配列 ── 順番に並んだ箱</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+let likes = ["夜のコンビニ", "雨の音", "全部乗せ"];
+
+likes[0]        // "夜のコンビニ"（0から数える）
+likes[2]        // "全部乗せ"
+likes.length    // 3（個数）
+
+likes.push("帰り道");   // 末尾に足す
+likes.pop();            // 末尾を取り出して消す
+likes.includes("雨の音"); // 入っているか（true/false）
+        </script>
+        <div class="yodan">なぜ0から数えるのか。もともとは「先頭から何個ぶんずれた場所か」を表す数字だったから。
+          先頭そのものは、ずれ0。慣れると自然だが、最初はだいたい間違える。</div>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>0 から数える</b>
+          C言語と同じ。<span class="mk">3個の配列の最後は [2]</span>。
+          <span class="ic">likes[3]</span> は <span class="ic">undefined</span>（存在しない）になる。
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">なぜ配列を使うのか</h3>
+        <div class="card">
+          <p class="sm"><b>× 変数を並べると</b></p>
+          <script type="text/plain" class="code" data-lang="js" data-size="xs">
+const like1 = "夜のコンビニ";
+const like2 = "雨の音";
+const like3 = "全部乗せ";
+// 増えるたびに変数もコードも増える
+          </script>
+        </div>
+        <div class="card mt">
+          <p class="sm"><b>○ 配列なら</b></p>
+          <script type="text/plain" class="code" data-lang="js" data-size="xs">
+let likes = ["夜のコンビニ", "雨の音", "全部乗せ"];
+// 何個増えても、扱うコードは同じ
+          </script>
+        </div>
+        <p class="sm mt"><span class="mk">個数が変わってもコードを書き換えなくていい</span>。これが最大の利点。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="繰り返し">
+  <div class="body">
+    <div class="kicker"><b>基本 ②</b></div>
+    <h2 class="t">配列を1つずつ取り出す</h2>
+    <div class="g2">
+      <div>
+        <h3 class="st">forEach（おすすめ）</h3>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+likes.forEach(function (item, index) {
+  console.log(index, item);
+});
+
+// 0 夜のコンビニ
+// 1 雨の音
+// 2 全部乗せ
+        </script>
+        <p class="sm mt"><b>item</b> に中身、<b>index</b> に番号が入ってくる。
+          名前は自由（<span class="ic">x</span> でも <span class="ic">sq</span> でもOK）。</p>
+      </div>
+      <div>
+        <h3 class="st b">for（C言語と同じ書き方）</h3>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+for (let i = 0; i < likes.length; i++) {
+  console.log(i, likes[i]);
+}
+        </script>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>どちらを使う？</b>
+          ふつうは <span class="mk">forEach</span> が短くて安全。
+          <b>途中で止めたい</b>ときや番号を細かく操作したいときは <span class="ic">for</span>。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>最終課題で使う場面</b>
+          盤面の24マスを作るとき、<span class="ic">for</span> で
+          <span class="mk">1マスずつ HTML を生成</span>している。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="画面を作る">
+  <div class="body">
+    <div class="kicker"><b>基本 ③</b></div>
+    <h2 class="t blue">JavaScript で HTML を作る</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<!-- HTMLには空の箱だけ置く -->
+<ul id="likeList"></ul>
+        </script>
+        <div class="arrow down"></div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+const likeList = document.getElementById("likeList");
+
+function drawLikes() {
+  likeList.innerHTML = "";     // いったん空にする
+
+  likes.forEach(function (item, index) {
+    const li = document.createElement("li");  // 作る
+    li.textContent = (index + 1) + ". " + item;
+    likeList.appendChild(li);                 // くっつける
+  });
+}
+
+drawLikes();
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:150px">メソッド</th><th>意味</th></tr>
+          <tr><td>createElement("li")</td><td>新しいタグを<b>作る</b></td></tr>
+          <tr><td>appendChild(li)</td><td>子として<b>くっつける</b></td></tr>
+          <tr><td>innerHTML = ""</td><td>中身を<b>空にする</b></td></tr>
+          <tr><td>prepend(li)</td><td>先頭にくっつける</td></tr>
+          <tr><td>remove()</td><td>その要素を消す</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>innerHTML = "" を忘れると</b>
+          描き直すたびに<span class="mk">古い行が残って増え続ける</span>。
+          「押すたびにリストが2倍になる」のはこれが原因。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="データと画面を分ける">
+  <div class="body">
+    <div class="kicker"><b>今日いちばん大事</b></div>
+    <h2 class="t">画面をいじらない。データをいじる</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">× 画面を直接いじる</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+// 追加ボタンを押したら
+const li = document.createElement("li");
+li.textContent = "帰り道";
+likeList.appendChild(li);
+        </script>
+        <p class="sm mt">動く。でも——</p>
+        <ul class="dot r" style="font-size:16px">
+          <li>今いくつあるのか分からない</li>
+          <li>並べ替えができない</li>
+          <li>保存ができない</li>
+          <li>削除の処理が別に必要</li>
+        </ul>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">○ データを直して描き直す</h4>
+        <script type="text/plain" class="code" data-lang="js" data-size="xs">
+// 追加ボタンを押したら
+likes.push("帰り道");   // データを直す
+drawLikes();            // 画面を作り直す
+        </script>
+        <p class="sm mt">たった2行。しかも——</p>
+        <ul class="check" style="font-size:16px">
+          <li>いつでも <span class="ic">likes</span> を見れば現状が分かる</li>
+          <li>並べ替えも削除も配列の操作だけ</li>
+          <li>そのまま保存できる</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>これが「状態管理」の考え方</b>
+      React などの本格的な道具も、根っこはこれと同じ。
+      <span class="mk">正しいデータが1か所にあり、画面はその写し</span>。<br>
+      理屈より、今日いじってるうちに手が覚える。
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="オブジェクト">
+  <div class="body">
+    <div class="kicker"><b>基本 ④</b></div>
+    <h2 class="t">オブジェクト ── 名前つきの箱</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+const state = {
+  hunger: 50,   // 満腹度
+  mood:   50,   // 機嫌
+  power:  50    // 体力
+};
+
+state.hunger        // 50（ドットで取り出す）
+state.mood = 70;    // 書き換え
+        </script>
+        <p class="sm mt">配列が<b>番号</b>で取り出すのに対して、オブジェクトは<b>名前</b>で取り出す。</p>
+        <table class="tbl sm mt">
+          <tr><th style="width:110px"></th><th>書き方</th><th>取り出し</th></tr>
+          <tr><td>配列</td><td><span class="ic">[ ]</span></td><td><span class="ic">likes[0]</span></td></tr>
+          <tr><td>オブジェクト</td><td><span class="ic">{ }</span></td><td><span class="ic">state.mood</span></td></tr>
+        </table>
+      </div>
+      <div>
+        <h3 class="st b">配列とオブジェクトは混ぜられる</h3>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// オブジェクトの配列（いちばんよく使う形）
+const SQUARES = [
+  { type: "start", label: "スタート" },
+  { type: "good",  label: "目が合った", love: 8 },
+  { type: "bad",   label: "既読スルー", love: -10 }
+];
+
+SQUARES[1].label   // "目が合った"
+SQUARES[1].love    // 8
+        </script>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>最終課題はこの形</b>
+          マスの一覧も、お題カードも、<span class="mk">オブジェクトの配列</span>で持っている。
+          マスを増やしたければ、<b>配列に1行足すだけ</b>。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="状態と描画">
+  <div class="body">
+    <div class="kicker"><b>設計のかたち</b></div>
+    <h2 class="t">state と draw() のペア</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// ① 今の状況を1か所にまとめる
+const state = { hunger: 50, mood: 50, power: 50 };
+
+// ② state を見て画面を作り直す関数
+function drawState() {
+  hungerEl.textContent = state.hunger;
+  moodEl.textContent   = state.mood;
+  powerEl.textContent  = state.power;
+  moodBar.style.width  = state.mood + "%";
+}
+
+// ③ ボタンは state を変えて draw を呼ぶだけ
+btnEat.addEventListener("click", function () {
+  state.hunger = clamp(state.hunger + 25);
+  state.mood   = clamp(state.mood + 10);
+  drawState();
+});
+        </script>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>描画は1か所にまとめる</b>
+          画面を書き換えるコードを <span class="ic">drawState()</span> に集めておくと、
+          <span class="mk">表示を直したいときは1つの関数だけ見ればいい</span>。
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>はみ出さないようにする</b>
+          <span class="ic">clamp()</span> のような小さな関数を作っておくと、
+          0〜100 からはみ出す事故を<b>全部の場所で</b>防げる。
+        </div>
+        <div class="fusen mt2 push" data-c="pink">
+          <b>ボタンが増えても壊れない</b>
+          新しいボタンを足すときも「state を変えて draw を呼ぶ」だけ。
+          <span class="mk">パターンが同じなので迷わない。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="時間で動かす">
+  <div class="body">
+    <div class="kicker"><b>基本 ⑤</b></div>
+    <h2 class="t">時間を使う ── setTimeout / setInterval</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// 1回だけ、500ミリ秒後に実行
+setTimeout(function () {
+  console.log("0.5秒たった");
+}, 500);
+
+// 80ミリ秒ごとに、ずっと繰り返す
+const timer = setInterval(function () {
+  box.textContent = foods[
+    Math.floor(Math.random() * foods.length)
+  ];
+}, 80);
+
+// 止める（これを忘れると永遠に回り続ける）
+clearInterval(timer);
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:140px">関数</th><th>動き</th></tr>
+          <tr><td>setTimeout</td><td>◯ミリ秒後に<b>1回だけ</b></td></tr>
+          <tr><td>setInterval</td><td>◯ミリ秒ごとに<b>ずっと</b></td></tr>
+          <tr><td>clearInterval</td><td>setInterval を止める</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>1000 で1秒</b>
+          単位はミリ秒。<span class="ic">setTimeout(f, 1000)</span> で1秒後。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>ルーレットの作り方</b>
+          <span class="mk">setInterval でパラパラ切り替え → 12回目で clearInterval → 最後に本当の結果を出す</span>。
+          これだけで「回っている」感じが出る。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="localStorage">
+  <div class="body">
+    <div class="kicker"><b>基本 ⑥</b></div>
+    <h2 class="t blue">閉じても消えないようにする</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+// 保存する（配列やオブジェクトは文字列に変換してから）
+localStorage.setItem("day6-todos", JSON.stringify(todos));
+
+// 読み込む
+const saved = localStorage.getItem("day6-todos");
+if (saved !== null) {
+  todos = JSON.parse(saved);   // 文字列 → 配列に戻す
+}
+
+// 消す
+localStorage.removeItem("day6-todos");
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:150px">関数</th><th>意味</th></tr>
+          <tr><td>setItem(名前, 値)</td><td>保存</td></tr>
+          <tr><td>getItem(名前)</td><td>読み込み（無ければ null）</td></tr>
+          <tr><td>JSON.stringify( )</td><td>データ → 文字列</td></tr>
+          <tr><td>JSON.parse( )</td><td>文字列 → データ</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>文字列しか保存できない</b>
+          配列やオブジェクトをそのまま入れると <span class="ic">[object Object]</span> になる。
+          必ず <span class="mk">JSON.stringify で文字列に</span>してから。
+        </div>
+        <div class="fusen mt2" data-c="pink">
+          <b>できないこと</b>
+          保存先は<b>そのブラウザの中だけ</b>。
+          <span class="mk">別のPCやスマホからは見えない</span>。
+          みんなで共有したいなら DAY 8 の Firebase が必要になる。
+        </div>
+        <div class="fusen mt2 push" data-c="green">
+          <b>確認のしかた</b>
+          F12 → <b>Application</b> タブ → Local Storage。
+          保存された中身がそのまま見える。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 手を動かす">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">実習：4つの仕組み</div>
+    <div class="cover-rule"></div>
+    <p class="lead">見本は <span class="ic">practice/day6</span>。<br>
+      1つできるたびに、必ずブラウザで確かめて。</p>
+  </div>
+  <div class="chara nana" style="right:160px; bottom:54px; width:126px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="実習の手順">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">4つを順番に</h2>
+    <div class="g2">
+      <div>
+        <ol class="step">
+          <li><b>配列 → リスト</b>：好きなものを配列に書いて、<span class="ic">drawLikes()</span> で表示</li>
+          <li><b>ルーレット</b>：食べ物の配列からランダムに1つ選ぶ</li>
+          <li><b>ステータス</b>：<span class="ic">state</span> オブジェクトと <span class="ic">drawState()</span> を作る</li>
+          <li><b>チェックリスト</b>：追加・完了・保存</li>
+        </ol>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>①ができたら半分終わり</b>
+          「配列 → forEach → createElement → appendChild」の流れが手に馴染めば、
+          <span class="mk">残りは同じことの応用</span>。
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="green">
+          <b>詰まったときのチェック</b>
+          ・<span class="ic">console.log(likes)</span> で配列の中身を見る<br>
+          ・<span class="ic">drawLikes()</span> を最後に呼び忘れていないか<br>
+          ・<span class="ic">innerHTML = ""</span> を書いたか
+        </div>
+        <div class="fusen mt2" data-c="pink">
+          <b>チェックリストの落とし穴</b>
+          クリックで完了にするとき、<span class="mk">配列を直してから描き直す</span>のを忘れずに。
+          画面のクラスだけ変えると、リロードで元に戻る。
+        </div>
+        <div class="fusen mt2 push">
+          <b>自分の内容にする</b>
+          好きなもの・食べ物・持ち物を<b>全部じぶんの言葉に</b>。
+          そのほうが動かして楽しい。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="よくあるエラー">
+  <div class="body">
+    <div class="kicker"><b>ここでつまずく</b></div>
+    <h2 class="t">DAY 6 のつまずき</h2>
+    <table class="tbl sm">
+      <tr><th style="width:300px">症状</th><th>原因</th><th style="width:250px">直し方</th></tr>
+      <tr><td>押すたびリストが増え続ける</td><td>描き直す前に空にしていない</td><td>先頭で <span class="ic">innerHTML = ""</span></td></tr>
+      <tr><td>データは変わったのに画面が変わらない</td><td><b>draw を呼び忘れ</b></td><td>state を直した直後に <span class="ic">drawState()</span></td></tr>
+      <tr><td><span class="ic">Cannot read properties of undefined</span></td><td>配列の範囲外を見ている</td><td><span class="ic">likes[3]</span> は3個の配列に無い。0から数える</td></tr>
+      <tr><td>保存したら <span class="ic">[object Object]</span></td><td>そのまま保存した</td><td><span class="ic">JSON.stringify()</span> を通す</td></tr>
+      <tr><td>リロードすると全部消える</td><td>読み込み処理が無い</td><td>起動時に <span class="ic">getItem</span> → <span class="ic">JSON.parse</span></td></tr>
+      <tr><td>ルーレットが止まらない</td><td><span class="ic">clearInterval</span> を呼んでいない</td><td>回数を数えて止める</td></tr>
+    </table>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>迷ったら console.log(データ)</b>
+      画面ではなく<span class="mk">データが正しいか</span>をまず確認する。
+      データが正しくて画面が違うなら、原因は描画側。データが違うなら、原因は処理側。
+      <b>これで問題が半分に絞れる。</b>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="今日の構文一覧">
+  <div class="body">
+    <div class="kicker"><b>持ち帰り用</b></div>
+    <h2 class="t">DAY 6 の構文</h2>
+    <div class="g2 top">
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(207,68,54,.12)">配列</th></tr>
+        <tr><td style="width:220px">[ ]</td><td>配列を作る</td></tr>
+        <tr><td>配列[番号]</td><td>取り出す（0から）</td></tr>
+        <tr><td>.length</td><td>個数</td></tr>
+        <tr><td>.push(値)</td><td>末尾に足す</td></tr>
+        <tr><td>.pop( )</td><td>末尾を取り出す</td></tr>
+        <tr><td>.includes(値)</td><td>入っているか</td></tr>
+        <tr><td>.forEach(関数)</td><td>1つずつ処理</td></tr>
+        <tr><td>for (let i = 0; …)</td><td>番号で繰り返す</td></tr>
+        <tr><th colspan="2" style="background:rgba(79,138,91,.12)">オブジェクト</th></tr>
+        <tr><td>{ 名前: 値 }</td><td>オブジェクトを作る</td></tr>
+        <tr><td>obj.名前</td><td>取り出す・書き換える</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">画面を作る</th></tr>
+        <tr><td style="width:220px">createElement("li")</td><td>タグを作る</td></tr>
+        <tr><td>appendChild(要素)</td><td>子として追加</td></tr>
+        <tr><td>prepend(要素)</td><td>先頭に追加</td></tr>
+        <tr><td>innerHTML = ""</td><td>中身を空に</td></tr>
+        <tr><td>.remove( )</td><td>要素を消す</td></tr>
+        <tr><th colspan="2" style="background:rgba(232,138,114,.14)">時間・保存</th></tr>
+        <tr><td>setTimeout(f, ms)</td><td>◯ミリ秒後に1回</td></tr>
+        <tr><td>setInterval(f, ms)</td><td>◯ミリ秒ごと</td></tr>
+        <tr><td>clearInterval(t)</td><td>止める</td></tr>
+        <tr><td>localStorage.setItem</td><td>保存</td></tr>
+        <tr><td>localStorage.getItem</td><td>読み込み</td></tr>
+        <tr><td>JSON.stringify / parse</td><td>文字列との変換</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 6 おわり</b></div>
+    <h2 class="t">チェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>配列から画面のリストを作れる</li>
+      <li>「データを直す → 描き直す」の意味が説明できる</li>
+      <li>オブジェクトで状態をまとめられる</li>
+      <li>localStorage で保存・復元できる</li>
+      <li>描画を1つの関数にまとめる利点が言える</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px">
+      <div class="fusen" data-c="pink" style="flex:1.3">
+        <b>次回 DAY 7 ／ 総合制作</b>
+        新しい文法はもう出てこない。次回は<b>作り方そのもの</b>を学ぶ。
+        <span class="mk">アイデアをどう形にするか</span>——ここが本当の山場。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（重要・15分）</b>
+        <span class="mk">「こんなの作りたい」を3つ</span>紙に書いてくること。<br>
+        余裕があれば <span class="ic">exercises.html</span> の<b>問15〜17</b>も。
+      </div>
+    </div>
+  </div>
+  <div class="chara usa" style="right:34px; bottom:12px; width:76px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

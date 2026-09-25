@@ -1,0 +1,109 @@
+@charset "UTF-8";
+/* ============================================================
+   playground.css — さわって試すツール共通のスタイル
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=M+PLUS+1+Code:wght@400;500;700&display=swap');
+
+:root{
+  --paper:#fbf6e6; --rule:rgba(96,124,96,.14); --rule-b:rgba(96,124,96,.26);
+  --ink:#2c3a42; --ink-2:#5d6b70;
+  --red:#cf4436; --blue:#2a6ca8; --green:#4f8a5b; --mark:#ffe873;
+  --code-bg:#232a30; --code-bg2:#1b2126; --code-line:#39434b;
+  --f-hand:'Yomogi','UD デジタル教科書体 NK-R',sans-serif;
+  --f-body:'Klee One','UD デジタル教科書体 NK-R','Yu Gothic','Meiryo',sans-serif;
+  --f-code:'M PLUS 1 Code','Consolas','Courier New',monospace;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  background:#3a2d22 url('../assets/wood.jpg') center/cover fixed;
+  font-family:var(--f-body); color:var(--ink); line-height:1.8;
+  padding:22px 16px 60px;
+  -webkit-font-smoothing:antialiased;
+}
+
+.sheet{
+  max-width:1220px; margin:0 auto; padding:30px 34px 40px;
+  background:
+    radial-gradient(ellipse at 16% 8%, rgba(255,255,255,.5), rgba(255,255,255,0) 55%),
+    repeating-linear-gradient(to right,  var(--rule-b) 0 1px, transparent 1px 160px),
+    repeating-linear-gradient(to bottom, var(--rule-b) 0 1px, transparent 1px 160px),
+    repeating-linear-gradient(to right,  var(--rule) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 32px),
+    var(--paper);
+  box-shadow:0 22px 60px rgba(20,10,0,.5), 0 3px 0 #e8dcbe, 0 6px 0 #dfd2b0;
+  border-radius:4px; position:relative;
+}
+
+.crumb{ font-size:14px; color:var(--ink-2); margin-bottom:4px; }
+.crumb a{ color:var(--blue); text-decoration:none; }
+.crumb a:hover{ text-decoration:underline; }
+
+h1{ font-size:38px; font-weight:600; display:inline-block; position:relative;
+    padding-bottom:8px; margin-bottom:12px; }
+h1::after{
+  content:''; position:absolute; left:-6px; right:-14px; bottom:-2px; height:12px;
+  background:no-repeat center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M2,8 C60,3 90,10 150,6 C210,2 250,9 298,4' fill='none' stroke='%23cf4436' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+h2{ font-size:25px; font-weight:600; margin:38px 0 12px; display:flex; align-items:center; gap:10px; scroll-margin-top:16px; }
+h2::before{ content:''; width:14px; height:14px; flex:none; border-radius:3px; background:var(--red); transform:rotate(12deg); }
+h3{ font-size:19px; font-weight:600; margin:20px 0 8px; }
+.lead{ font-size:17px; color:var(--ink-2); margin-bottom:20px; }
+p{ font-size:16px; margin-bottom:10px; }
+.note{ font-size:14px; color:var(--ink-2); }
+code,.ic{ font-family:var(--f-code); font-size:.92em; background:rgba(44,58,66,.08);
+          padding:1px 6px; border-radius:3px; }
+.mk{ background:linear-gradient(transparent 54%, var(--mark) 54%, var(--mark) 94%, transparent 94%); padding:0 2px; }
+
+.fusen{ background:#fff2a8; padding:14px 18px; margin:16px 0;
+        box-shadow:2px 4px 8px rgba(60,45,10,.18); transform:rotate(-.3deg); font-size:15px; }
+.fusen > b:first-child{ display:block; font-size:16px; margin-bottom:3px; color:#8a6a12; }
+.fusen[data-c="blue"]{ background:#cfe6f7; transform:rotate(.2deg); }
+.fusen[data-c="blue"] > b:first-child{ color:#215b86; }
+.fusen[data-c="pink"]{ background:#fbd6cd; }
+.fusen[data-c="pink"] > b:first-child{ color:#a8442f; }
+.fusen[data-c="green"]{ background:#d5efce; }
+.fusen[data-c="green"] > b:first-child{ color:#3d6b3a; }
+
+.back{ display:inline-block; margin-top:30px; font-size:15px; color:var(--blue); text-decoration:none; }
+.back:hover{ text-decoration:underline; }
+
+/* ---- ボタン ---- */
+.btn{
+  font:inherit; font-size:14px; padding:6px 16px; border-radius:999px; cursor:pointer;
+  border:1.5px solid rgba(44,58,66,.3); background:#fff; color:var(--ink);
+  transition:border-color .15s, color .15s, background .15s;
+}
+.btn:hover{ border-color:var(--red); color:var(--red); }
+.btn.on{ background:var(--red); border-color:var(--red); color:#fff; }
+.btn.sm{ font-size:13px; padding:4px 12px; }
+
+select, input[type="text"]{
+  font:inherit; font-size:14px; padding:6px 12px; border-radius:6px;
+  border:1.5px solid rgba(44,58,66,.28); background:#fffdf6; color:var(--ink);
+}
+
+/* ---- スライダー ---- */
+.ctrl{ display:grid; grid-template-columns:150px 1fr 90px; gap:10px; align-items:center;
+       margin-bottom:8px; font-size:15px; }
+.ctrl input[type=range]{ width:100%; accent-color:var(--red); }
+.ctrl .val{ font-family:var(--f-code); font-size:14px; text-align:right; color:var(--blue); }
+.ctrl label{ font-family:var(--f-code); font-size:13.5px; }
+
+.panel{
+  background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.2);
+  border-radius:8px; padding:16px 20px;
+}
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+@media (max-width:900px){ .grid2{ grid-template-columns:1fr; } }
+
+/* ---- 生成されたCSSの表示 ---- */
+.outcode{
+  font-family:var(--f-code); font-size:13.5px; line-height:1.7; white-space:pre;
+  background:var(--code-bg); color:#e6e6e0; border-radius:6px; padding:12px 14px;
+  overflow:auto; margin-top:10px;
+}
+.outcode .p{ color:#7fc4ff; }
+.outcode .v{ color:#ffd479; }
+.outcode .s{ color:#c48cff; }

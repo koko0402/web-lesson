@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>ユウのトリセツ｜おたより</title>
+  </head>
+  <body>
+
+    <header>
+      <h1>ユウのトリセツ</h1>
+      <nav>
+        <a href="index.html">トップ</a> ｜
+        <a href="spec.html">スペック表</a> ｜
+        <a href="contact.html">おたより</a>
+      </nav>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2>おたよりフォーム</h2>
+      <p>※ DAY 2 の時点では「見た目だけ」です。送信してもどこにも届きません。<br>
+      本当に送るには、DAY 8 で出てくる裏側の仕組みが必要になります。</p>
+
+      <form>
+        <p>
+          <label for="name">おなまえ</label><br>
+          <input type="text" id="name" name="name" placeholder="うさぎ" size="30">
+        </p>
+
+        <p>
+          <label for="mail">メールアドレス</label><br>
+          <input type="email" id="mail" name="mail" placeholder="rabbit@example.com" size="30">
+        </p>
+
+        <p>
+          用件はどれ？<br>
+          <input type="radio" id="r1" name="yoken" value="asobi">
+          <label for="r1">遊びの誘い</label>
+          <input type="radio" id="r2" name="yoken" value="gohan">
+          <label for="r2">ごはんの誘い</label>
+          <input type="radio" id="r3" name="yoken" value="sonota">
+          <label for="r3">その他</label>
+        </p>
+
+        <p>
+          <label for="msg">本文</label><br>
+          <textarea id="msg" name="msg" rows="5" cols="40" placeholder="ここに自由に書いてください"></textarea>
+        </p>
+
+        <p>
+          <input type="checkbox" id="ok" name="ok">
+          <label for="ok">からあげをおごる用意がある</label>
+        </p>
+
+        <p>
+          <button type="submit">送信する</button>
+          <button type="reset">消す</button>
+        </p>
+      </form>
+    </main>
+
+    <hr>
+    <footer><p><small>&copy; 2026 ユウ ／ DAY 2</small></p></footer>
+
+  </body>
+</html>

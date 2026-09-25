@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSCode 早見表｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>VSCode 早見表</h1>
+  <p class="lead">最初に覚えるべきショートカットと、入力補助（Emmet）のまとめ。<b>太字のものだけ</b>覚えれば十分。</p>
+
+  <div class="search">
+    <input type="text" placeholder="やりたいことで検索（例：検索、整形、コメント、複数）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#must">最初に覚える</a><a href="#edit">編集</a><a href="#move">移動・検索</a>
+    <a href="#view">画面</a><a href="#emmet">Emmet</a><a href="#ext">拡張機能</a><a href="#browser">ブラウザ側</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="must">最初に覚える3つ</h2>
+    <table>
+      <tr><th style="width:230px">キー</th><th>できること</th></tr>
+      <tr><td><code>Ctrl + S</code></td><td><b>保存</b>。これをしないと何も反映されない</td></tr>
+      <tr><td><code>Ctrl + Z</code></td><td><b>元に戻す</b>。壊したらこれ（<code>Ctrl + Y</code> でやり直し）</td></tr>
+      <tr><td><code>Shift + Alt + F</code></td><td><b>自動で整形</b>。インデントがぐちゃぐちゃになったら</td></tr>
+    </table>
+    <div class="fusen" data-c="green">
+      <b>この3つだけで戦える</b>
+      あとは<span class="mk">使いながら少しずつ</span>で大丈夫。全部覚えようとしないこと。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="edit">編集</h2>
+    <table>
+      <tr><th style="width:230px">キー</th><th>できること</th></tr>
+      <tr><td><code>Ctrl + /</code></td><td><b>コメントアウト</b>の切り替え（選択範囲もOK）</td></tr>
+      <tr><td><code>Alt + ↑ / ↓</code></td><td>今の行を<b>上下に移動</b></td></tr>
+      <tr><td><code>Shift + Alt + ↓</code></td><td>今の行を<b>下に複製</b></td></tr>
+      <tr><td><code>Ctrl + X</code></td><td>行ごと切り取り（選択していなければ1行まるごと）</td></tr>
+      <tr><td><code>Ctrl + D</code></td><td>同じ単語を<b>次々に選択</b>して同時に書き換え</td></tr>
+      <tr><td><code>Alt + クリック</code></td><td>カーソルを<b>複数置く</b></td></tr>
+      <tr><td><code>Ctrl + Shift + K</code></td><td>行を削除</td></tr>
+      <tr><td><code>Tab</code> / <code>Shift + Tab</code></td><td>インデントを深く／浅く</td></tr>
+      <tr><td><code>Ctrl + Space</code></td><td>入力候補を出す</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="move">移動・検索</h2>
+    <table>
+      <tr><th style="width:230px">キー</th><th>できること</th></tr>
+      <tr><td><code>Ctrl + F</code></td><td>このファイル内を検索</td></tr>
+      <tr><td><code>Ctrl + H</code></td><td>置換</td></tr>
+      <tr><td><code>Ctrl + Shift + F</code></td><td><b>フォルダ全体</b>を検索</td></tr>
+      <tr><td><code>Ctrl + P</code></td><td>ファイル名で開く（<b>これが速い</b>）</td></tr>
+      <tr><td><code>Ctrl + G</code></td><td>行番号へジャンプ（エラーの行に飛ぶとき）</td></tr>
+      <tr><td><code>Ctrl + Shift + P</code></td><td>コマンドパレット。機能名で検索して実行</td></tr>
+      <tr><td><code>Ctrl + Tab</code></td><td>開いているファイルを切り替え</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="view">画面</h2>
+    <table>
+      <tr><th style="width:230px">キー</th><th>できること</th></tr>
+      <tr><td><code>Ctrl + B</code></td><td>左のファイル一覧を出す／隠す</td></tr>
+      <tr><td><code>Ctrl + `</code></td><td>ターミナルを出す／隠す</td></tr>
+      <tr><td><code>Ctrl + \</code></td><td>画面を左右に分割（HTMLとCSSを並べて見る）</td></tr>
+      <tr><td><code>Ctrl + W</code></td><td>今のタブを閉じる</td></tr>
+      <tr><td><code>Ctrl + + / -</code></td><td>文字を大きく／小さく</td></tr>
+      <tr><td><code>F11</code></td><td>全画面</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="emmet">Emmet（入力補助）</h2>
+    <p>HTMLファイルで<b>省略形を打って Tab</b> を押すと、タグに展開される。慣れると入力量が半分以下になる。</p>
+    <table>
+      <tr><th style="width:230px">打つもの</th><th>出てくるもの</th></tr>
+      <tr><td><code>!</code> → Tab</td><td><b>HTMLの骨組み一式</b>（DOCTYPE から body まで）</td></tr>
+      <tr><td><code>div</code> → Tab</td><td><code>&lt;div&gt;&lt;/div&gt;</code></td></tr>
+      <tr><td><code>.box</code> → Tab</td><td><code>&lt;div class="box"&gt;&lt;/div&gt;</code></td></tr>
+      <tr><td><code>#head</code> → Tab</td><td><code>&lt;div id="head"&gt;&lt;/div&gt;</code></td></tr>
+      <tr><td><code>p.lead</code> → Tab</td><td><code>&lt;p class="lead"&gt;&lt;/p&gt;</code></td></tr>
+      <tr><td><code>ul&gt;li*3</code> → Tab</td><td>ul の中に li が3つ</td></tr>
+      <tr><td><code>.card*4</code> → Tab</td><td>class="card" の div が4つ</td></tr>
+      <tr><td><code>table&gt;tr*3&gt;td*2</code> → Tab</td><td>3行2列の表</td></tr>
+      <tr><td><code>a[href="#"]</code> → Tab</td><td><code>&lt;a href="#"&gt;&lt;/a&gt;</code></td></tr>
+      <tr><td><code>h2{見出し}</code> → Tab</td><td><code>&lt;h2&gt;見出し&lt;/h2&gt;</code></td></tr>
+      <tr><td><code>lorem</code> → Tab</td><td>ダミーの文章（レイアウト確認用）</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>記号の意味</b>
+      <code>.</code>＝class／<code>#</code>＝id／<code>&gt;</code>＝中に入れる／<code>*</code>＝繰り返す／
+      <code>{ }</code>＝中身の文字／<code>[ ]</code>＝属性
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="ext">入れておくと良い拡張機能</h2>
+    <table>
+      <tr><th style="width:280px">名前</th><th>何ができるか</th></tr>
+      <tr><td><b>Japanese Language Pack</b></td><td>メニューが日本語になる</td></tr>
+      <tr><td><b>Live Server</b></td><td>保存した瞬間にブラウザが自動更新。右クリック →「Open with Live Server」</td></tr>
+      <tr><td><b>Auto Rename Tag</b></td><td>開始タグを直すと終了タグも一緒に変わる</td></tr>
+      <tr><td><b>indent-rainbow</b></td><td>インデントに色が付いて、入れ子が見やすくなる</td></tr>
+      <tr><td><b>Color Highlight</b></td><td>CSSの色コードの横に実際の色が表示される</td></tr>
+    </table>
+    <div class="fusen" data-c="pink">
+      <b>入れすぎ注意</b>
+      「便利そう」で10個入れると重くなる。<span class="mk">困ってから足す</span>のが正解。
+      まずは日本語化と Live Server の2つで十分。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="browser">ブラウザ側のショートカット</h2>
+    <table>
+      <tr><th style="width:230px">キー</th><th>できること</th></tr>
+      <tr><td><code>F5</code></td><td>再読み込み</td></tr>
+      <tr><td><code>Ctrl + Shift + R</code></td><td><b>キャッシュを無視して</b>再読み込み（反映されないとき）</td></tr>
+      <tr><td><code>F12</code></td><td>開発者ツールを開く</td></tr>
+      <tr><td><code>Ctrl + Shift + C</code></td><td>要素を選んで検証</td></tr>
+      <tr><td><code>Ctrl + Shift + M</code></td><td>スマホ表示に切り替え（開発者ツール内）</td></tr>
+      <tr><td><code>Ctrl + P</code></td><td>印刷／PDFに保存</td></tr>
+      <tr><td><code>Ctrl + +</code> / <code>-</code></td><td>表示倍率を変える</td></tr>
+    </table>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

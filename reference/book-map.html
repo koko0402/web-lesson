@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本との対応表｜HTML &amp; CSSとWebデザイン入門講座</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .bookhead{
+    display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.2);
+    border-left:5px solid var(--red); border-radius:8px; padding:16px 20px; margin:14px 0 6px;
+  }
+  .bookhead dl{ display:grid; grid-template-columns:auto 1fr; gap:3px 14px; font-size:15px; margin:0; }
+  .bookhead dt{ color:var(--ink-2); white-space:nowrap; }
+  .bookhead dd{ margin:0; }
+  .map td:first-child{ width:92px; white-space:nowrap; text-align:center; font-weight:600; }
+  .map td:nth-child(2){ width:230px; }
+  .none{ color:var(--ink-2); }
+  .ch{ font-family:var(--f-code); font-size:.94em; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>本との対応表</h1>
+  <p class="lead">
+    市販の入門書と、この講座のカリキュラムの対応。<br>
+    <b>「今日の範囲は本の◯章」</b>と宿題に出すために作った。
+  </p>
+
+  <div class="bookhead">
+    <dl>
+      <dt>書名</dt><dd><b>1冊ですべて身につく HTML &amp; CSSとWebデザイン入門講座［第2版］</b></dd>
+      <dt>著者</dt><dd>Mana（<a href="https://www.webcreatorbox.com/" target="_blank" rel="noopener">Webクリエイターボックス</a>）</dd>
+      <dt>出版</dt><dd>SBクリエイティブ／2024年3月・全8章</dd>
+      <dt>動画</dt><dd><a href="https://www.youtube.com/@webcreatorboxx" target="_blank" rel="noopener">YouTube「Webクリエイターボックス」</a>（著者本人のチャンネル）</dd>
+    </dl>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>節番号について</b>
+    章の構成は第2版のものだ。<span class="mk">章のなかの節番号（2-5 など）は第1版をもとにしている</span>ので、
+    第2版では多少ずれていることがある。手元の目次と突き合わせて、ずれていたら直して。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2>DAY ごとの対応</h2>
+
+  <table class="map">
+    <tr><th>回</th><th>講座のテーマ</th><th>本のどこを読むか</th></tr>
+
+    <tr>
+      <td>DAY 0</td>
+      <td>はじめに・道具をそろえる</td>
+      <td><span class="ch">CHAPTER 1</span> まるごと（Webの仕組み・デバイス・ブラウザー・制作の流れ）<br>
+          ＋ <span class="ch">2-2</span> HTMLファイルを作ろう</td>
+    </tr>
+    <tr>
+      <td>DAY 1</td>
+      <td>HTMLだけでサイトを作る</td>
+      <td><span class="ch">2-1 〜 2-9</span> HTMLとは／骨組み／書き方／見出し／文章／画像／リンク／リスト</td>
+    </tr>
+    <tr>
+      <td>DAY 2</td>
+      <td>ページを増やす・表・フォーム</td>
+      <td><span class="ch">2-10 〜 2-14</span> 表／フォーム／ブロック要素でグループ分け／タグ一覧</td>
+    </tr>
+    <tr>
+      <td>DAY 3</td>
+      <td>CSS ① 色・文字・余白</td>
+      <td><span class="ch">3-1 〜 3-13</span> CSSとは／適用方法／書き方／文字／Webフォント／色／背景／幅と高さ／余白／線／リスト／クラスとID<br>
+          ＋ <span class="ch">3-15</span> デフォルトCSSをリセット</td>
+    </tr>
+    <tr>
+      <td>DAY 4</td>
+      <td>CSS ② 並べる・動かす</td>
+      <td><span class="ch">3-14</span> レイアウトを組もう（Flexbox）・<span class="ch">3-16</span> プロパティ一覧<br>
+          ＋ <span class="ch">CHAPTER 4</span> シングルカラムのWebサイト制作</td>
+    </tr>
+    <tr>
+      <td><b>応用演習</b></td>
+      <td><a href="../final/oshi/index.html">推しの紹介サイト</a></td>
+      <td><span class="ch">CHAPTER 4</span> がほぼそのまま手本になる。<b>詰まったらここを開かせて</b></td>
+    </tr>
+    <tr>
+      <td>DAY 5</td>
+      <td>JavaScript ① 動きの基本</td>
+      <td class="none">対応なし ── <b>この本はJavaScriptを扱わない</b></td>
+    </tr>
+    <tr>
+      <td>DAY 6</td>
+      <td>JavaScript ② データを扱う</td>
+      <td class="none">対応なし</td>
+    </tr>
+    <tr>
+      <td>DAY 7</td>
+      <td>総合制作『プロポーズの言葉を君に捧ぐよ』</td>
+      <td><span class="ch">CHAPTER 7</span> 外部メディアを利用する（地図・SNSの埋め込み）を足すと厚みが出る</td>
+    </tr>
+    <tr>
+      <td>DAY 8</td>
+      <td>直す・公開する・これから</td>
+      <td><span class="ch">CHAPTER 8</span> うまくいかない時の解決方法</td>
+    </tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <h2>順番が違うところ（ここに注意）</h2>
+
+  <p>本と講座は<b>組み立て方が逆</b>。宿題に出すときは、ここだけ気をつけて。</p>
+
+  <table>
+    <tr><th style="width:120px"></th><th>本</th><th>この講座</th></tr>
+    <tr>
+      <td>進み方</td>
+      <td>HTMLを<b>全部</b> → CSSを<b>全部</b> → サイトを3つ作る</td>
+      <td><b>1つのサイトを毎回育てる</b>（HTML→CSS→JS）</td>
+    </tr>
+    <tr>
+      <td>作るもの</td>
+      <td>シングルカラム／2カラム／タイル型の3サイト</td>
+      <td>自己紹介ページ「トリセツ」1つ → 推しサイト → ゲーム</td>
+    </tr>
+    <tr>
+      <td>JavaScript</td>
+      <td>扱わない</td>
+      <td>DAY 5・6 で扱う</td>
+    </tr>
+  </table>
+
+  <div class="fusen" data-c="pink">
+    <b>「CHAPTER 2 を読んでおいて」はDAY 1の宿題に出せない</b>
+    本の CHAPTER 2 には、<span class="mk">表とフォーム（講座では DAY 2 の範囲）も入っている</span>。
+    DAY 1 の宿題にするなら <span class="ch">2-1〜2-9</span> と節を区切って出して。
+    章まるごとで出すと、まだ習っていない話が混ざる。
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>逆に、本のほうが厚いところ</b>
+    <b>ユーザビリティ・制作の流れ・デバイスの違い</b>（CHAPTER 1）は、本のほうがずっと詳しい。
+    講座の DAY 0 は道具立てが中心なので、<span class="mk">読み物として CHAPTER 1 を渡しておく</span>と、
+    「なぜそう作るのか」の土台になる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2>本をどう使わせるか</h2>
+
+  <ol class="step">
+    <li>
+      <b>授業では開かせない</b><br>
+      本と画面を往復すると手が止まる。授業中は講座の資料だけ。本は<b>持ち帰ってから</b>。
+    </li>
+    <li>
+      <b>宿題は「節」で出す</b><br>
+      上の表の節番号をそのまま伝えて。章まるごとだと、未習の内容が混ざる。
+    </li>
+    <li>
+      <b>読むだけにしない</b><br>
+      本の手を動かすパートは講座の実習と重複する。<span class="mk">同じものを2回作らせない</span>こと。
+      本は<b>索引と辞書として</b>使わせるのがいちばん効く。
+    </li>
+    <li>
+      <b>DAY 4 が終わったら CHAPTER 4 を通しでやらせる</b><br>
+      ここだけは例外で、通しで1サイト作る価値がある。
+      <a href="../final/oshi/index.html">推しの紹介サイト</a>の直前にやると、完成度がはっきり上がる。
+    </li>
+  </ol>
+
+
+  <!-- ============================================================ -->
+  <h2>講座の資料との対応</h2>
+  <p>本で調べるより、こちらのほうが速いものもある。</p>
+
+  <table>
+    <tr><th style="width:250px">調べたいこと</th><th>本</th><th>この講座</th></tr>
+    <tr><td>タグの意味</td><td><span class="ch">2-14</span> タグ一覧</td><td><a href="html-tags.html">HTMLタグ辞典</a></td></tr>
+    <tr><td>CSSプロパティ</td><td><span class="ch">3-16</span> プロパティ一覧</td><td><a href="css-props.html">CSSプロパティ一覧</a></td></tr>
+    <tr><td>どんな見た目にできるか</td><td>各章の作例</td><td><a href="../playground/css-gallery.html">CSS見本帳</a>（実物104個）</td></tr>
+    <tr><td>動かない・エラー</td><td><span class="ch">CHAPTER 8</span></td><td><a href="errors.html">エラー辞典</a></td></tr>
+    <tr><td>記号の読み方</td><td class="none">なし</td><td><a href="symbols.html">記号の読み方</a></td></tr>
+    <tr><td>JavaScript</td><td class="none">なし</td><td><a href="js-syntax.html">JS構文一覧</a></td></tr>
+  </table>
+
+  <div class="yodan">
+    著者の Mana さんは <a href="https://www.webcreatorbox.com/" target="_blank" rel="noopener">Webクリエイターボックス</a> という
+    ブログと <a href="https://www.youtube.com/@webcreatorboxx" target="_blank" rel="noopener">YouTubeチャンネル</a> も持っている。
+    本を買うと同じ人の解説が無料でいくらでも読めるので、<b>「本で分からなかったらブログで同じ用語を検索する」</b>
+    という手が使える。書き手が同じなので、説明の言葉づかいがぶれない。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+</body>
+</html>

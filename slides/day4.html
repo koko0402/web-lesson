@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 4 ｜ CSS 2回目 — 並べる・動かす</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">04</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;4 &nbsp;/ &nbsp;L A Y O U T</div>
+    <h1 class="t">並べる、<br>動かす</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">縦に積まれるだけだった箱を、<span class="mk">横に並べる</span>。<br>
+      スマホ対応と、ちょっとした動きも今日で。</p>
+    <p class="xs mt2">第4回 ／ Flexbox・Grid・position・変数・transition・レスポンシブ</p>
+  </div>
+  <div class="chara usa" style="right:120px; bottom:52px; width:100px"><img src="../assets/char/usagi.webp" alt=""></div>
+  <div class="fuki l" style="right:36px; bottom:208px; max-width:238px">
+    横に並ばないの、<br>ずっと不思議だった。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日のゴール">
+  <div class="body">
+    <div class="kicker"><b>今日のゴール</b></div>
+    <h2 class="t">こういうページが作れる</h2>
+    <div class="g32">
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>day4/index.html</span></div>
+          <img src="../assets/shots/day4-index.png" alt="完成イメージ" style="height:472px; object-fit:cover; object-position:top center">
+        </div>
+      </div>
+      <div>
+        <ul class="check" style="font-size:18px">
+          <li>上に固定される<b>ナビゲーション</b></li>
+          <li>写真と文が<b>横並び</b>のヒーロー</li>
+          <li>カードが<b>3枚ならぶ</b></li>
+          <li>タイルが<b>きれいに敷き詰まる</b></li>
+          <li>マウスを乗せると<b>ふわっと浮く</b></li>
+          <li>スマホでは<b>自動で縦並び</b>になる</li>
+        </ul>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>HTMLは DAY 2 のまま</b>
+          今日も中身は変えない。<span class="mk">CSSだけでここまで行く。</span>
+          見た目が急に良くなるので、たぶん一番テンションが上がる回。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="なぜ並ばないのか">
+  <div class="body">
+    <div class="kicker"><b>おさらい</b></div>
+    <h2 class="t">なぜ勝手に横に並ばないのか</h2>
+    <div class="g2">
+      <div>
+        <p class="lead" style="font-size:19px">ブロック要素は<b>横幅いっぱい</b>を取るから。
+          となりに入る隙間がない。</p>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<div class="cards">
+  <div class="card">起動</div>
+  <div class="card">燃料</div>
+  <div class="card">稼働</div>
+</div>
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>そのまま</span></div>
+          <div class="paneview" style="padding:10px">
+            <div style="background:#f6d5cd; padding:8px; margin-bottom:5px; font-size:13px; text-align:center">起動</div>
+            <div style="background:#f6d5cd; padding:8px; margin-bottom:5px; font-size:13px; text-align:center">燃料</div>
+            <div style="background:#f6d5cd; padding:8px; font-size:13px; text-align:center">稼働</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="lead" style="font-size:19px"><b>親</b>に1行足すだけで解決する。</p>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.cards {
+  display: flex;
+  gap: 18px;
+}
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>flex を付けた</span></div>
+          <div class="paneview" style="padding:10px; display:flex; gap:8px">
+            <div style="background:#cfe0f2; padding:8px; font-size:13px; text-align:center; flex:1">起動</div>
+            <div style="background:#cfe0f2; padding:8px; font-size:13px; text-align:center; flex:1">燃料</div>
+            <div style="background:#cfe0f2; padding:8px; font-size:13px; text-align:center; flex:1">稼働</div>
+          </div>
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>ここだけは丸暗記でいい</b>
+          <span class="mk">指定するのは「並べたい箱」ではなく「その親」</span>。<br>
+          理屈は後で分かるので、いまは形で覚えてしまって。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="Flexbox の基本">
+  <div class="body">
+    <div class="kicker"><b>レイアウト ①</b></div>
+    <h2 class="t blue">Flexbox ── 一列に並べる</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.bar {
+  display: flex;              /* 横に並べる */
+  gap: 20px;                  /* 間の余白 */
+  justify-content: space-between;  /* 横方向の配置 */
+  align-items: center;        /* 縦方向の配置 */
+}
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:160px">justify-content</th><th>横方向の並べ方</th></tr>
+          <tr><td>flex-start</td><td>左に寄せる（初期値）</td></tr>
+          <tr><td>center</td><td>中央</td></tr>
+          <tr><td>flex-end</td><td>右に寄せる</td></tr>
+          <tr><td>space-between</td><td><b>両端に寄せて、間を均等に</b></td></tr>
+          <tr><td>space-around</td><td>まわりに均等な余白</td></tr>
+        </table>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:130px">align-items</th><th>縦方向の並べ方</th></tr>
+          <tr><td>stretch</td><td>高さをそろえる（初期値）</td></tr>
+          <tr><td>center</td><td><b>縦の中央</b>。よく使う</td></tr>
+          <tr><td>flex-start</td><td>上ぞろえ</td></tr>
+          <tr><td>flex-end</td><td>下ぞろえ</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>覚え方</b>
+          justify ＝ <span class="mk">主軸（横）</span>／align ＝ 交差軸（縦）。<br>
+          <span class="ic">flex-direction: column</span> にすると、この2つが入れ替わる。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>gap は神</b>
+          昔は margin で1つずつ調整していた。今は親に <span class="ic">gap</span> を書くだけ。
+          <b>最後の要素に余分な余白が付かない</b>のも嬉しい点。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="flex: 1 の意味">
+  <div class="body">
+    <div class="kicker"><b>レイアウト ②</b></div>
+    <h2 class="t blue">flex: 1 ── 余った幅を分け合う</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.cards { display: flex; gap: 18px; }
+
+/* 3枚が同じ幅で伸びる */
+.card { flex: 1; }
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>flex: 1</span></div>
+          <div class="paneview" style="padding:10px; display:flex; gap:8px">
+            <div style="background:#cfe0f2; padding:14px 6px; font-size:12px; text-align:center; flex:1">1</div>
+            <div style="background:#cfe0f2; padding:14px 6px; font-size:12px; text-align:center; flex:1">2</div>
+            <div style="background:#cfe0f2; padding:14px 6px; font-size:12px; text-align:center; flex:1">3</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+/* 写真は縮ませない、文だけ伸ばす */
+.hero-photo { flex: none; width: 210px; }
+.hero-text  { flex: 1; }
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>flex: none と flex: 1</span></div>
+          <div class="paneview" style="padding:10px; display:flex; gap:8px; align-items:center">
+            <div style="background:#f6d5cd; width:56px; height:56px; border-radius:50%; flex:none"></div>
+            <div style="background:#dff0e2; padding:14px 6px; font-size:12px; text-align:center; flex:1">こちらが伸びる</div>
+          </div>
+        </div>
+        <div class="fusen mt2 push" style="max-width:none">
+          <b>2つだけ覚える</b>
+          <span class="ic">flex: 1</span> ＝ 余りをもらって伸びる<br>
+          <span class="ic">flex: none</span> ＝ <span class="mk">絶対に縮まない</span>（画像やボタンに）
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="Grid">
+  <div class="body">
+    <div class="kicker"><b>レイアウト ③</b></div>
+    <h2 class="t blue">Grid ── 格子に敷き詰める</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+        </script>
+        <p class="sm mt"><span class="ic">1fr</span> ＝ 余った幅の1つぶん。
+          <span class="ic">repeat(3, 1fr)</span> は「1fr を3回」＝<b>3等分</b>。</p>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>3列のGrid</span></div>
+          <div class="paneview" style="padding:10px; display:grid; grid-template-columns:repeat(3,1fr); gap:6px">
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">A</div>
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">B</div>
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">C</div>
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">D</div>
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">E</div>
+            <div style="background:#dff0e2; padding:12px 4px; font-size:11px; text-align:center">F</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:110px">書き方</th><th>意味</th></tr>
+          <tr><td>1fr 1fr</td><td>2等分</td></tr>
+          <tr><td>2fr 1fr</td><td>左が2倍の幅</td></tr>
+          <tr><td>200px 1fr</td><td>左は固定、右は残り全部</td></tr>
+          <tr><td>repeat(4, 1fr)</td><td>4等分</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>Flex と Grid の使い分け</b>
+          <span class="mk">1列に並べる → Flex</span>／格子に並べる → Grid。
+          迷ったら Flex から。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>中央寄せの定番</b>
+          <span class="ic">display: grid; place-items: center;</span> だけで<b>タテヨコ完全に中央</b>。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="幅を決める">
+  <div class="body">
+    <div class="kicker"><b>読みやすさの秘密</b></div>
+    <h2 class="t">中身の幅を決めて、中央に置く</h2>
+    <div class="g32">
+      <div>
+        <p class="lead" style="font-size:19px">大きい画面で文章が<b>横に伸びきる</b>と、途端に読みにくくなる。
+          プロのサイトはほぼ全部これをやっている。</p>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.wrap {
+  max-width: 940px;   /* これ以上は広げない */
+  margin: 0 auto;     /* 左右の余白を自動＝中央 */
+  padding: 0 26px;    /* 画面の端にくっつかせない */
+}
+        </script>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>width ではなく max-width</b>
+          <span class="ic">width: 940px</span> だと、スマホでも 940px のまま<span class="mk">はみ出す</span>。
+          <span class="ic">max-width</span> なら「940px までは広がるが、狭い画面ではそれに合わせる」。
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <p class="sm center"><b>max-width なし</b></p>
+          <div style="background:#fff; border:1px solid #ddd; padding:8px; font-size:10px; line-height:1.6; margin-top:6px">
+            この人と仲良くするための説明書。取り扱いには十分ご注意ください。お腹がすくと無言になる。そういうときは何か食べさせて。だいたい直る。
+          </div>
+        </div>
+        <div class="card mt">
+          <p class="sm center"><b>max-width あり</b></p>
+          <div style="display:grid; place-items:center; margin-top:6px">
+            <div style="background:#fff; border:1px solid #ddd; padding:8px; font-size:10px; line-height:1.6; max-width:240px">
+              この人と仲良くするための説明書。取り扱いには十分ご注意ください。お腹がすくと無言になる。
+            </div>
+          </div>
+        </div>
+        <p class="xs mt center">1行が長すぎると、目が次の行を見失う。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="position">
+  <div class="body">
+    <div class="kicker"><b>レイアウト ④</b></div>
+    <h2 class="t">position ── 流れから外す</h2>
+    <table class="tbl">
+      <tr><th style="width:130px">値</th><th style="width:260px">動き</th><th>使いどころ</th></tr>
+      <tr><td><b>static</b></td><td>ふつう（初期値）</td><td>いつもの状態</td></tr>
+      <tr><td><b>relative</b></td><td>元の位置を基準に少しずらす</td><td>微調整／absolute の基準にする</td></tr>
+      <tr><td><b>absolute</b></td><td><span class="mk">流れから完全に外れ</span>、親を基準に配置</td><td>バッジ、右上の×ボタン、重ねる装飾</td></tr>
+      <tr><td><b>fixed</b></td><td>画面に貼りつく（スクロールしても動かない）</td><td>「上に戻る」ボタン、チャット窓</td></tr>
+      <tr><td><b>sticky</b></td><td>スクロールして端まで来たら<b>そこで止まる</b></td><td><span class="pen">上に残るナビ</span>。今日これを使う</td></tr>
+    </table>
+    <div class="g2 mt2 push">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.bar {
+  position: sticky;
+  top: 0;        /* 上に来たら止まる */
+  z-index: 10;   /* 手前に出す */
+}
+        </script>
+      </div>
+      <div class="fusen" data-c="pink">
+        <b>z-index が効かない？</b>
+        <span class="ic">z-index</span> は <span class="mk">position が static 以外のときだけ</span>効く。
+        「重なり順が変えられない」ときは、まず position が付いているか確認。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="CSS変数">
+  <div class="body">
+    <div class="kicker"><b>色を1か所にまとめる</b></div>
+    <h2 class="t blue">CSS変数 ── 使い回せる値</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+:root {
+  --main:   #2f6d68;
+  --accent: #e2794f;
+  --bg:     #f6f3ec;
+  --radius: 12px;
+}
+
+.btn  { background: var(--main); }
+.card { border-radius: var(--radius); }
+.ttl  { border-left: 5px solid var(--accent); }
+        </script>
+        <ul class="dot mt" style="font-size:17px">
+          <li>名前は必ず <span class="ic">--</span> で始める</li>
+          <li>使うときは <span class="ic">var(--名前)</span></li>
+          <li><span class="ic">:root</span> ＝ ページ全体。ここに書けばどこでも使える</li>
+        </ul>
+      </div>
+      <div>
+        <div class="fusen" data-c="green">
+          <b>何が嬉しいのか</b>
+          「やっぱりアクセント色を変えたい」となったとき、<span class="mk">1か所直せば全部変わる</span>。
+          変数を使わないと、30か所を手作業で探すことになる。
+        </div>
+        <div class="fusen mt2 push" data-c="blue">
+          <b>ダークモードもこれで作れる</b>
+          <span class="ic">body.dark</span> のときだけ変数を上書きすれば、
+          <b>他のCSSを1行も触らずに</b>配色が入れ替わる。DAY 5 の実習でやる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="hover と transition">
+  <div class="body">
+    <div class="kicker"><b>動き ①</b></div>
+    <h2 class="t">マウスを乗せたら反応する</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+.card {
+  /* 変化にかける時間を先に書いておく */
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+/* マウスが乗っているあいだの見た目 */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(60,50,30,0.13);
+}
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:170px">transform の値</th><th>動き</th></tr>
+          <tr><td>translateY(-5px)</td><td>上に5px動かす</td></tr>
+          <tr><td>scale(1.05)</td><td>1.05倍に拡大</td></tr>
+          <tr><td>rotate(3deg)</td><td>3度かたむける</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>transition は「元の状態」に書く</b>
+          <span class="ic">:hover</span> のほうに書くと、<span class="mk">戻るときだけ一瞬</span>になる。
+          普段の状態に書くのが正解。
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>0.15〜0.25秒がちょうどいい</b>
+          速すぎると気づかない、遅いとイライラする。<br>
+          迷ったら <span class="ic">0.2s</span>。
+        </div>
+        <div class="fusen mt2 push" data-c="pink">
+          <b>やりすぎ注意</b>
+          全部の要素が動くページは<span class="mk">目が疲れる</span>。
+          最初はだいたい付けすぎる。あとで半分に減らすくらいでちょうどいい。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="keyframes">
+  <div class="body">
+    <div class="kicker"><b>動き ②</b></div>
+    <h2 class="t">勝手に動かす ── keyframes</h2>
+    <div class="g2">
+      <div>
+        <p class="sm">hover と違って、<b>何もしなくても動き続ける</b>アニメーション。
+          「振動」「点滅」「ふわふわ」などに使う。</p>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+/* ① 動きに名前をつけて定義する */
+@keyframes bob {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* ② 使う */
+.piece {
+  animation: bob 1.4s ease-in-out infinite;
+}
+        </script>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:130px">指定</th><th>意味</th></tr>
+          <tr><td>bob</td><td>@keyframes で付けた名前</td></tr>
+          <tr><td>1.4s</td><td>1周にかかる時間</td></tr>
+          <tr><td>ease-in-out</td><td>速度の変化のしかた</td></tr>
+          <tr><td>infinite</td><td>ずっと繰り返す</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>0% と 100% を同じにすると</b>
+          ループしても<span class="mk">つなぎ目が見えない</span>。ゆらゆらさせたいときの定番。
+        </div>
+        <div class="fusen mt2 push" style="max-width:none">
+          <b>最終課題で使う</b>
+          手札のカードがマウスでふわっと浮くのも、これ。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="レスポンシブ">
+  <div class="body">
+    <div class="kicker"><b>スマホ対応</b></div>
+    <h2 class="t">画面の広さで書き分ける</h2>
+    <div class="g32">
+      <div>
+        <h3 class="st b">① まず head におまじない</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+        </script>
+        <p class="xs mt">これが無いと、スマホがPC画面を<b>丸ごと縮小</b>して表示する（文字が読めない）。</p>
+        <h3 class="st mt2">② 狭いときだけのCSSを書く</h3>
+        <script type="text/plain" class="code" data-lang="css" data-size="sm">
+/* 画面が 700px 以下のときだけ効く */
+@media (max-width: 700px) {
+  .cards { flex-direction: column; }
+  .hero  { flex-direction: column; text-align: center; }
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+        </script>
+      </div>
+      <div>
+        <div class="win" style="max-width:250px; margin:0 auto">
+          <div class="bar"><i></i><i></i><i></i><span>スマホ幅</span></div>
+          <img src="../assets/shots/day4-mobile.png" alt="スマホ表示" style="height:376px; object-fit:cover; object-position:top center">
+        </div>
+        <p class="xs mt center">同じCSSファイル。横並びが自動で縦並びに。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="レスポンシブのコツ">
+  <div class="body">
+    <div class="kicker"><b>考え方</b></div>
+    <h2 class="t">やることは、ほぼ3つだけ</h2>
+    <div class="g3">
+      <div class="card v">
+        <h4 style="color:var(--red)">① 横並びを縦にする</h4>
+        <script type="text/plain" class="code" data-lang="css" data-size="xs">
+flex-direction: column;
+        </script>
+        <p class="sm mt">狭い画面に3枚は入らない。素直に縦に積む。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">② 列を減らす</h4>
+        <script type="text/plain" class="code" data-lang="css" data-size="xs">
+grid-template-columns:
+  repeat(2, 1fr);
+        </script>
+        <p class="sm mt">Grid は3列→2列へ。1列まで減らす必要はないことが多い。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">③ 文字と余白を小さく</h4>
+        <script type="text/plain" class="code" data-lang="css" data-size="xs">
+font-size: 30px;
+padding: 40px 20px;
+        </script>
+        <p class="sm mt">PCで 42px の見出しは、スマホでは大きすぎる。</p>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="blue" style="flex:1">
+        <b>確認のしかた</b>
+        <span class="pen">F12</span> → 左上の<b>スマホのアイコン</b>をクリック。
+        画面サイズを自由に変えて確認できる。実機がなくてもOK。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>ブラウザの窓をつまんで動かすだけでもいい</b>
+        窓の右端をドラッグして細くしていくと、
+        <span class="mk">どこで崩れるかが一目で分かる</span>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 手を動かす">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">実習：レイアウトを組む</div>
+    <div class="cover-rule"></div>
+    <p class="lead">見本は <span class="ic">practice/day4</span>。<br>まずは Flexbox だけで、カード3枚を横に並べてみよう。</p>
+  </div>
+  <div class="chara rian" style="right:170px; bottom:62px; width:92px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="実習の手順">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">小さく1つずつ</h2>
+    <div class="g2">
+      <div>
+        <ol class="step">
+          <li><span class="ic">day4</span> フォルダを作り、DAY 3 のファイルをコピー</li>
+          <li>head に <span class="ic">viewport</span> の meta を追加</li>
+          <li>CSSの先頭に <span class="ic">:root</span> で色の変数を書く</li>
+          <li><span class="ic">.wrap</span> を作って <span class="ic">max-width</span> と <span class="ic">margin: 0 auto</span></li>
+          <li>カード3枚を <span class="ic">display: flex</span> で横並びに</li>
+          <li><span class="ic">:hover</span> でふわっと浮かせる</li>
+          <li>最後に <span class="ic">@media</span> でスマホ対応</li>
+        </ol>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink">
+          <b>順番が大事</b>
+          <span class="mk">レイアウト → 装飾 → 動き</span> の順。
+          先にアニメーションを付けると、レイアウトを直すたびに壊れる。
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>崩れたら F12</b>
+          要素を右クリック →「検証」。<b>Flexコンテナには小さなバッジ</b>が出るので、
+          クリックすると<span class="mk">並び方が図で見える</span>。
+        </div>
+        <div class="fusen mt2 push" data-c="blue">
+          <b>完璧を目指さない</b>
+          1px ずれていても誰も気づかない。<span class="mk">「だいたい整っている」で先に進む</span>のがコツ。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="今日のプロパティ">
+  <div class="body">
+    <div class="kicker"><b>持ち帰り用</b></div>
+    <h2 class="t">DAY 4 のプロパティ</h2>
+    <div class="g3 top">
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">Flexbox</th></tr>
+        <tr><td style="width:150px">display: flex</td><td>横に並べる</td></tr>
+        <tr><td>flex-direction</td><td>row / column</td></tr>
+        <tr><td>gap</td><td>間の余白</td></tr>
+        <tr><td>justify-content</td><td>横方向の配置</td></tr>
+        <tr><td>align-items</td><td>縦方向の配置</td></tr>
+        <tr><td>flex-wrap</td><td>入りきらないとき折り返す</td></tr>
+        <tr><td>flex: 1</td><td>余りをもらって伸びる</td></tr>
+        <tr><td>flex: none</td><td>縮まない</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(79,138,91,.12)">Grid・幅</th></tr>
+        <tr><td style="width:150px">display: grid</td><td>格子に並べる</td></tr>
+        <tr><td>grid-template-columns</td><td>列の分け方</td></tr>
+        <tr><td>place-items: center</td><td>タテヨコ中央</td></tr>
+        <tr><td>max-width</td><td>これ以上広げない</td></tr>
+        <tr><td>margin: 0 auto</td><td>中央寄せ</td></tr>
+        <tr><th colspan="2" style="background:rgba(207,68,54,.12)">position</th></tr>
+        <tr><td>relative</td><td>基準にする</td></tr>
+        <tr><td>absolute</td><td>流れから外す</td></tr>
+        <tr><td>sticky</td><td>端で止まる</td></tr>
+        <tr><td>z-index</td><td>重なり順</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th colspan="2" style="background:rgba(232,138,114,.14)">動き・変数</th></tr>
+        <tr><td style="width:130px">transition</td><td>変化にかける時間</td></tr>
+        <tr><td>transform</td><td>動かす・回す・拡大</td></tr>
+        <tr><td>:hover</td><td>マウスが乗ったとき</td></tr>
+        <tr><td>@keyframes</td><td>アニメーション定義</td></tr>
+        <tr><td>animation</td><td>アニメーション適用</td></tr>
+        <tr><td>--名前 / var()</td><td>CSS変数</td></tr>
+        <tr><th colspan="2" style="background:rgba(42,108,168,.12)">レスポンシブ</th></tr>
+        <tr><td>@media</td><td>画面幅で書き分け</td></tr>
+        <tr><td>meta viewport</td><td>スマホ用のおまじない</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 4 おわり</b></div>
+    <h2 class="t">チェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>display: flex を<b>親</b>に書く、と説明できる</li>
+      <li>カードを3枚、横に等分で並べられる</li>
+      <li>max-width と margin: 0 auto で中央に置ける</li>
+      <li>hover でふわっと動かせる</li>
+      <li>@media でスマホのとき縦並びにできる</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px">
+      <div class="fusen" data-c="pink" style="flex:1.3">
+        <b>次回 DAY 5 ／ ついに JavaScript</b>
+        HTML・CSS は「置く」だけだった。次からは
+        <span class="mk">押したら変わる</span>ページを作る。ここからが本当のプログラミング。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（15分）</b>
+        <span class="ic">playground/css-lab.html</span> で Flexbox のボタンを全部押してみる。<br>
+        <span class="ic">exercises.html</span> の<b>問9〜11</b>も解く。
+      </div>
+    </div>
+  </div>
+  <div class="chara nana" style="right:28px; bottom:8px; width:106px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

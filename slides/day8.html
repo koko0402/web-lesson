@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 8 ｜ 直す・公開する・これから</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">08</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;8 &nbsp;/ &nbsp;S H I P</div>
+    <h1 class="t">直して、<br>世に出す</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">エラーの読み方、F12の使い方、そして<br>
+      作ったものを<span class="mk">URLで人に渡す</span>方法。</p>
+    <p class="xs mt2">第8回（最終回）／ デバッグ・公開・これからの進み方</p>
+  </div>
+  <div class="chara usa" style="right:120px; bottom:50px; width:104px"><img src="../assets/char/usagi.webp" alt=""></div>
+  <div class="fuki l" style="right:40px; bottom:206px; max-width:232px">
+    公開って、<br>お金かかるやつでは……？
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="F12 の使い方">
+  <div class="body">
+    <div class="kicker"><b>道具</b></div>
+    <h2 class="t blue">F12 ── 開発者ツール</h2>
+    <p class="lead" style="font-size:17px; margin-bottom:6px">どのブラウザでも <span class="pen">F12</span>（または右クリック →「検証」）。使うのは実質<b>3つのタブ</b>だけ。</p>
+    <div class="g3 mt">
+      <div class="card v">
+        <h4 style="color:var(--red)">Elements</h4>
+        <p class="sm">今のHTMLと、当たっているCSSが見える。</p>
+        <ul class="dot r" style="font-size:16px">
+          <li>右クリック →「検証」でその場所へジャンプ</li>
+          <li>右側でCSSを<b>その場で書き換えて試せる</b></li>
+          <li>取り消し線＝<b>負けている指定</b></li>
+        </ul>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">Console</h4>
+        <p class="sm"><span class="ic">console.log</span> の出力と、<b>エラー</b>が出る。</p>
+        <ul class="dot" style="font-size:16px">
+          <li>赤い文字＝エラー</li>
+          <li>右端の <b>script.js:42</b> をクリックすると該当行へ</li>
+          <li>ここに直接JSを打って試せる</li>
+        </ul>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">Application</h4>
+        <p class="sm">localStorage に保存された中身が見える。</p>
+        <ul class="dot" style="font-size:16px">
+          <li>Local Storage → ファイル名</li>
+          <li>保存できているか一発で確認</li>
+          <li>右クリックで削除して初期化テスト</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px; align-items:flex-start">
+      <div class="win" style="flex:none; width:360px">
+        <div class="bar"><i></i><i></i><i></i><span>F12 → Elements</span></div>
+        <img src="../assets/shots/dt-elements.png" alt="ElementsタブにHTMLとCSSが出ているところ"
+             style="display:block; width:100%; height:132px; object-fit:cover; object-position:top center">
+      </div>
+      <div class="fusen" data-c="pink" style="flex:1; max-width:none">
+        <b>スマホ表示の確認もここ</b>
+        左上の<b>スマホのアイコン</b>を押すと、画面サイズを自由に変えて確認できる。
+        <span class="mk">実機がなくてもレスポンシブの確認ができる。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="エラーの読み方">
+  <div class="body">
+    <div class="kicker"><b>デバッグ ①</b></div>
+    <h2 class="t">赤い文字は、味方</h2>
+    <div class="g32">
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>Console</span></div>
+          <img src="../assets/shots/dt-error.png" alt="Consoleに出た TypeError の実例"
+               style="display:block; width:100%; height:auto">
+        </div>
+        <div class="g3 mt" style="gap:8px; text-align:center">
+          <div><div class="hand" style="font-size:14px">種類</div><div class="ic">TypeError</div></div>
+          <div><div class="hand" style="font-size:14px">内容</div><div class="ic">null に書こうとした</div></div>
+          <div><div class="hand" style="font-size:14px">場所</div><div class="ic">script.js の41行目</div></div>
+        </div>
+        <p class="sm mt">この3つが必ず書いてある。<span class="mk">読めば8割方、原因は分かる。</span></p>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue" style="max-width:none">
+          <b>英語が分からなくても大丈夫</b>
+          <span class="mk">エラー文をそのままコピーして、AIか検索窓に貼る</span>。
+          これは「ズル」ではなく、プロが毎日やっていること。
+        </div>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>いちばん最初のエラーを見る</b>
+          エラーが10個出ていても、たいてい<b>1個目が原因</b>で、残りはその巻き添え。
+          上から順に潰して。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>エラーが出ない＝正しい、ではない</b>
+          思った通りに動かないのにエラーが無いときは、
+          <span class="ic">console.log</span> で<span class="mk">どこまで来ているか</span>を確認する。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="エラー辞典">
+  <div class="body">
+    <div class="kicker"><b>デバッグ ②</b></div>
+    <h2 class="t">よく出るエラー 10選</h2>
+    <table class="tbl sm">
+      <tr><th style="width:310px">メッセージ</th><th style="width:230px">意味</th><th>だいたいの原因</th></tr>
+      <tr><td>Cannot read properties of null</td><td>存在しないものを触った</td><td>id のスペルミス／script が head にある</td></tr>
+      <tr><td>〇〇 is not defined</td><td>そんな名前は無い</td><td>変数名のタイプミス（大文字小文字も別）</td></tr>
+      <tr><td>〇〇 is not a function</td><td>関数じゃないものを呼んだ</td><td>メソッド名のつづり違い</td></tr>
+      <tr><td>Unexpected token</td><td>文法がおかしい</td><td>かっこ・クォートの閉じ忘れ</td></tr>
+      <tr><td>Unexpected end of input</td><td>途中で終わっている</td><td><span class="ic">}</span> の閉じ忘れ</td></tr>
+      <tr><td>Assignment to constant variable</td><td>const を書き換えた</td><td><span class="ic">let</span> にする</td></tr>
+      <tr><td>Failed to load resource 404</td><td>ファイルが見つからない</td><td>パスかファイル名のミス</td></tr>
+      <tr><td>Maximum call stack size exceeded</td><td>無限に呼び合っている</td><td>関数が自分を呼び続けている</td></tr>
+      <tr><td>（画面が真っ白）</td><td>—</td><td>HTMLのタグ閉じ忘れ／JSが最初の行で落ちた</td></tr>
+      <tr><td>（何も起きない）</td><td>—</td><td>script が読み込まれていない</td></tr>
+    </table>
+    <p class="xs mt push"><span class="ic">reference/errors.html</span> に、もっと詳しい一覧と直し方がある。</p>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="直し方の手順">
+  <div class="body">
+    <div class="kicker"><b>デバッグ ③</b></div>
+    <h2 class="t">壊れたときの、決まった手順</h2>
+    <div class="g32">
+      <div>
+        <ol class="step">
+          <li><b>直前に何をした？</b> いちばん最後に書き足した部分が犯人。まず消して確かめる</li>
+          <li><b>F12 を開く</b> 赤い文字があるか。あれば1個目を読む</li>
+          <li><b>console.log を挟む</b> 処理がそこまで来ているか／中身は何か</li>
+          <li><b>半分に切る</b> 怪しい範囲をコメントアウトして、動く／動かないを二分探索する</li>
+          <li><b>それでも分からない</b> エラー文＋該当コードをAIに貼る<br>
+            <span class="xs"><span class="ic">playground/ask-ai.html</span> が、貼る文を作ってくれる</span></li>
+        </ol>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink">
+          <b>やってはいけないこと</b>
+          原因が分からないまま<span class="mk">あちこち書き換える</span>。
+          <b>直った理由が分からないと、次また同じ所で詰まる。</b>
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>こまめに保存しておく</b>
+          動いた状態のファイルをコピーして残しておくと、
+          「壊れたら戻す」ができる。<br>
+          <span class="ic">index_ok.html</span> みたいな雑な名前で十分。
+        </div>
+        <div class="fusen mt2 push" data-c="blue">
+          <b>寝る</b>
+          本当。30分粘るより、翌朝見たほうが早く見つかる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 公開する">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">人に渡せる形にする</div>
+    <div class="cover-rule"></div>
+    <p class="lead">今はまだ、自分のPCの中にしかない。<br>URLで渡せるようにする。</p>
+  </div>
+  <div class="chara rian" style="right:168px; bottom:60px; width:96px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="公開するとは">
+  <div class="body">
+    <div class="kicker"><b>公開 ①</b></div>
+    <h2 class="t">file:/// と https:// のちがい</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">今の状態</h4>
+        <p class="sm" style="font-family:var(--f-code); font-size:13px; background:#fffdf6; padding:8px; border-radius:4px">file:///C:/Users/…/index.html</p>
+        <p class="sm mt">自分のPCのファイルを直接開いているだけ。</p>
+        <ul class="dot r" style="font-size:16px">
+          <li>他の人には見られない</li>
+          <li>URLを送っても開けない</li>
+          <li>スマホで見られない</li>
+        </ul>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">公開した状態</h4>
+        <p class="sm" style="font-family:var(--f-code); font-size:13px; background:#fffdf6; padding:8px; border-radius:4px">https://ユーザー名.github.io/web/</p>
+        <p class="sm mt">世界中のどこからでも開けるURL。</p>
+        <ul class="check" style="font-size:16px">
+          <li>友達にURLを送るだけ</li>
+          <li>スマホでも開ける</li>
+          <li>無料</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>やることは「ファイルをどこかに置く」だけ</b>
+      HTML・CSS・JS は<span class="mk">ブラウザさえあれば動く</span>ので、
+      サーバー側で何か動かす必要がない。だから公開がとても簡単。
+      （Python などで裏側を作った場合は、もう少し話が複雑になる）
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="GitHub Pages">
+  <div class="body">
+    <div class="kicker"><b>公開 ②</b></div>
+    <h2 class="t blue">GitHub Pages で公開する</h2>
+    <div class="g32">
+      <div>
+        <ol class="step">
+          <li><span class="ic">github.com</span> で<b>アカウントを作る</b>（無料）</li>
+          <li>右上の <b>＋ → New repository</b><br>
+            <span class="xs">名前は半角英数字。<b>Public</b> を選ぶ</span></li>
+          <li><b>uploading an existing file</b> をクリック</li>
+          <li>作ったフォルダの中身を<b>まるごとドラッグ＆ドロップ</b><br>
+            <span class="xs">index.html が一番上の階層に来るように</span></li>
+          <li><b>Commit changes</b> を押す</li>
+          <li><b>Settings → Pages</b> を開く</li>
+          <li>Branch を <span class="ic">main</span> にして <b>Save</b></li>
+          <li>1〜2分待つとURLが表示される</li>
+        </ol>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink" style="max-width:none">
+          <b>Public にする＝誰でも見られる</b>
+          コードもページも全世界に公開される。<br>
+          <span class="mk">個人情報・本名・住所・パスワードを書いていないか</span>、
+          公開前に必ず確認して。
+        </div>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>画像の権利にも注意</b>
+          ネットで拾った画像やイラストは、<b>そのまま公開すると権利侵害</b>になり得る。
+          身内で遊ぶだけならまだしも、<span class="mk">公開するなら自作かフリー素材に差し替える</span>こと。
+        </div>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>うまくいかないとき</b>
+          ・404 → <span class="ic">index.html</span> が一番上にあるか<br>
+          ・画像が出ない → 大文字小文字の違い（公開先は区別が厳しい）
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="Firebase の話">
+  <div class="body">
+    <div class="kicker"><b>公開 ③</b></div>
+    <h2 class="t">「みんなで共有」したくなったら</h2>
+    <div class="g32">
+      <div>
+        <p class="lead" style="font-size:19px">localStorage は<span class="mk">そのブラウザの中だけ</span>。
+          他の人と同じデータを見るには、<b>外に置き場所</b>が要る。</p>
+        <table class="tbl sm mt">
+          <tr><th style="width:190px">やりたいこと</th><th>必要なもの</th></tr>
+          <tr><td>自分の記録を残す</td><td>localStorage（DAY 6）</td></tr>
+          <tr><td>みんなのスコアを集める</td><td><b>Firebase</b> など</td></tr>
+          <tr><td>ログイン機能</td><td>Firebase Authentication</td></tr>
+          <tr><td>画像のアップロード</td><td>Firebase Storage</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>Firebase とは</b>
+          Google の提供する「<span class="mk">サーバーを自分で用意しなくていい</span>」仕組み。
+          JavaScript から数行呼ぶだけで、データの保存・読み出し・ログインができる。
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink" style="max-width:none">
+          <b>ただし、順番を守る</b>
+          <span class="mk">サイトが完全に動くようになってから</span>手をつけること。
+          動いていない状態でFirebaseを足すと、
+          「どっちが原因で動かないのか」が分からなくなる。
+        </div>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>ここまで来たらもう自走できる</b>
+          Firebase は公式のドキュメントとサンプルが充実している。
+          DAY 7 の型（イメージ → 機能 → 必要なもの → 流れ → 実装）で進めれば、
+          <b>同じやり方で身につく。</b>
+        </div>
+        <div class="fusen mt2 push" style="max-width:none">
+          <b>この講座では扱わない</b>
+          「そういうものがある」と知っていれば十分。
+          必要になった時に調べれば大丈夫。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="これからの進み方">
+  <div class="body">
+    <div class="kicker"><b>最後の話</b></div>
+    <h2 class="t">ここから先、どう伸ばすか</h2>
+    <div class="g3">
+      <div class="card v">
+        <h4 style="color:var(--red)">① とにかく作る</h4>
+        <p class="sm">教材を1周するより、<b>しょうもないものを3つ作る</b>ほうが確実に伸びる。</p>
+        <ul class="dot r" style="font-size:16px">
+          <li>おみくじ</li>
+          <li>割り勘計算ツール</li>
+          <li>今日の献立ルーレット</li>
+          <li>友達の誕生日カード</li>
+        </ul>
+        <p class="xs mt"><span class="mk">全部、今日までの知識で作れる。</span></p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">② 人のコードを読む</h4>
+        <p class="sm">好きなサイトで <b>F12</b>。「これどうやってるんだろう」を潰していく。</p>
+        <ul class="dot" style="font-size:16px">
+          <li>Elements で構造を見る</li>
+          <li>CSSをその場でいじって試す</li>
+          <li>真似して自分のページに入れる</li>
+        </ul>
+        <p class="xs mt">真似は上達の王道。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">③ 調べ方を鍛える</h4>
+        <p class="sm">全部おぼえる必要はない。<b>たどり着ければいい</b>。</p>
+        <ul class="dot" style="font-size:16px">
+          <li><b>MDN</b>（公式の辞書）</li>
+          <li>「CSS 中央揃え」など日本語で検索</li>
+          <li>AIに「なぜこうなる？」と聞く</li>
+        </ul>
+        <p class="xs mt">プロも毎日調べている。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>AIとの付き合い方（結論）</b>
+      大まかなコードを書かせるのも、面倒な部分を任せるのも、<span class="mk">プロが普通にやっていること</span>。
+      問題は丸投げすること。<b>出てきたものを読んで、良いところを吸収する</b>——これができる人だけが伸びる。
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="全体のふりかえり">
+  <div class="body">
+    <div class="kicker"><b>ふりかえり</b></div>
+    <h2 class="t">9回で手に入れたもの</h2>
+    <div class="g2 top" style="gap:22px">
+      <table class="tbl sm">
+        <tr><th style="width:76px">回</th><th>できるようになったこと</th></tr>
+        <tr><td>DAY 0</td><td>ファイルを作ってブラウザで開ける</td></tr>
+        <tr><td>DAY 1</td><td>HTMLで文章のページが書ける</td></tr>
+        <tr><td>DAY 2</td><td>複数ページ・表・フォームが作れる</td></tr>
+        <tr><td>DAY 3</td><td>CSSで色・文字・余白を整えられる</td></tr>
+        <tr><td>DAY 4</td><td>並べる・動かす・スマホ対応</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th style="width:76px">回</th><th>できるようになったこと</th></tr>
+        <tr><td>DAY 5</td><td>ボタンで画面を変えられる</td></tr>
+        <tr><td>DAY 6</td><td>データを持って画面を組み立てられる</td></tr>
+        <tr><td>DAY 7</td><td><span class="pen">ゼロから設計して作れる</span></td></tr>
+        <tr><td>DAY 8</td><td>直せる・公開できる</td></tr>
+      </table>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="green" style="flex:1">
+        <b>手元に残ったもの</b>
+        自己紹介サイト（3ページ）／レイアウト版／JS版／
+        データ版／<span class="mk">オリジナルのパーティゲーム</span>
+      </div>
+      <div class="fusen" data-c="pink" style="flex:1">
+        <b>いちばん大きい変化</b>
+        「Webサイトってどうやって作るんだろう」が
+        <span class="mk">「作ればいいだけ」に変わったこと。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-kind="cover" data-title="おわり">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="cover-day">T H A N K &nbsp;Y O U</div>
+    <h1 class="t">あとは、<br>作るだけ。</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">わからなくなったら <span class="ic">reference/</span> の資料へ。<br>
+      それでも詰まったら、聞いて。</p>
+    <p class="xs mt2">全9回 ／ おつかれさまだった</p>
+  </div>
+  <div class="chara nana" style="right:250px; bottom:44px; width:140px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+  <div class="chara usa" style="right:142px; bottom:40px; width:92px"><img src="../assets/char/usagi.webp" alt=""></div>
+  <div class="chara rian" style="right:44px; bottom:38px; width:84px"><img src="../assets/char/rian.webp" alt=""></div>
+  <div class="fuki d" style="right:126px; bottom:196px; max-width:268px">
+    おつかれ。<br>あとは勝手に作れるようになるから、<br><b>たまに見せて。</b>
+  </div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSSプロパティ一覧｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>CSSプロパティ一覧</h1>
+  <p class="lead">よく使うものだけを厳選した。CSSは数百種類あるが、実際に使うのは<b>この程度</b>。</p>
+
+  <div class="search">
+    <input type="text" placeholder="プロパティ名や効果で検索（例：余白、色、中央、影）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#sel">セレクタ</a><a href="#color">色</a><a href="#text">文字</a>
+    <a href="#box">余白・大きさ</a><a href="#deco">枠線・影</a><a href="#flex">Flexbox</a>
+    <a href="#grid">Grid</a><a href="#pos">position</a><a href="#anim">動き</a>
+    <a href="#other">その他</a><a href="#unit">単位</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="sel">セレクタ（どこを指定するか）</h2>
+    <table>
+      <tr><th style="width:230px">書き方</th><th>意味</th></tr>
+      <tr><td><code>p</code></td><td>すべての &lt;p&gt; タグ</td></tr>
+      <tr><td><code>.box</code></td><td><code>class="box"</code> が付いた要素（<b>いちばんよく使う</b>）</td></tr>
+      <tr><td><code>#head</code></td><td><code>id="head"</code> の要素</td></tr>
+      <tr><td><code>.box p</code></td><td>box の<b>中にある</b> p（スペース＝子孫）</td></tr>
+      <tr><td><code>.box &gt; p</code></td><td>box の<b>直接の子</b>の p</td></tr>
+      <tr><td><code>h1, h2</code></td><td>h1 <b>と</b> h2（カンマ＝両方）</td></tr>
+      <tr><td><code>.card.big</code></td><td>class に card <b>も</b> big <b>も</b>付いている要素</td></tr>
+      <tr><td><code>a:hover</code></td><td>マウスが乗っているとき</td></tr>
+      <tr><td><code>button:active</code></td><td>押している瞬間</td></tr>
+      <tr><td><code>input:focus</code></td><td>入力中（カーソルが入っている）</td></tr>
+      <tr><td><code>li:first-child</code></td><td>最初の子要素</td></tr>
+      <tr><td><code>li:last-child</code></td><td>最後の子要素</td></tr>
+      <tr><td><code>li:nth-child(2)</code></td><td>2番目の子要素</td></tr>
+      <tr><td><code>tr:nth-child(even)</code></td><td>偶数番目（表の縞模様に）</td></tr>
+      <tr><td><code>.box::before</code></td><td>中身の<b>前</b>に飾りを足す（<code>content</code> が必要）</td></tr>
+      <tr><td><code>*</code></td><td>すべての要素</td></tr>
+      <tr><td><code>:root</code></td><td>ページ全体。CSS変数を書く場所</td></tr>
+    </table>
+    <div class="fusen" data-c="pink">
+      <b>優先順位（同じ場所に複数当たったとき）</b>
+      タグ名 &lt; class &lt; id &lt; style属性。<span class="mk">より細かく指定したほうが勝ち</span>。
+      どうしても勝たせたいときは <code>!important</code> を付けるが、最終手段。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="color">色</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>color</code></td><td><code>#33333d</code> / <code>crimson</code></td><td><b>文字</b>の色</td></tr>
+      <tr><td><code>background-color</code></td><td><code>#f4f1e8</code></td><td><b>背景</b>の色</td></tr>
+      <tr><td><code>background</code></td><td><code>#fff url(bg.png)</code></td><td>背景まとめて指定</td></tr>
+      <tr><td><code>background-image</code></td><td><code>url("bg.jpg")</code></td><td>背景画像</td></tr>
+      <tr><td><code>background-size</code></td><td><code>cover</code> / <code>contain</code></td><td>背景画像の伸ばし方</td></tr>
+      <tr><td><code>opacity</code></td><td><code>0.5</code></td><td>透明度。0で見えない、1で不透明</td></tr>
+      <tr><td>（色の書き方）</td><td><code>rgba(0,0,0,0.5)</code></td><td>赤・緑・青・透明度。半透明にしたいとき</td></tr>
+      <tr><td>（グラデーション）</td><td><code>linear-gradient(90deg, #a, #b)</code></td><td>色の帯。background に指定する</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="text">文字</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>font-family</code></td><td><code>"Yu Gothic", sans-serif</code></td><td>書体。カンマ区切りで候補を並べる</td></tr>
+      <tr><td><code>font-size</code></td><td><code>16px</code></td><td>大きさ</td></tr>
+      <tr><td><code>font-weight</code></td><td><code>bold</code> / <code>600</code></td><td>太さ</td></tr>
+      <tr><td><code>line-height</code></td><td><code>1.9</code></td><td><b>行の高さ</b>。1.7〜1.9が読みやすい</td></tr>
+      <tr><td><code>letter-spacing</code></td><td><code>0.08em</code></td><td>字と字の間隔</td></tr>
+      <tr><td><code>text-align</code></td><td><code>center</code></td><td>寄せ（left / center / right）</td></tr>
+      <tr><td><code>text-decoration</code></td><td><code>none</code></td><td>下線。リンクの下線を消すのに使う</td></tr>
+      <tr><td><code>text-decoration</code></td><td><code>line-through</code></td><td>取り消し線</td></tr>
+      <tr><td><code>font-style</code></td><td><code>italic</code></td><td>斜体</td></tr>
+      <tr><td><code>white-space</code></td><td><code>nowrap</code></td><td>折り返さない</td></tr>
+      <tr><td><code>text-shadow</code></td><td><code>0 1px 2px #0003</code></td><td>文字に影</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="box">余白・大きさ</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>margin</code></td><td><code>20px</code> / <code>12px 24px</code></td><td><b>外</b>の余白（箱どうしを離す）</td></tr>
+      <tr><td><code>margin: 0 auto</code></td><td>—</td><td><b>中央寄せ</b>の定番。width が必要</td></tr>
+      <tr><td><code>padding</code></td><td><code>20px 24px</code></td><td><b>内</b>の余白（箱の中を広げる）</td></tr>
+      <tr><td><code>width</code> / <code>height</code></td><td><code>200px</code> / <code>100%</code></td><td>幅・高さ</td></tr>
+      <tr><td><code>max-width</code></td><td><code>940px</code></td><td><b>これ以上広げない</b>。レスポンシブの要</td></tr>
+      <tr><td><code>min-height</code></td><td><code>100vh</code></td><td>最低でもこの高さ</td></tr>
+      <tr><td><code>box-sizing</code></td><td><code>border-box</code></td><td>padding や border を幅に<b>含める</b>。最初に書いておく</td></tr>
+      <tr><td><code>overflow</code></td><td><code>hidden</code> / <code>auto</code></td><td>はみ出した中身を隠す／スクロールさせる</td></tr>
+      <tr><td><code>display</code></td><td><code>block</code> / <code>inline-block</code> / <code>none</code></td><td>要素の性格を変える。<code>none</code> で消える</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>余白の書き方（時計回り）</b>
+      <code>padding: 20px</code>＝4辺／<code>padding: 12px 24px</code>＝上下・左右／
+      <code>padding: 12px 24px 30px</code>＝上・左右・下／
+      <code>padding: 12px 24px 30px 8px</code>＝上・右・下・左
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="deco">枠線・角丸・影</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>border</code></td><td><code>1px solid #ddd</code></td><td>枠線。<b>太さ 種類 色</b> の順</td></tr>
+      <tr><td><code>border-left</code></td><td><code>6px solid crimson</code></td><td>左だけ。これ1本で見た目が締まる</td></tr>
+      <tr><td><code>border-radius</code></td><td><code>8px</code> / <code>50%</code></td><td>角丸。50%で円になる</td></tr>
+      <tr><td><code>box-shadow</code></td><td><code>0 2px 8px rgba(0,0,0,.15)</code></td><td>影。<b>横 縦 ぼかし 色</b></td></tr>
+      <tr><td>（border の種類）</td><td><code>solid</code> <code>dashed</code> <code>dotted</code> <code>none</code></td><td>実線・破線・点線・なし</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="flex">Flexbox（一列に並べる）</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>display: flex</code></td><td>—</td><td><b>親</b>に書く。子が横に並ぶ</td></tr>
+      <tr><td><code>flex-direction</code></td><td><code>row</code> / <code>column</code></td><td>横並び／縦並び</td></tr>
+      <tr><td><code>gap</code></td><td><code>18px</code></td><td>子どうしの間隔</td></tr>
+      <tr><td><code>justify-content</code></td><td><code>center</code> / <code>space-between</code></td><td><b>横方向</b>の配置</td></tr>
+      <tr><td><code>align-items</code></td><td><code>center</code> / <code>stretch</code></td><td><b>縦方向</b>の配置</td></tr>
+      <tr><td><code>flex-wrap</code></td><td><code>wrap</code></td><td>入りきらないとき折り返す</td></tr>
+      <tr><td><code>flex</code>（子に書く）</td><td><code>1</code></td><td>余った幅をもらって<b>伸びる</b></td></tr>
+      <tr><td><code>flex</code>（子に書く）</td><td><code>none</code></td><td><b>縮まない</b>。画像やボタンに</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="grid">Grid（格子に並べる）</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>display: grid</code></td><td>—</td><td>親に書く</td></tr>
+      <tr><td><code>grid-template-columns</code></td><td><code>repeat(3, 1fr)</code></td><td>3等分の列を作る</td></tr>
+      <tr><td><code>grid-template-columns</code></td><td><code>200px 1fr</code></td><td>左は固定、右は残り全部</td></tr>
+      <tr><td><code>gap</code></td><td><code>12px</code></td><td>マスの間隔</td></tr>
+      <tr><td><code>place-items: center</code></td><td>—</td><td><b>タテヨコ完全に中央</b>。覚えておくと便利</td></tr>
+      <tr><td><code>grid-row</code> / <code>grid-column</code></td><td><code>2</code></td><td>子を置く場所を直接指定</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="pos">position（重ねる・固定する）</h2>
+    <table>
+      <tr><th style="width:230px">値</th><th>説明</th></tr>
+      <tr><td><code>static</code></td><td>ふつう（初期値）</td></tr>
+      <tr><td><code>relative</code></td><td>元の位置を基準にずらす。<b>absolute の基準</b>にもなる</td></tr>
+      <tr><td><code>absolute</code></td><td>流れから外れ、親（relative）を基準に配置</td></tr>
+      <tr><td><code>fixed</code></td><td>画面に貼りつく（スクロールしても動かない）</td></tr>
+      <tr><td><code>sticky</code></td><td>スクロールして端まで来たらそこで止まる。<code>top: 0</code> とセット</td></tr>
+      <tr><td><code>top</code> <code>right</code> <code>bottom</code> <code>left</code></td><td>位置。<code>inset: 0</code> で四辺まとめて</td></tr>
+      <tr><td><code>z-index</code></td><td>重なり順。数字が大きいほど手前。<b>position が必要</b></td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="anim">動き</h2>
+    <table>
+      <tr><th style="width:230px">プロパティ</th><th style="width:230px">値の例</th><th>説明</th></tr>
+      <tr><td><code>transition</code></td><td><code>all 0.2s</code></td><td>変化にかける時間。<b>元の状態に書く</b></td></tr>
+      <tr><td><code>transform</code></td><td><code>translateY(-5px)</code></td><td>動かす</td></tr>
+      <tr><td><code>transform</code></td><td><code>scale(1.05)</code></td><td>拡大・縮小</td></tr>
+      <tr><td><code>transform</code></td><td><code>rotate(3deg)</code></td><td>回転</td></tr>
+      <tr><td><code>@keyframes 名前</code></td><td>—</td><td>アニメーションを定義する</td></tr>
+      <tr><td><code>animation</code></td><td><code>bob 1.4s infinite</code></td><td>定義したアニメを適用</td></tr>
+      <tr><td><code>cursor</code></td><td><code>pointer</code></td><td>マウスカーソルを指の形に</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="other">その他・レスポンシブ</h2>
+    <table>
+      <tr><th style="width:230px">書き方</th><th>説明</th></tr>
+      <tr><td><code>@media (max-width: 700px) { }</code></td><td>画面が700px<b>以下</b>のときだけ効くCSS</td></tr>
+      <tr><td><code>@import url(...)</code></td><td>他のCSS（Webフォントなど）を読み込む。<b>ファイルの先頭に</b></td></tr>
+      <tr><td><code>--名前: 値;</code></td><td>CSS変数を作る（<code>:root</code> に書く）</td></tr>
+      <tr><td><code>var(--名前)</code></td><td>CSS変数を使う</td></tr>
+      <tr><td><code>content: "★";</code></td><td><code>::before</code> / <code>::after</code> で足す中身</td></tr>
+      <tr><td><code>object-fit: cover</code></td><td>画像を枠いっぱいに、比率を保って切り抜く</td></tr>
+      <tr><td><code>list-style: none</code></td><td>リストの黒丸を消す</td></tr>
+      <tr><td><code>pointer-events: none</code></td><td>クリックを透過させる（飾りに使う）</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="unit">単位</h2>
+    <table>
+      <tr><th style="width:150px">単位</th><th>意味</th><th>使いどころ</th></tr>
+      <tr><td><code>px</code></td><td>ピクセル（絶対値）</td><td>いちばん基本。迷ったらこれ</td></tr>
+      <tr><td><code>%</code></td><td>親に対する割合</td><td>幅、ゲージ</td></tr>
+      <tr><td><code>em</code></td><td>その要素の文字サイズ基準</td><td>letter-spacing など</td></tr>
+      <tr><td><code>rem</code></td><td>ページ全体の文字サイズ基準</td><td>サイズを一括で変えたいとき</td></tr>
+      <tr><td><code>vw</code> / <code>vh</code></td><td>画面の幅／高さの1%</td><td><code>100vh</code>＝画面の高さいっぱい</td></tr>
+      <tr><td><code>fr</code></td><td>Grid で余りを分ける割合</td><td><code>repeat(3, 1fr)</code></td></tr>
+      <tr><td><code>deg</code></td><td>角度</td><td><code>rotate(45deg)</code></td></tr>
+      <tr><td><code>s</code> / <code>ms</code></td><td>秒／ミリ秒</td><td><code>transition: 0.2s</code></td></tr>
+    </table>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

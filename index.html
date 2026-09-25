@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webサイトのつくりかた｜全9回</title>
+<link rel="stylesheet" href="assets/ref.css">
+<style>
+  .hero{ display:flex; align-items:center; gap:36px; margin-bottom:6px; }
+  .hero-txt{ flex:1; }
+  .hero h1{ font-size:52px; margin-bottom:16px; }
+  .hero-chara{ flex:none; width:190px; position:relative; mix-blend-mode:multiply; }
+  .hero-chara img{ width:100%; display:block; }
+
+  .days{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .day{
+    display:block; text-decoration:none; color:var(--ink);
+    background:rgba(255,255,255,.78);
+    border:1.6px solid rgba(44,58,66,.2); border-radius:8px;
+    padding:16px 18px 18px; position:relative;
+    box-shadow:2px 3px 0 rgba(44,58,66,.1);
+    transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .day:hover{ transform:translateY(-3px); border-color:var(--red);
+              box-shadow:3px 6px 0 rgba(207,68,54,.22); }
+  .day .n{ font-family:var(--f-code); font-size:12px; letter-spacing:.22em; color:var(--red); }
+  .day .h{ font-size:21px; font-weight:600; line-height:1.35; margin:4px 0 6px; }
+  .day .d{ font-size:14px; color:var(--ink-2); line-height:1.7; }
+  .day .tag{ display:inline-block; font-size:11px; font-family:var(--f-code);
+             background:rgba(44,58,66,.08); border-radius:3px; padding:1px 7px; margin-top:8px; }
+  .day.final{ background:#fdf3d6; border-color:#d0a83c; }
+  .day.final:hover{ border-color:#b8860b; }
+
+  h3.grp{ font-size:17px; margin:26px 0 10px; color:var(--ink-2); font-weight:600;
+          display:flex; align-items:center; gap:10px; }
+  h3.grp::after{ content:''; flex:1; height:1.4px; background:rgba(44,58,66,.18); }
+
+  .cards2{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .cards3{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .mini{
+    display:block; text-decoration:none; color:var(--ink);
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.18);
+    border-left:5px solid var(--blue); border-radius:6px; padding:12px 16px;
+    transition:border-color .15s, transform .15s;
+  }
+  .mini:hover{ border-left-color:var(--red); transform:translateX(2px); }
+  .mini > b:first-child{ display:block; font-size:17px; margin-bottom:2px; }
+  .mini span{ font-size:13.5px; color:var(--ink-2); }
+  .mini.start{ border-left-color:var(--red); background:rgba(255,242,168,.42); }
+  .mini.play { border-left-color:var(--green); }
+  .mini.teach{ border-left-color:#8a5fb0; }
+  .mini.try  { border-left-color:#c2603f; background:rgba(255,244,232,.7); }
+  .mini.ex   { border-left-color:#d0a83c; background:rgba(253,243,214,.6); }
+
+  .keys{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .keys kbd{ font-family:var(--f-code); font-size:13px; background:#fff;
+             border:1.5px solid rgba(44,58,66,.3); border-bottom-width:3px;
+             border-radius:5px; padding:2px 9px; }
+  @media (max-width:820px){
+    .days,.cards3{ grid-template-columns:1fr 1fr; }
+    .cards2{ grid-template-columns:1fr; }
+    .hero{ flex-direction:column-reverse; text-align:left; }
+    .hero-chara{ width:130px; align-self:flex-end; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hero">
+    <div class="hero-txt">
+      <div class="crumb">全9回 ／ HTML → CSS → JavaScript → 総合制作</div>
+      <h1>Webサイトのつくりかた</h1>
+      <p class="lead" style="margin-bottom:0">
+        ぜんぶ自分の手で、1ページずつ。<br>
+        最後は<span class="mk">オリジナルのパーティゲーム</span>まで作る。
+      </p>
+    </div>
+    <div class="hero-chara"><img src="assets/char/nanamoon.webp" alt=""></div>
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>はじめての人へ</b>
+    まず <a href="reference/setup.html"><b>はじめての準備</b></a> を上から順にやって。
+    パソコンに何も入っていない状態から、<span class="mk">最初の1ページが表示されるまで30分</span>。
+  </div>
+
+  <!-- ================= さわって試す ================= -->
+  <h2>さわって試す</h2>
+  <p class="note" style="margin-top:-4px">読むより速く覚えられる。<b>壊しても大丈夫</b>なので、まずここで遊んで。</p>
+  <div class="cards3">
+    <a class="mini try" href="playground/index.html">
+      <b>ライブエディタ</b>
+      <span>左に書くと右がすぐ変わる。<b>お手本15種</b>とエラー表示つき</span>
+    </a>
+    <a class="mini try" href="playground/css-gallery.html">
+      <b>CSS見本帳</b>
+      <span><b>これを選ぶとこうなる</b>を実物で104個。クリックでコードをコピー</span>
+    </a>
+    <a class="mini try" href="playground/css-lab.html">
+      <b>CSS体験ラボ</b>
+      <span>スライダーで padding・Flexbox・影が<b>どう変わるか</b>を見る</span>
+    </a>
+    <a class="mini try" href="playground/layout-lab.html">
+      <b>レイアウト練習</b>
+      <span>お題と同じ見た目になるよう値を選ぶ<b>全9問</b>。位置・サイズ・フォント</span>
+    </a>
+    <a class="mini try" href="playground/color-lab.html">
+      <b>色のページ</b>
+      <span>色を作ると<b>16進・rgb・hslが同時に出る</b>。名前140色の表と、3色を試す見本サイト</span>
+    </a>
+    <a class="mini try" href="playground/ask-ai.html">
+      <b>AIへの質問文メーカー</b>
+      <span>空欄を埋めると、そのまま貼れる質問文ができる</span>
+    </a>
+    <a class="mini try" href="playground/typing.html" style="grid-column:span 3">
+      <b>記号タイピング</b>
+      <span><code>&lt;</code> <code>{</code> <code>"</code> <code>;</code> に指を慣らす。1日1分でいい</span>
+    </a>
+  </div>
+
+  <h2>作例（こんなのが作れる）</h2>
+  <p class="note" style="margin-top:-4px">全部この講座の範囲だけ。<b>コピーして中身を書き換える</b>のが一番速い上達法。</p>
+  <div class="cards2">
+    <a class="mini ex" href="examples/index.html" style="grid-column:span 2">
+      <b>作例集</b>
+      <span>おみくじ／割り勘けいさん／誕生日カード／リンク集。それぞれ「どこを改造すると何が変わるか」つき</span>
+    </a>
+  </div>
+
+  <h2>スライド（授業用）</h2>
+  <div class="fusen" data-c="blue" style="margin-top:0">
+    <b>操作</b>
+    <b>矢印キー</b>で進む／戻る、O で一覧、F で全画面、Ctrl + P でPDFに。
+    画面の右半分／左半分をクリックでも進める。
+    <div class="keys"><kbd>←</kbd><kbd>→</kbd><kbd>Space</kbd><kbd>O</kbd><kbd>F</kbd><kbd>Ctrl+P</kbd></div>
+  </div>
+
+  <div class="days">
+    <a class="day" href="slides/day0.html">
+      <div class="n">D A Y &nbsp;0</div>
+      <div class="h">はじめに・道具をそろえる</div>
+      <div class="d">Webサイトの正体／HTML・CSS・JSの役割／なぜPythonじゃないのか／VSCode導入</div>
+      <div class="tag">17枚</div>
+    </a>
+    <a class="day" href="slides/day1.html">
+      <div class="n">D A Y &nbsp;1</div>
+      <div class="h">HTMLだけでサイトを作る</div>
+      <div class="d">タグの読み方／見出し・段落・リスト／画像とリンク／Emmet／自己紹介ページの完成</div>
+      <div class="tag">19枚</div>
+    </a>
+    <a class="day" href="slides/day2.html">
+      <div class="n">D A Y &nbsp;2</div>
+      <div class="h">ページを増やす・表・フォーム</div>
+      <div class="d">ブロックとインライン／意味のあるタグ／複数ページのリンク／table と form</div>
+      <div class="tag">16枚</div>
+    </a>
+    <a class="day" href="slides/day3.html">
+      <div class="n">D A Y &nbsp;3</div>
+      <div class="h">CSS ① 色・文字・余白</div>
+      <div class="d">セレクタ3種／色の指定／ボックスモデル／枠線・角丸・影／効かないときの確認順</div>
+      <div class="tag">15枚</div>
+    </a>
+    <a class="day" href="slides/day4.html">
+      <div class="n">D A Y &nbsp;4</div>
+      <div class="h">CSS ② 並べる・動かす</div>
+      <div class="d">Flexbox／Grid／position／CSS変数／hover と transition／レスポンシブ</div>
+      <div class="tag">17枚</div>
+    </a>
+    <a class="day" href="slides/day5.html">
+      <div class="n">D A Y &nbsp;5</div>
+      <div class="h">JavaScript ① 動きの基本</div>
+      <div class="d">3ステップの型／変数と型／DOM操作／イベント／if／関数／ランダム／音とスクロール</div>
+      <div class="tag">20枚</div>
+    </a>
+    <a class="day" href="slides/day6.html">
+      <div class="n">D A Y &nbsp;6</div>
+      <div class="h">JavaScript ② データを扱う</div>
+      <div class="d">配列／繰り返し／画面の自動生成／state という考え方／localStorage</div>
+      <div class="tag">15枚</div>
+    </a>
+    <a class="day final" href="slides/day7.html">
+      <div class="n">D A Y &nbsp;7</div>
+      <div class="h">総合制作『プロポーズの言葉を君に捧ぐよ』</div>
+      <div class="d"><b>この講座の山場。</b>アイデアを形にする手順を、実際のゲーム制作でたどる</div>
+      <div class="tag">20枚</div>
+    </a>
+    <a class="day" href="slides/day8.html">
+      <div class="n">D A Y &nbsp;8</div>
+      <div class="h">直す・公開する・これから</div>
+      <div class="d">F12の使い方／エラーの読み方／GitHub Pagesで公開／Firebaseの話／学び方</div>
+      <div class="tag">12枚</div>
+    </a>
+  </div>
+
+  <!-- ================= 資料 ================= -->
+  <h2>資料</h2>
+
+  <h3 class="grp">まず読む</h3>
+  <div class="cards2">
+    <a class="mini start" href="reference/setup.html">
+      <b>はじめての準備</b>
+      <span>拡張子の設定 → VSCode導入 → フォルダ作成 → 最初の1ページまで。<b>実際の画面つき</b></span>
+    </a>
+    <a class="mini start" href="reference/basics.html">
+      <b>パソコンとファイルの基本</b>
+      <span>半角と全角、拡張子、パス、保存。<b>詰まるのは文法よりここ</b></span>
+    </a>
+    <a class="mini start" href="reference/symbols.html" style="grid-column:span 2">
+      <b>記号と英単語の読み方</b>
+      <span>「なみかっこ」「エイチレフ」…　読めないと質問も検索もできない。よく出る英単語の意味つき</span>
+    </a>
+  </div>
+
+  <h3 class="grp">手を動かす</h3>
+  <div class="cards3">
+    <a class="mini play" href="reference/exercises.html">
+      <b>練習問題集</b>
+      <span>全21問。ヒントと答えは折りたたみ。デバッグ問題つき</span>
+    </a>
+    <a class="mini play" href="templates/index.html">
+      <b>スターターファイル</b>
+      <span>コピーして使う雛形3種（HTMLのみ／＋CSS／＋JS）</span>
+    </a>
+    <a class="mini play" href="reference/checklist.html">
+      <b>進捗チェックシート</b>
+      <span>できたことに印を付ける。保存される</span>
+    </a>
+  </div>
+
+  <h3 class="grp">困ったら</h3>
+  <div class="cards3">
+    <a class="mini" href="reference/errors.html">
+      <b>エラー辞典</b>
+      <span>症状から引ける。メッセージの読み方も</span>
+    </a>
+    <a class="mini" href="reference/workflow.html">
+      <b>作り方の型</b>
+      <span>作りたい → 完成までの手順書。ワークシートつき</span>
+    </a>
+    <a class="mini" href="reference/glossary.html">
+      <b>用語辞典</b>
+      <span>DOM・パス・キャッシュ…　短い日本語で</span>
+    </a>
+    <a class="mini" href="reference/myths.html" style="grid-column:span 3">
+      <b>よくある勘違い</b>
+      <span>エラーは出ないのに遠回りする話。JavaScriptとJava／保存とリロード／画像の権利／AIの限界など</span>
+    </a>
+  </div>
+
+  <h3 class="grp">調べる（一覧）</h3>
+  <div class="cards2">
+    <a class="mini" href="reference/cheatsheet.html">
+      <b>チートシート</b>
+      <span><b>印刷用。</b>A4で2枚。よく使うものだけ集めた紙</span>
+    </a>
+    <a class="mini" href="reference/vscode.html">
+      <b>VSCode 早見表</b>
+      <span>ショートカットと Emmet</span>
+    </a>
+    <a class="mini" href="reference/html-tags.html">
+      <b>HTMLタグ一覧</b>
+      <span>この講座で出てくるタグを全部。検索できる</span>
+    </a>
+    <a class="mini" href="reference/css-props.html">
+      <b>CSSプロパティ一覧</b>
+      <span>よく使うものだけ厳選。セレクタ・単位も</span>
+    </a>
+    <a class="mini" href="reference/js-syntax.html" style="grid-column:span 2">
+      <b>JavaScript構文一覧</b>
+      <span>変数から localStorage まで。<b>C言語との対応表</b>つき</span>
+    </a>
+  </div>
+
+  <h3 class="grp">教える人へ</h3>
+  <div class="cards2">
+    <a class="mini teach" href="reference/book-map.html" style="grid-column:span 2">
+      <b>本との対応表</b>
+      <span>『1冊ですべて身につく HTML &amp; CSSとWebデザイン入門講座』（Mana／SBクリエイティブ）の
+        <b>どの章がどのDAYにあたるか</b>。宿題の出し方と、順番が違うところの注意つき</span>
+    </a>
+    <a class="mini teach" href="reference/teaching-guide.html" style="grid-column:span 2">
+      <b>教える側の進行メモ</b>
+      <span>各回の時間配分・詰まりやすい所・そのときの声かけ。<b>答えをすぐ言わないための誘導のしかた</b>も</span>
+    </a>
+  </div>
+
+  <!-- ================= 実習 ================= -->
+  <h2>実習ファイル（見本）</h2>
+  <p class="note">先に自分で書いてから開いて。写経だけだと身につかない。</p>
+  <div class="cards3">
+    <a class="mini play" href="practice/day1/index.html">
+      <b>DAY 1 ／ HTMLだけ</b><span>自己紹介ページ（step1・step2 あり）</span>
+    </a>
+    <a class="mini play" href="practice/day2/index.html">
+      <b>DAY 2 ／ 3ページ</b><span>index・spec・contact</span>
+    </a>
+    <a class="mini play" href="practice/day3/index.html">
+      <b>DAY 3 ／ CSS基本</b><span>色・文字・余白を当てた版</span>
+    </a>
+    <a class="mini play" href="practice/day4/index.html">
+      <b>DAY 4 ／ レイアウト</b><span>Flexbox・Grid・レスポンシブ</span>
+    </a>
+    <a class="mini play" href="practice/day5/index.html">
+      <b>DAY 5 ／ JS基本</b><span>5つのボタン＋音を鳴らす</span>
+    </a>
+    <a class="mini play" href="practice/day6/index.html">
+      <b>DAY 6 ／ データ</b><span>配列・状態・保存</span>
+    </a>
+  </div>
+
+  <!-- ================= 応用演習 ================= -->
+  <h2>応用演習（自分で作る）</h2>
+  <p class="note">見本を写すのはここまで。<b>白紙から自分のサイトを作る</b>最初の課題。DAY 4 のあとに出す。</p>
+  <a class="day final" href="final/oshi/index.html" style="display:block">
+    <div class="n">W O R K &nbsp;/ &nbsp;F A N &nbsp;S I T E</div>
+    <div class="h">推しの紹介サイトを作る</div>
+    <div class="d">HTML と CSS だけで1ページのファンサイトを作る。
+      <b>課題ページ・スターター・完成見本</b>の3点セット。
+      スターターの ★ を順に埋めていけば完成する。</div>
+    <div class="tag">HTML / CSS ／ 2〜3時間</div>
+  </a>
+
+  <!-- ================= 最終作品 ================= -->
+  <h2>最終作品</h2>
+  <a class="day final" href="final/propose/index.html" style="display:block">
+    <div class="n">F I N A L &nbsp;/ &nbsp;B O A R D &nbsp;G A M E</div>
+    <div class="h">プロポーズの言葉を君に捧ぐよ</div>
+    <div class="d">手札のことばを組み合わせてプロポーズの文を作る、パーティ用のことば遊び。
+      DAY 1〜6 で覚えた文法だけで作られている。<b>クリックで遊べる。</b></div>
+    <div class="tag">HTML / CSS / JavaScript の3ファイル</div>
+  </a>
+
+  <div class="fusen" data-c="green">
+    <b>フォルダの中身</b>
+    <code>slides/</code> スライド　<code>reference/</code> 資料　<code>practice/</code> 実習の見本
+    <code>templates/</code> 雛形　<code>examples/</code> 作例　<code>playground/</code> ツール<br>
+    <code>final/oshi/</code> 応用演習　<code>final/propose/</code> 最終作品　<code>assets/</code> 共通の部品と画像
+    <code>tools/</code> 教材作成用のスクリプト
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>キャラクターについて</b>
+    <code>assets/char/</code> の画像は<span class="mk">自作</span>。
+    この教材といっしょに使ってよい。
+  </div>
+
+</div>
+<script src="assets/ref.js"></script>
+</body>
+</html>

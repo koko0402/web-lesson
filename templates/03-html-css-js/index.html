@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ページの名前をここに</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <header class="head">
+      <h1>サイトの名前</h1>
+      <p class="sub">ひとことの説明</p>
+    </header>
+
+    <main class="wrap">
+
+      <!-- ボタンを押すと文字が変わる、の最小セット -->
+      <section class="box">
+        <h2>ボタンの例</h2>
+        <p id="out">まだ押されていません。</p>
+        <button id="btn" class="btn">押してみる</button>
+      </section>
+
+      <!-- 配列から一覧を作る、の最小セット -->
+      <section class="box">
+        <h2>リストの例</h2>
+        <ul id="list" class="list"></ul>
+        <button id="btnAdd" class="btn btn-sm">1つ足す</button>
+      </section>
+
+    </main>
+
+    <footer class="foot">
+      <p>&copy; 2026 じぶんの名前</p>
+    </footer>
+
+    <!-- JavaScript は body のいちばん下で読み込む -->
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>竹のトリセツ</title>
+<!-- favicon を要求させない。Console に関係のない 404 が出て、読む邪魔になるため -->
+<link rel="icon" href="data:,">
+<style>
+  body{ font-family:"Yu Gothic","Meiryo",sans-serif; line-height:1.9;
+        max-width:560px; margin:0 auto; padding:30px 24px; color:#2b2018; }
+  h1{ font-size:28px; border-bottom:3px solid #d97b57; padding-bottom:8px; }
+  button{ font:inherit; font-size:16px; padding:10px 24px; border:none; border-radius:8px;
+          background:#d97b57; color:#fff; cursor:pointer; margin-right:8px; }
+  #out{ font-size:20px; margin-top:20px; }
+</style>
+</head>
+<body>
+
+  <h1>竹のトリセツ</h1>
+  <p>ボタンを押すと、下の文字が変わる。</p>
+
+  <button id="btnHello">あいさつ</button>
+  <button id="btnCount">数える</button>
+
+  <p id="out">まだ押されていない。</p>
+
+  <script src="script.js"></script>
+</body>
+</html>

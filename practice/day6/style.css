@@ -1,0 +1,138 @@
+@charset "UTF-8";
+/* =========================================================
+   DAY 6 ／ スタイルは DAY 5 の続き。追加分にコメントを付けています。
+   ========================================================= */
+
+:root {
+  --main:  #2f6d68;
+  --accent:#e2794f;
+  --bg:    #f6f3ec;
+  --panel: #ffffff;
+  --ink:   #2f3338;
+  --line:  #ddd6c6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.85;
+}
+
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 26px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.bar-logo { font-weight: bold; letter-spacing: 0.06em; }
+.bar-nav a { color: var(--ink); text-decoration: none; font-size: 14px; }
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 40px 26px 60px; }
+.ttl-big { font-size: 29px; margin: 0 0 12px; line-height: 1.35; }
+.lead { margin: 0 0 30px; color: #7b7b85; font-size: 15px; }
+
+.box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.box h2 { font-size: 19px; margin: 0 0 10px; color: var(--accent); }
+.box p  { margin: 0 0 12px; font-size: 15px; }
+
+code {
+  font-family: Consolas, monospace;
+  background: #efe9dc;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+.btn {
+  font: inherit; background: var(--main); color: #fff; border: none;
+  border-radius: 999px; padding: 9px 26px; cursor: pointer;
+  transition: transform 0.12s, opacity 0.12s;
+}
+.btn:hover  { opacity: 0.88; }
+.btn:active { transform: scale(0.96); }
+.btn-sm  { padding: 6px 18px; font-size: 14px; }
+.btn-sub { background: #97918a; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+input[type="text"] {
+  font: inherit; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--bg); color: var(--ink); width: 220px;
+}
+
+/* ---- ① 一覧 ------------------------------------------- */
+.like-list { list-style: none; padding: 0; margin: 0 0 14px; }
+.like-list li {
+  background: var(--bg);
+  border-left: 3px solid var(--main);
+  padding: 6px 14px;
+  margin-bottom: 6px;
+  border-radius: 0 6px 6px 0;
+  font-size: 15px;
+}
+
+/* ---- ② ルーレット ------------------------------------- */
+.roulette {
+  font-size: 26px; font-weight: bold; text-align: center;
+  background: var(--bg); border: 2px dashed var(--line);
+  border-radius: 10px; padding: 22px; margin-bottom: 14px;
+  color: var(--accent);
+}
+/* まわっている間だけ小さく揺れる */
+.roulette.spinning { animation: shake 0.16s infinite; }
+@keyframes shake {
+  0%   { transform: translateX(-2px); }
+  50%  { transform: translateX(2px); }
+  100% { transform: translateX(-2px); }
+}
+
+/* ---- ③ 状態 ------------------------------------------- */
+.status { display: flex; gap: 10px; margin-bottom: 12px; }
+.status-item {
+  flex: 1; background: var(--bg); border-radius: 8px;
+  padding: 10px 6px; text-align: center; font-size: 14px;
+}
+.status-item span { display: block; font-size: 24px; font-weight: bold; color: var(--main); }
+
+.gauge {
+  height: 12px; background: #e4ded0; border-radius: 999px;
+  overflow: hidden; margin-bottom: 14px;
+}
+.gauge-in {
+  height: 100%; width: 50%;
+  background: linear-gradient(90deg, var(--main), var(--accent));
+  transition: width 0.35s;      /* 数字が変わるとバーがぬるっと動く */
+}
+.msg { font-size: 14px; color: #8a8a93; min-height: 1.4em; margin: 10px 0 0; }
+
+/* ---- ④ チェックリスト --------------------------------- */
+.add-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.todo-list { list-style: none; padding: 0; margin: 0 0 14px; }
+.todo-list li {
+  background: var(--bg); border-radius: 6px;
+  padding: 8px 14px; margin-bottom: 6px;
+  cursor: pointer; font-size: 15px;
+  transition: opacity 0.15s;
+}
+.todo-list li:hover { opacity: 0.75; }
+/* 済みになったら打ち消し線 */
+.todo-list li.done { text-decoration: line-through; color: #a7a29a; }
+.todo-list li.done::before { content: "✓ "; color: var(--main); }
+
+.foot {
+  background: var(--main); color: #d7e8e6;
+  text-align: center; padding: 20px; font-size: 13px;
+}
+.foot p { margin: 0; }

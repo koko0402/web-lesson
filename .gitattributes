@@ -1,0 +1,6 @@
+# 改行コードをそのまま保つ（PowerShell は BOM 付き UTF-8 が要る）
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.webp binary
+*.mp3 binary

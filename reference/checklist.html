@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進捗チェックシート｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .bar-wrap{ position:sticky; top:0; z-index:20; background:var(--paper); padding:14px 0 16px; }
+  .bar{ height:16px; background:#e4ddcb; border-radius:999px; overflow:hidden; border:1.4px solid rgba(44,58,66,.2); }
+  .bar > div{ height:100%; width:0; background:linear-gradient(90deg,var(--green),var(--red)); transition:width .35s; }
+  .bar-txt{ display:flex; justify-content:space-between; font-size:14px; margin-top:6px; color:var(--ink-2); }
+  .bar-txt b{ font-size:20px; color:var(--red); }
+
+  .day{ background:rgba(255,255,255,.7); border:1.5px solid rgba(44,58,66,.18);
+        border-left:6px solid var(--blue); border-radius:6px; padding:16px 20px 14px; margin-bottom:16px; }
+  .day.done{ border-left-color:var(--green); background:rgba(226,241,226,.55); }
+  .day h3{ margin:0 0 10px; font-size:19px; display:flex; align-items:center; gap:10px; }
+  .day h3 .n{ font-family:var(--f-code); font-size:12px; background:var(--ink); color:var(--paper);
+              border-radius:4px; padding:2px 9px; }
+  .day h3 .cnt{ margin-left:auto; font-size:13px; color:var(--ink-2); font-weight:400; }
+  .day ul{ list-style:none; margin:0; }
+  .day li{ margin-bottom:5px; }
+  .day label{ display:flex; align-items:flex-start; gap:10px; font-size:16px; cursor:pointer; line-height:1.65; }
+  .day label:hover{ color:var(--red); }
+  .day input[type=checkbox]{ width:19px; height:19px; margin-top:3px; flex:none; accent-color:var(--green); cursor:pointer; }
+  .day label.on{ color:#8a8a90; text-decoration:line-through; }
+  .memo{ width:100%; font:inherit; font-size:15px; margin-top:10px; padding:8px 12px;
+         border:1.4px solid rgba(44,58,66,.22); border-radius:6px; background:#fffdf6;
+         resize:vertical; min-height:56px; }
+  .tools{ display:flex; gap:10px; flex-wrap:wrap; margin:20px 0 10px; }
+  .tools button{ font:inherit; font-size:14px; padding:7px 18px; border-radius:999px; cursor:pointer;
+                 border:1.5px solid rgba(44,58,66,.3); background:#fff; color:var(--ink); }
+  .tools button:hover{ border-color:var(--red); color:var(--red); }
+  @media print{ .tools,.bar-wrap{ display:none; } .day{ break-inside:avoid; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>進捗チェックシート</h1>
+  <p class="lead">できるようになったことに、自分でチェックを入れていくシート。<br>
+    <span class="mk">チェックはこのブラウザに保存される</span>ので、閉じても消えない。</p>
+
+  <div class="bar-wrap">
+    <div class="bar"><div id="barIn"></div></div>
+    <div class="bar-txt">
+      <span><b id="doneN">0</b> / <span id="allN">0</span> 項目</span>
+      <span id="pct">0%</span>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>使い方</b>
+    授業のあと、または家で復習したあとにチェックを入れて。<br>
+    <b>「なんとなく分かった」ではチェックしない</b>のがコツ。<span class="mk">人に説明できる／自分で書ける</span>ようになったらチェック。
+  </div>
+
+  <div id="list"></div>
+
+  <div class="tools">
+    <button id="btnPrint">印刷する</button>
+    <button id="btnReset">全部リセット</button>
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>このページ自体、教材の内容だけで作られている</b>
+    チェックの保存は DAY 6 でやる <code>localStorage</code>、バーの動きは <code>style.width</code>、
+    項目の生成は <code>createElement</code>。<br>
+    <span class="mk">DAY 6 が終わったら、このページのソースを読んでみて。</span>全部わかるはず。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script src="../assets/ref.js"></script>
+<script>
+/* =========================================================
+   チェック項目のデータ
+   ========================================================= */
+const DAYS = [
+  { n: "DAY 0", t: "はじめに・道具をそろえる", items: [
+    "VSCode をインストールした",
+    "拡張子（.html）が見えるように設定した",
+    "web / day1 フォルダを作った",
+    "index.html を作ってブラウザで開けた",
+    "HTML・CSS・JavaScript の役割を人に説明できる",
+    "なぜ Python を使わないのか説明できる"
+  ]},
+  { n: "DAY 1", t: "HTMLだけでサイトを作る", items: [
+    "タグは「開始・中身・終了」の3点セットだと説明できる",
+    "head と body の違いが言える",
+    "見出し・段落・リストを書き分けられる",
+    "画像を表示できる（パスの意味がわかる）",
+    "リンクで別のページへ飛べる",
+    "自分の内容に書き換えたページが手元にある"
+  ]},
+  { n: "DAY 2", t: "ページを増やす・表・フォーム", items: [
+    "ブロックとインラインの違いが言える",
+    "header / main / footer でページを区切れる",
+    "3ページを作ってリンクで行き来できる",
+    "表（table）を自分で組める",
+    "フォームを作れる（今は送信できないと分かっている）"
+  ]},
+  { n: "DAY 3", t: "CSS ① 色・文字・余白", items: [
+    "CSSファイルを作って link で読み込める",
+    "タグ名・class・id の3つのセレクタを使い分けられる",
+    "色・文字・余白を変えられる",
+    "margin と padding の違いを説明できる",
+    "CSSが効かないとき、確認する順番が言える"
+  ]},
+  { n: "DAY 4", t: "CSS ② 並べる・動かす", items: [
+    "display: flex は「親」に書く、と説明できる",
+    "カードを3枚、横に等分で並べられる",
+    "max-width と margin: 0 auto で中央に置ける",
+    "hover でふわっと動かせる",
+    "@media でスマホのとき縦並びにできる"
+  ]},
+  { n: "DAY 5", t: "JavaScript ① 動きの基本", items: [
+    "「取ってくる → 何かする → 書き戻す」が言える",
+    "ボタンを押して文字を変えられる",
+    "const と let を使い分けられる",
+    "if で分岐が書ける",
+    "F12 の Console でエラーを読める",
+    "Math.random でランダムな数が作れる"
+  ]},
+  { n: "DAY 6", t: "JavaScript ② データを扱う", items: [
+    "配列から画面のリストを作れる",
+    "「データを直す → 描き直す」の意味を説明できる",
+    "オブジェクトで状態をまとめられる",
+    "localStorage で保存・復元できる",
+    "描画を1つの関数にまとめる利点が言える"
+  ]},
+  { n: "DAY 7", t: "総合制作", items: [
+    "作りたいものを言葉にできる",
+    "機能を分解して、必要な技術に対応づけられる",
+    "動きの流れを図にできる",
+    "壊れそうな所を先に挙げられる",
+    "AIに「答え」ではなく「抜けの指摘」を頼める",
+    "最終作品を1つ以上改造した"
+  ]},
+  { n: "DAY 8", t: "直す・公開する", items: [
+    "F12 の Elements / Console を使い分けられる",
+    "エラーメッセージから場所と原因を読み取れる",
+    "壊れたときの手順（直前を消す→ログを出す）を実行できる",
+    "作ったものをネットに公開した",
+    "次に作りたいものが決まっている"
+  ]}
+];
+
+/* =========================================================
+   状態
+   ========================================================= */
+const KEY = "web-lesson-checklist";
+let state = { checked: {}, memo: {} };
+
+const saved = localStorage.getItem(KEY);
+if (saved !== null) {
+  try { state = JSON.parse(saved); } catch (e) { /* 壊れていたら初期値のまま */ }
+  if (!state.checked) state.checked = {};
+  if (!state.memo) state.memo = {};
+}
+
+function save() {
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+/* =========================================================
+   画面を作る
+   ========================================================= */
+const list = document.getElementById("list");
+
+function draw() {
+  list.innerHTML = "";
+  let all = 0, done = 0;
+
+  DAYS.forEach(function (day, di) {
+    const box = document.createElement("div");
+    box.className = "day";
+
+    let dDone = 0;
+    const ul = document.createElement("ul");
+
+    day.items.forEach(function (text, ii) {
+      const id = di + "-" + ii;
+      const on = state.checked[id] === true;
+      all++;
+      if (on) { done++; dDone++; }
+
+      const li = document.createElement("li");
+      const label = document.createElement("label");
+      if (on) label.className = "on";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = on;
+      cb.addEventListener("change", function () {
+        state.checked[id] = cb.checked;
+        save();
+        draw();
+      });
+
+      const span = document.createElement("span");
+      span.textContent = text;
+
+      label.appendChild(cb);
+      label.appendChild(span);
+      li.appendChild(label);
+      ul.appendChild(li);
+    });
+
+    if (dDone === day.items.length) box.classList.add("done");
+
+    const h = document.createElement("h3");
+    h.innerHTML = '<span class="n">' + day.n + "</span>" + day.t +
+                  '<span class="cnt">' + dDone + " / " + day.items.length + "</span>";
+
+    const memo = document.createElement("textarea");
+    memo.className = "memo";
+    memo.placeholder = "この回のメモ（つまずいた所・気づいたこと・次にやること）";
+    memo.value = state.memo[di] || "";
+    memo.addEventListener("input", function () {
+      state.memo[di] = memo.value;
+      save();
+    });
+
+    box.appendChild(h);
+    box.appendChild(ul);
+    box.appendChild(memo);
+    list.appendChild(box);
+  });
+
+  document.getElementById("doneN").textContent = done;
+  document.getElementById("allN").textContent = all;
+  const pct = all === 0 ? 0 : Math.round(done / all * 100);
+  document.getElementById("pct").textContent = pct + "%";
+  document.getElementById("barIn").style.width = pct + "%";
+}
+
+draw();
+
+document.getElementById("btnPrint").addEventListener("click", function () {
+  window.print();
+});
+
+document.getElementById("btnReset").addEventListener("click", function () {
+  if (window.confirm("チェックとメモを全部消す。いい？")) {
+    state = { checked: {}, memo: {} };
+    save();
+    draw();
+  }
+});
+</script>
+</body>
+</html>

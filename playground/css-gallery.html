@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS見本帳 ── これを選ぶとこうなる</title>
+<link rel="stylesheet" href="playground.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ---- 見本の並べ方 ---- */
+  .gal{ display:grid; gap:13px; margin:14px 0 4px; }
+  .gal.c2{ grid-template-columns:repeat(2,1fr); }
+  .gal.c3{ grid-template-columns:repeat(3,1fr); }
+  .gal.c4{ grid-template-columns:repeat(4,1fr); }
+  .gal.c5{ grid-template-columns:repeat(5,1fr); }
+  @media (max-width:980px){
+    .gal.c4,.gal.c5{ grid-template-columns:repeat(3,1fr); }
+  }
+  @media (max-width:720px){
+    .gal.c3,.gal.c4,.gal.c5{ grid-template-columns:repeat(2,1fr); }
+  }
+
+  .item{
+    background:#fffdf6; border:1.5px solid rgba(44,58,66,.18);
+    border-radius:7px; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .demo{
+    background:#fff; padding:13px; flex:1;
+    display:grid; place-items:center; min-height:84px; overflow:hidden;
+  }
+  .cap{
+    font-family:var(--f-code); font-size:12.5px; line-height:1.5;
+    background:rgba(44,58,66,.06); padding:6px 9px;
+    border-top:1.5px solid rgba(44,58,66,.12);
+    cursor:pointer; position:relative; word-break:break-all;
+  }
+  .cap:hover{ background:var(--mark); }
+  .cap b{ color:var(--blue); font-weight:500; }
+  .cap.copied::after{
+    content:'コピーしました'; position:absolute; right:7px; top:5px;
+    font-family:var(--f-body); font-size:11px; color:#fff;
+    background:var(--green); border-radius:3px; padding:1px 6px;
+  }
+  .note-in{ font-family:var(--f-body); font-size:12px; color:var(--ink-2); display:block; }
+
+  /* ---- デモ用の部品 ---- */
+  .bx{ background:#cfe6f7; border:1.5px solid #6ba3cf; border-radius:4px;
+       padding:7px 11px; font-size:13px; color:#1d4f77; }
+  .bx.r{ background:#fbd6cd; border-color:#d38b7b; color:#8f3a28; }
+  .bx.g{ background:#d5efce; border-color:#82b377; color:#3d6b3a; }
+  .stage{ width:100%; height:92px;
+          background:repeating-linear-gradient(45deg,#f6f2e4 0 8px,#f1ecdb 8px 16px);
+          border:1.5px dashed rgba(44,58,66,.28); border-radius:5px;
+          position:relative; overflow:hidden; }
+  .stage.flex{ display:flex; }
+  .sample-t{ font-size:15px; line-height:1.7; }
+
+  /* ---- 目次 ---- */
+  .toc{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 4px; }
+  .toc a{
+    font-size:14px; text-decoration:none; color:var(--ink);
+    background:#fff; border:1.5px solid rgba(44,58,66,.25);
+    border-radius:999px; padding:4px 14px;
+  }
+  .toc a:hover{ border-color:var(--red); color:var(--red); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>CSS見本帳</h1>
+  <p class="lead">「これを選ぶと、こうなる」を実物で並べた。<br>
+    <b>コードの行をクリックするとコピーできる。</b>そのまま自分の <code>style.css</code> に貼って。</p>
+
+  <div class="fusen" data-c="blue">
+    <b>使い方のコツ</b>
+    暗記しようとしないで。<span class="mk">作りたい見た目から逆に探す</span>ための本。
+    「もっと丸くしたい」と思ったら ③ を見る、「横に並べたい」と思ったら ⑤ を見る、という使い方をする。
+  </div>
+
+  <div class="toc">
+    <a href="#f">① 文字</a>
+    <a href="#c">② 色</a>
+    <a href="#b">③ 枠・角・影</a>
+    <a href="#s">④ 余白とサイズ</a>
+    <a href="#x">⑤ 横に並べる</a>
+    <a href="#p">⑥ 位置を決める</a>
+    <a href="#i">⑦ 画像</a>
+    <a href="#o">⑧ そのほか</a>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="f">① 文字</h2>
+  <p class="note">ページの印象は、ほぼフォントと行間で決まる。色を変える前にここを見て。</p>
+
+  <h3>font-family ── 書体</h3>
+  <div class="gal c5">
+    <div class="item">
+      <div class="demo"><div class="sample-t" style="font-family:'Yu Gothic','Meiryo',sans-serif">あア亜 Ag 34</div></div>
+      <div class="cap"><b>font-family</b>: sans-serif<span class="note-in">ゴシック体。いちばん無難</span></div>
+    </div>
+    <div class="item">
+      <div class="demo"><div class="sample-t" style="font-family:'Yu Mincho','MS Mincho',serif">あア亜 Ag 34</div></div>
+      <div class="cap"><b>font-family</b>: serif<span class="note-in">明朝体。落ち着く／古風</span></div>
+    </div>
+    <div class="item">
+      <div class="demo"><div class="sample-t" style="font-family:'M PLUS Rounded 1c',sans-serif">あア亜 Ag 34</div></div>
+      <div class="cap"><b>font-family</b>: 'M PLUS Rounded 1c'<span class="note-in">丸ゴシック。やわらかい</span></div>
+    </div>
+    <div class="item">
+      <div class="demo"><div class="sample-t" style="font-family:'M PLUS 1 Code',monospace">あア亜 Ag 34</div></div>
+      <div class="cap"><b>font-family</b>: monospace<span class="note-in">等幅。全部おなじ幅</span></div>
+    </div>
+    <div class="item">
+      <div class="demo"><div class="sample-t" style="font-family:'Yomogi',cursive">あア亜 Ag 34</div></div>
+      <div class="cap"><b>font-family</b>: 'Yomogi'<span class="note-in">手書き風。Webフォント</span></div>
+    </div>
+  </div>
+  <div class="fusen">
+    <b>Webフォントは読み込みが要る</b>
+    丸ゴシックや手書き風は、パソコンに入っていないことがある。
+    <code>&lt;head&gt;</code> の中に Google Fonts の <code>&lt;link&gt;</code> を書いて読み込んでから使って。
+    書き忘れると<span class="mk">ふつうのゴシック体で表示される</span>（壊れはしない）。
+  </div>
+
+  <h3>font-size ── 大きさ</h3>
+  <div class="gal c5">
+    <div class="item"><div class="demo"><div style="font-size:12px">サイズ見本</div></div><div class="cap"><b>font-size</b>: 12px<span class="note-in">注釈・キャプション</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:16px">サイズ見本</div></div><div class="cap"><b>font-size</b>: 16px<span class="note-in">本文の標準</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:20px">サイズ見本</div></div><div class="cap"><b>font-size</b>: 20px<span class="note-in">小見出し</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:28px">サイズ見本</div></div><div class="cap"><b>font-size</b>: 28px<span class="note-in">見出し</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:40px">サイズ</div></div><div class="cap"><b>font-size</b>: 40px<span class="note-in">タイトル</span></div></div>
+  </div>
+
+  <h3>font-weight ── 太さ</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo"><div style="font-size:19px;font-weight:300">細い 300</div></div><div class="cap"><b>font-weight</b>: 300</div></div>
+    <div class="item"><div class="demo"><div style="font-size:19px;font-weight:400">ふつう 400</div></div><div class="cap"><b>font-weight</b>: 400<span class="note-in">＝ normal</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:19px;font-weight:600">やや太い 600</div></div><div class="cap"><b>font-weight</b>: 600</div></div>
+    <div class="item"><div class="demo"><div style="font-size:19px;font-weight:700">太い 700</div></div><div class="cap"><b>font-weight</b>: bold<span class="note-in">＝ 700</span></div></div>
+  </div>
+
+  <h3>line-height ── 行間</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo"><div style="font-size:13px;line-height:1.2">行間がせまいと、みっしり詰まって見える。長い文章だと読むのがつらくなる。</div></div><div class="cap"><b>line-height</b>: 1.2<span class="note-in">見出し向き</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:13px;line-height:1.8">行間がひろいと、ゆったり読める。日本語の本文はこのくらいがちょうどいい。</div></div><div class="cap"><b>line-height</b>: 1.8<span class="note-in">本文はこれ</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:13px;line-height:2.4">広すぎると、逆に行がバラバラに見えてくる。つながりが切れる感じ。</div></div><div class="cap"><b>line-height</b>: 2.4<span class="note-in">広すぎ</span></div></div>
+  </div>
+
+  <h3>text-align ── そろえ方</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="font-size:13px;text-align:left;width:100%">左にそろえる。文章はふつうこれ。</div></div><div class="cap"><b>text-align</b>: left</div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="font-size:13px;text-align:center;width:100%">中央にそろえる。見出し向き。</div></div><div class="cap"><b>text-align</b>: center</div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="font-size:13px;text-align:right;width:100%">右にそろえる。日付や署名。</div></div><div class="cap"><b>text-align</b>: right</div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="font-size:13px;text-align:justify;width:100%">両端にそろえる。右端がきれいに縦一列にそろう。</div></div><div class="cap"><b>text-align</b>: justify</div></div>
+  </div>
+
+  <h3>letter-spacing ── 字間</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo"><div style="font-size:16px;letter-spacing:0">字間ゼロ ABC</div></div><div class="cap"><b>letter-spacing</b>: 0<span class="note-in">初期値</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:16px;letter-spacing:.08em">字間ひろめ ABC</div></div><div class="cap"><b>letter-spacing</b>: .08em<span class="note-in">上品に見える</span></div></div>
+    <div class="item"><div class="demo"><div style="font-size:16px;letter-spacing:.3em">字間バカ広 ABC</div></div><div class="cap"><b>letter-spacing</b>: .3em<span class="note-in">ロゴ・見出し用</span></div></div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="c">② 色</h2>
+  <p class="note">色の指定には5つの書き方がある。どれを使っても結果は同じなので、好きなもので構わない。<br>
+    <b>自分で色を作って値を見たいときは <a href="color-lab.html">色のページ</a> へ。</b>
+    名前140色の表と、3色をサイトに当てて試せる見本がある。</p>
+
+  <h3>色の書き方</h3>
+  <div class="gal c5">
+    <div class="item"><div class="demo" style="background:tomato"></div><div class="cap"><b>color</b>: tomato<span class="note-in">名前（140色ある）</span></div></div>
+    <div class="item"><div class="demo" style="background:#cf4436"></div><div class="cap"><b>color</b>: #cf4436<span class="note-in">16進。いちばん普通</span></div></div>
+    <div class="item"><div class="demo" style="background:#c43"></div><div class="cap"><b>color</b>: #c43<span class="note-in">3桁の省略形</span></div></div>
+    <div class="item"><div class="demo" style="background:rgb(207,68,54)"></div><div class="cap"><b>color</b>: rgb(207,68,54)<span class="note-in">赤・緑・青を0〜255で</span></div></div>
+    <div class="item"><div class="demo" style="background:hsl(6,60%,51%)"></div><div class="cap"><b>color</b>: hsl(6,60%,51%)<span class="note-in">色相・鮮やかさ・明るさ</span></div></div>
+  </div>
+
+  <h3>透明度をつける</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo" style="background:repeating-linear-gradient(45deg,#eee 0 7px,#fff 7px 14px)"><div style="width:100%;height:56px;background:rgba(207,68,54,1)"></div></div><div class="cap"><b>background</b>: rgba(207,68,54,<b>1</b>)</div></div>
+    <div class="item"><div class="demo" style="background:repeating-linear-gradient(45deg,#eee 0 7px,#fff 7px 14px)"><div style="width:100%;height:56px;background:rgba(207,68,54,.6)"></div></div><div class="cap"><b>background</b>: rgba(207,68,54,<b>.6</b>)</div></div>
+    <div class="item"><div class="demo" style="background:repeating-linear-gradient(45deg,#eee 0 7px,#fff 7px 14px)"><div style="width:100%;height:56px;background:rgba(207,68,54,.25)"></div></div><div class="cap"><b>background</b>: rgba(207,68,54,<b>.25</b>)</div></div>
+    <div class="item"><div class="demo" style="background:repeating-linear-gradient(45deg,#eee 0 7px,#fff 7px 14px)"><div style="width:100%;height:56px;background:#cf4436;opacity:.4"></div></div><div class="cap"><b>opacity</b>: .4<span class="note-in">中身ごと薄くなる</span></div></div>
+  </div>
+
+  <h3>グラデーション</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo" style="background:linear-gradient(#ffd479,#cf4436)"></div><div class="cap"><b>background</b>: linear-gradient(#ffd479,#cf4436)<span class="note-in">上から下へ</span></div></div>
+    <div class="item"><div class="demo" style="background:linear-gradient(90deg,#2a6ca8,#b9ecd0)"></div><div class="cap"><b>background</b>: linear-gradient(90deg,#2a6ca8,#b9ecd0)<span class="note-in">左から右へ</span></div></div>
+    <div class="item"><div class="demo" style="background:linear-gradient(135deg,#8a5fb0,#e88a72)"></div><div class="cap"><b>background</b>: linear-gradient(135deg,#8a5fb0,#e88a72)<span class="note-in">ななめ</span></div></div>
+    <div class="item"><div class="demo" style="background:radial-gradient(circle,#ffe873,#4f8a5b)"></div><div class="cap"><b>background</b>: radial-gradient(circle,#ffe873,#4f8a5b)<span class="note-in">まるく広がる</span></div></div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="b">③ 枠・角・影</h2>
+  <p class="note">この3つだけで「それっぽさ」がかなり出る。困ったら角を丸めて影をつけて。</p>
+
+  <h3>border ── 枠線</h3>
+  <div class="gal c5">
+    <div class="item"><div class="demo"><div class="bx" style="border-style:solid">solid</div></div><div class="cap"><b>border</b>: 2px solid #6ba3cf</div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-style:dashed">dashed</div></div><div class="cap"><b>border-style</b>: dashed<span class="note-in">破線</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-style:dotted">dotted</div></div><div class="cap"><b>border-style</b>: dotted<span class="note-in">点線</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-style:double;border-width:4px">double</div></div><div class="cap"><b>border-style</b>: double<span class="note-in">二重線</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border:none;border-left:5px solid #cf4436;border-radius:0">左だけ</div></div><div class="cap"><b>border-left</b>: 5px solid #cf4436<span class="note-in">一辺だけも指定できる</span></div></div>
+  </div>
+
+  <h3>border-radius ── 角の丸み</h3>
+  <div class="gal c5">
+    <div class="item"><div class="demo"><div class="bx" style="border-radius:0">0</div></div><div class="cap"><b>border-radius</b>: 0<span class="note-in">かくかく</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-radius:6px">6px</div></div><div class="cap"><b>border-radius</b>: 6px<span class="note-in">ほんの少し</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-radius:16px">16px</div></div><div class="cap"><b>border-radius</b>: 16px<span class="note-in">やわらかい</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-radius:999px">999px</div></div><div class="cap"><b>border-radius</b>: 999px<span class="note-in">カプセル形。ボタン向き</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border-radius:50%;width:58px;height:58px;display:grid;place-items:center">50%</div></div><div class="cap"><b>border-radius</b>: 50%<span class="note-in">正方形なら円になる</span></div></div>
+  </div>
+
+  <h3>box-shadow ── 影</h3>
+  <div class="gal c5">
+    <div class="item"><div class="demo"><div class="bx" style="border:none;background:#fff;box-shadow:none">なし</div></div><div class="cap"><b>box-shadow</b>: none</div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border:none;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)">小</div></div><div class="cap"><b>box-shadow</b>: 0 1px 3px rgba(0,0,0,.2)</div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border:none;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.22)">中</div></div><div class="cap"><b>box-shadow</b>: 0 4px 12px rgba(0,0,0,.22)<span class="note-in">浮いて見える</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border:none;background:#fff;box-shadow:3px 4px 0 rgba(44,58,66,.85)">ずらし</div></div><div class="cap"><b>box-shadow</b>: 3px 4px 0 #2c3a42<span class="note-in">ぼかさない。今っぽい</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="border:none;background:#eee;box-shadow:inset 0 2px 6px rgba(0,0,0,.28)">inset</div></div><div class="cap"><b>box-shadow</b>: inset 0 2px 6px rgba(0,0,0,.28)<span class="note-in">内側。へこんで見える</span></div></div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="s">④ 余白とサイズ</h2>
+  <p class="note">「なんか窮屈」の原因はだいたい <code>padding</code> 不足。迷ったら余白を増やして。</p>
+
+  <h3>padding ── 内側の余白</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo"><div class="bx" style="padding:0">0</div></div><div class="cap"><b>padding</b>: 0</div></div>
+    <div class="item"><div class="demo"><div class="bx" style="padding:8px">8px</div></div><div class="cap"><b>padding</b>: 8px</div></div>
+    <div class="item"><div class="demo"><div class="bx" style="padding:20px">20px</div></div><div class="cap"><b>padding</b>: 20px<span class="note-in">ゆったり</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="padding:10px 28px">上下10 左右28</div></div><div class="cap"><b>padding</b>: 10px 28px<span class="note-in">上下 → 左右 の順</span></div></div>
+  </div>
+
+  <h3>width ── 横幅の指定のしかた</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:9px"><div class="bx r" style="width:120px">120px</div></div></div><div class="cap"><b>width</b>: 120px<span class="note-in">いつも120px。画面が狭いとはみ出す</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:9px"><div class="bx r" style="width:50%">50%</div></div></div><div class="cap"><b>width</b>: 50%<span class="note-in">親の半分。画面に合わせて伸縮</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:9px"><div class="bx r" style="width:auto">auto</div></div></div><div class="cap"><b>width</b>: auto<span class="note-in">初期値。横いっぱいに広がる</span></div></div>
+  </div>
+  <div class="fusen" data-c="green">
+    <b>実戦ではこの組み合わせが多い</b>
+    <code>width:100%; max-width:800px; margin:0 auto;</code><br>
+    「<span class="mk">広い画面では800pxで止めて中央に、狭い画面では画面いっぱいに</span>」という意味。
+    スマホでもPCでも崩れないので、ページ全体の外枠によく使う。
+  </div>
+
+  <h3>margin: 0 auto ── 中央に置く</h3>
+  <div class="gal c2">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:9px"><div class="bx g" style="width:130px">margin なし</div></div></div><div class="cap"><b>margin</b>: 0<span class="note-in">左に寄ったまま</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:9px"><div class="bx g" style="width:130px;margin:0 auto">margin: 0 auto</div></div></div><div class="cap"><b>margin</b>: 0 auto<span class="note-in">左右の余白を等分＝中央に来る</span></div></div>
+  </div>
+  <div class="fusen" data-c="pink">
+    <b>margin: 0 auto が効かないとき</b>
+    <span class="mk">width を指定していない</span>のが原因。幅が「横いっぱい」のままだと、
+    中央に寄せる余白が残らない。まず <code>width</code> か <code>max-width</code> を決めて。
+  </div>
+
+  <h3>box-sizing ── 幅の数え方</h3>
+  <div class="gal c2">
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="height:auto;padding:9px">
+          <div style="width:180px;padding:14px;border:3px solid #d38b7b;background:#fbd6cd;box-sizing:content-box;font-size:12px">width:180px<br>でも実際は214px</div>
+        </div>
+      </div>
+      <div class="cap"><b>box-sizing</b>: content-box<span class="note-in">初期値。padding と border が外側に足される</span></div>
+    </div>
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="height:auto;padding:9px">
+          <div style="width:180px;padding:14px;border:3px solid #82b377;background:#d5efce;box-sizing:border-box;font-size:12px">width:180px<br>ぴったり180px</div>
+        </div>
+      </div>
+      <div class="cap"><b>box-sizing</b>: border-box<span class="note-in">枠込みで180px。計算が楽</span></div>
+    </div>
+  </div>
+  <div class="fusen">
+    <b>最初に1回だけ書いておくおまじない</b>
+    <code>* { box-sizing: border-box; }</code> を style.css のいちばん上に書いておくと、
+    全部の要素が右側の数え方になる。<span class="mk">レイアウトがずれる事故が激減する</span>ので、
+    毎回書いてしまって構わない。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="x">⑤ 横に並べる（Flexbox）</h2>
+  <p class="note">「縦に積まれてしまう」を直す道具。親に <code>display:flex</code> と書くと、中身が横に並ぶ。</p>
+
+  <h3>display ── 表示のしかた</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:8px"><span class="bx" style="display:block;margin-bottom:5px">A</span><span class="bx" style="display:block">B</span></div></div><div class="cap"><b>display</b>: block<span class="note-in">縦に積まれる。幅は横いっぱい</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage" style="height:auto;padding:8px"><span class="bx" style="display:inline">A</span> <span class="bx" style="display:inline">B</span></div></div><div class="cap"><b>display</b>: inline<span class="note-in">文字と同じ扱い。横に続く</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="height:auto;padding:8px;gap:6px"><span class="bx">A</span><span class="bx">B</span></div></div><div class="cap"><b>display</b>: flex<span class="note-in">横に並ぶ。位置も細かく決められる</span></div></div>
+  </div>
+
+  <h3>justify-content ── 横方向のそろえ方</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:flex-start;align-items:center;gap:6px;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: flex-start<span class="note-in">左づめ（初期値）</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:center;align-items:center;gap:6px;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: center<span class="note-in">中央</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:flex-end;align-items:center;gap:6px;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: flex-end<span class="note-in">右づめ</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:space-between;align-items:center;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: space-between<span class="note-in">両端に寄せて等間隔。ヘッダー向き</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:space-around;align-items:center;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: space-around<span class="note-in">まわりに等しく余白</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="justify-content:space-evenly;align-items:center;padding:0 8px"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>justify-content</b>: space-evenly<span class="note-in">すき間を完全に等分</span></div></div>
+  </div>
+
+  <h3>align-items ── 縦方向のそろえ方</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="align-items:flex-start;gap:6px;padding:8px"><span class="bx">上</span><span class="bx" style="padding-top:22px;padding-bottom:22px">高</span></div></div><div class="cap"><b>align-items</b>: flex-start<span class="note-in">上ぞろえ</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="align-items:center;gap:6px;padding:8px"><span class="bx">中</span><span class="bx" style="padding-top:22px;padding-bottom:22px">高</span></div></div><div class="cap"><b>align-items</b>: center<span class="note-in">上下中央。よく使う</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="align-items:flex-end;gap:6px;padding:8px"><span class="bx">下</span><span class="bx" style="padding-top:22px;padding-bottom:22px">高</span></div></div><div class="cap"><b>align-items</b>: flex-end<span class="note-in">下ぞろえ</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="align-items:stretch;gap:6px;padding:8px"><span class="bx">伸</span><span class="bx" style="padding-top:22px;padding-bottom:22px">高</span></div></div><div class="cap"><b>align-items</b>: stretch<span class="note-in">初期値。高さがそろう</span></div></div>
+  </div>
+
+  <h3>flex-direction / gap</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="flex-direction:row;gap:6px;padding:8px;align-items:center"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>flex-direction</b>: row<span class="note-in">横（初期値）</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="flex-direction:column;gap:3px;padding:6px;font-size:11px"><span class="bx" style="padding:2px 9px">1</span><span class="bx" style="padding:2px 9px">2</span><span class="bx" style="padding:2px 9px">3</span></div></div><div class="cap"><b>flex-direction</b>: column<span class="note-in">縦</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="gap:0;padding:8px;align-items:center"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>gap</b>: 0<span class="note-in">くっつく</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div class="stage flex" style="gap:18px;padding:8px;align-items:center"><span class="bx">1</span><span class="bx">2</span><span class="bx">3</span></div></div><div class="cap"><b>gap</b>: 18px<span class="note-in">すき間。margin より楽</span></div></div>
+  </div>
+  <div class="fusen" data-c="blue">
+    <b>スマホで崩れるのを防ぐ1行</b>
+    <code>flex-wrap: wrap;</code> を足しておくと、<span class="mk">入りきらないぶんが次の行に折り返す</span>。
+    これがないと、画面が狭いときに全部が押しつぶされる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="p">⑥ 位置を決める（position）</h2>
+  <p class="note">重ねたり、ずらしたり、画面に貼りつけたり。<b>使うのは relative と absolute の2つ</b>がほとんど。</p>
+
+  <div class="gal c2">
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="padding:8px">
+          <span class="bx">ふつう</span>
+          <span class="bx r" style="position:static">static</span>
+        </div>
+      </div>
+      <div class="cap"><b>position</b>: static<span class="note-in">初期値。top / left は効かない</span></div>
+    </div>
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="padding:8px">
+          <span class="bx">ふつう</span>
+          <span class="bx r" style="position:relative;top:16px;left:20px">relative</span>
+        </div>
+      </div>
+      <div class="cap"><b>position</b>: relative; top:16px; left:20px<span class="note-in">もとの場所からずれる。場所は空けたまま</span></div>
+    </div>
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="padding:8px; position:relative">
+          <span class="bx">ふつう</span>
+          <span class="bx r" style="position:absolute;right:8px;bottom:8px">absolute</span>
+        </div>
+      </div>
+      <div class="cap"><b>position</b>: absolute; right:8px; bottom:8px<span class="note-in">親の好きな場所へ。浮くので場所を空けない</span></div>
+    </div>
+    <div class="item">
+      <div class="demo" style="place-items:stretch">
+        <div class="stage" style="padding:8px; overflow:auto">
+          <div style="position:sticky;top:0;background:#ffe873;border:1.5px solid #c9ab2e;border-radius:4px;padding:3px 8px;font-size:12px">sticky（上に貼りつく）</div>
+          <div style="font-size:12px;line-height:1.9">スクロールしてみて。<br>1行目<br>2行目<br>3行目<br>4行目<br>5行目</div>
+        </div>
+      </div>
+      <div class="cap"><b>position</b>: sticky; top:0<span class="note-in">スクロールすると画面の端で止まる</span></div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>absolute を使うときの鉄則</b>
+    <code>absolute</code> は「いちばん近い <code>position:relative</code> の親」を基準にする。
+    <span class="mk">親に relative を書き忘れると、ページ全体の左上を基準にして飛んでいく。</span>
+    「変な場所に行った」のは、ほぼこれ。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="i">⑦ 画像</h2>
+  <p class="note">画像は「枠のサイズ」と「中身の入れ方」を別々に決める。<code>object-fit</code> を知らないと画像がつぶれる。</p>
+
+  <h3>object-fit ── 枠への入れ方</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo"><img src="../assets/char/nanamoon.webp" alt="" style="width:110px;height:76px;object-fit:fill;border:1.5px solid rgba(44,58,66,.3)"></div><div class="cap"><b>object-fit</b>: fill<span class="note-in">初期値。つぶれる／伸びる</span></div></div>
+    <div class="item"><div class="demo"><img src="../assets/char/nanamoon.webp" alt="" style="width:110px;height:76px;object-fit:contain;border:1.5px solid rgba(44,58,66,.3)"></div><div class="cap"><b>object-fit</b>: contain<span class="note-in">全体が入る。すき間ができる</span></div></div>
+    <div class="item"><div class="demo"><img src="../assets/char/nanamoon.webp" alt="" style="width:110px;height:76px;object-fit:cover;border:1.5px solid rgba(44,58,66,.3)"></div><div class="cap"><b>object-fit</b>: cover<span class="note-in">枠を埋める。はみ出しは切る。ふつうこれ</span></div></div>
+    <div class="item"><div class="demo"><img src="../assets/char/nanamoon.webp" alt="" style="width:110px;height:76px;object-fit:none;border:1.5px solid rgba(44,58,66,.3)"></div><div class="cap"><b>object-fit</b>: none<span class="note-in">原寸のまま。中央だけ見える</span></div></div>
+  </div>
+
+  <h3>まるく切り抜く／サイズを決める</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo"><img src="../assets/char/usagi.webp" alt="" style="width:78px;height:78px;object-fit:cover;border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25)"></div><div class="cap"><b>border-radius</b>: 50%<span class="note-in">アイコンの定番</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><img src="../assets/char/rian.webp" alt="" style="width:100%;height:76px;object-fit:contain"></div><div class="cap"><b>width</b>: 100%<span class="note-in">親の幅に合わせる</span></div></div>
+    <div class="item"><div class="demo"><img src="../assets/char/rian.webp" alt="" style="max-width:100%;height:auto;width:130px"></div><div class="cap"><b>max-width</b>: 100%; <b>height</b>: auto<span class="note-in">縦横比を保ったまま縮む。必ず書く</span></div></div>
+  </div>
+
+  <div class="fusen">
+    <b>画像が出ないときに見るところ</b>
+    ① ファイル名のつづりと<span class="mk">大文字小文字</span>が合っているか　②
+    <code>img/</code> フォルダの中にあるか　③ <code>.jpg</code> と <code>.jpeg</code> を間違えていないか。
+    くわしくは <a href="../reference/errors.html">エラー辞典</a>。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="o">⑧ そのほか、よく使うもの</h2>
+
+  <h3>マウスを乗せたときに変える（:hover）</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo"><span class="hv-bg" style="display:inline-block;background:#cf4436;color:#fff;padding:7px 18px;border-radius:999px;font-size:14px;transition:background .2s;cursor:pointer">乗せてみて</span></div><div class="cap"><b>.btn:hover</b> { background: #8f2e23; }<span class="note-in">色が変わる</span></div></div>
+    <div class="item"><div class="demo"><div class="hv-up bx" style="transition:transform .2s;cursor:pointer">乗せてみて</div></div><div class="cap"><b>:hover</b> { transform: translateY(-5px); }<span class="note-in">ふわっと浮く</span></div></div>
+    <div class="item"><div class="demo"><div class="hv-sh bx" style="transition:box-shadow .2s;cursor:pointer">乗せてみて</div></div><div class="cap"><b>:hover</b> { box-shadow: 0 6px 16px rgba(0,0,0,.3); }<span class="note-in">影が濃くなる</span></div></div>
+  </div>
+  <div class="fusen" data-c="green">
+    <b>transition は「変化にかける時間」</b>
+    <code>transition: .2s;</code> を<span class="mk">ふだんの側（:hover じゃないほう）</span>に書く。
+    書かないとパッと切り替わり、書くとなめらかに変わる。0.2秒くらいがちょうどいい。
+  </div>
+
+  <h3>リンクとリストの飾りを消す</h3>
+  <div class="gal c4">
+    <div class="item"><div class="demo"><a href="#o" style="font-size:14px">初期値のリンク</a></div><div class="cap"><span class="note-in">下線と青色がつく</span></div></div>
+    <div class="item"><div class="demo"><a href="#o" style="font-size:14px;text-decoration:none;color:var(--ink)">飾りなし</a></div><div class="cap"><b>text-decoration</b>: none<span class="note-in">下線を消す</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><ul style="font-size:13px;padding-left:20px"><li>りんご</li><li>みかん</li></ul></div><div class="cap"><b>list-style</b>: disc<span class="note-in">初期値。黒丸</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><ul style="font-size:13px;list-style:none;padding-left:0"><li>りんご</li><li>みかん</li></ul></div><div class="cap"><b>list-style</b>: none; <b>padding-left</b>: 0<span class="note-in">メニューを作るとき用</span></div></div>
+  </div>
+
+  <h3>はみ出したものをどうするか（overflow）</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="width:100%;height:70px;border:1.5px solid #d38b7b;font-size:12px;overflow:visible">はみ出す文章がここにずらずらと続いていく。枠の外まで出ていく。どこまでも。</div></div><div class="cap"><b>overflow</b>: visible<span class="note-in">初期値。はみ出したまま</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="width:100%;height:70px;border:1.5px solid #82b377;font-size:12px;overflow:hidden">はみ出す文章がここにずらずらと続いていく。枠の外まで出ていく。どこまでも。</div></div><div class="cap"><b>overflow</b>: hidden<span class="note-in">切り取る</span></div></div>
+    <div class="item"><div class="demo" style="place-items:stretch"><div style="width:100%;height:70px;border:1.5px solid #6ba3cf;font-size:12px;overflow:auto">はみ出す文章がここにずらずらと続いていく。枠の外まで出ていく。どこまでも。まだ続く。もっと続く。</div></div><div class="cap"><b>overflow</b>: auto<span class="note-in">スクロールバーが出る</span></div></div>
+  </div>
+
+  <h3>マウスカーソルの形</h3>
+  <div class="gal c3">
+    <div class="item"><div class="demo"><div class="bx" style="cursor:default">default</div></div><div class="cap"><b>cursor</b>: default<span class="note-in">ふつうの矢印</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="cursor:pointer">pointer</div></div><div class="cap"><b>cursor</b>: pointer<span class="note-in">指。押せるものには必ず</span></div></div>
+    <div class="item"><div class="demo"><div class="bx" style="cursor:not-allowed">not-allowed</div></div><div class="cap"><b>cursor</b>: not-allowed<span class="note-in">禁止マーク</span></div></div>
+  </div>
+
+
+  <div class="fusen" data-c="blue" style="margin-top:34px">
+    <b>次にやること</b>
+    見本を選んだら、<a href="index.html">ライブエディタ</a>に貼って動かしてみて。
+    値を変えて「こうすると、こう変わる」を<span class="mk">自分の手で1回やる</span>と、もう忘れない。<br>
+    位置・サイズ・フォントを狙いどおりに出す練習は <a href="layout-lab.html">レイアウト練習</a> にある。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+/* ---- :hover のデモ（style属性に :hover は書けないのでJSで） ---- */
+function hover(sel, on, off) {
+  document.querySelectorAll(sel).forEach(function (el) {
+    el.addEventListener('mouseenter', function () { on(el); });
+    el.addEventListener('mouseleave', function () { off(el); });
+  });
+}
+hover('.hv-bg', function (el) { el.style.background = '#8f2e23'; },
+                function (el) { el.style.background = '#cf4436'; });
+hover('.hv-up', function (el) { el.style.transform = 'translateY(-5px)'; },
+                function (el) { el.style.transform = 'none'; });
+hover('.hv-sh', function (el) { el.style.boxShadow = '0 6px 16px rgba(0,0,0,.3)'; },
+                function (el) { el.style.boxShadow = 'none'; });
+
+/* ---- コード行をクリックしたらコピーする ---- */
+document.querySelectorAll('.cap').forEach(function (el) {
+  el.addEventListener('click', function () {
+    var t = el.cloneNode(true);
+    var n = t.querySelector('.note-in');
+    if (n) n.remove();
+    var text = t.textContent.trim();
+    if (!text || !/[:]/.test(text)) return;   /* 説明だけの行はコピーしない */
+    if (text.slice(-1) !== ';' && text.slice(-1) !== '}') text += ';';
+
+    navigator.clipboard.writeText(text).then(function () {
+      document.querySelectorAll('.cap.copied').forEach(function (o) { o.classList.remove('copied'); });
+      el.classList.add('copied');
+      setTimeout(function () { el.classList.remove('copied'); }, 1300);
+    }).catch(function () { /* 権限がないときは黙って何もしない */ });
+  });
+});
+</script>
+</body>
+</html>

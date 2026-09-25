@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ユウのトリセツ｜DAY 5</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <header class="bar">
+      <div class="bar-logo">ユウのトリセツ</div>
+      <nav class="bar-nav"><a href="#play">動かしてみる</a></nav>
+    </header>
+
+    <main class="wrap">
+
+      <h1 class="ttl-big">ボタンを押すと、何かが起きるページ</h1>
+      <p class="lead">ここから JavaScript です。HTML と CSS は「置く」だけでしたが、
+      JavaScript は <b>押した瞬間に書き換える</b> ことができます。</p>
+
+      <!-- ======== ① いちばん簡単なボタン ======== -->
+      <section class="box" id="play">
+        <h2>① 押したら文字が変わる</h2>
+        <p id="hello">まだ押されていません。</p>
+        <button id="btnHello" class="btn">押してみる</button>
+      </section>
+
+      <!-- ======== ② 数を数える ======== -->
+      <section class="box">
+        <h2>② 数を数える（変数）</h2>
+        <p>からあげを食べた数：<span id="count" class="num">0</span> 個</p>
+        <button id="btnPlus"  class="btn">＋1</button>
+        <button id="btnReset" class="btn btn-sub">リセット</button>
+        <p id="countMsg" class="msg"></p>
+      </section>
+
+      <!-- ======== ③ 入力を受け取る ======== -->
+      <section class="box">
+        <h2>③ 入力を受け取る</h2>
+        <input type="text" id="nameInput" placeholder="なまえを入れてね">
+        <button id="btnGreet" class="btn">あいさつする</button>
+        <p id="greet" class="msg"></p>
+      </section>
+
+      <!-- ======== ④ ランダムと条件分岐 ======== -->
+      <section class="box">
+        <h2>④ 今日のユウ判定（ランダム＋if）</h2>
+        <p>サイコロを振って、今日の状態を占います。</p>
+        <button id="btnDice" class="btn">診断する</button>
+        <p id="diceResult" class="result">？</p>
+      </section>
+
+      <!-- ======== ⑤ 見た目を切り替える ======== -->
+      <section class="box">
+        <h2>⑤ 見た目を切り替える（classList）</h2>
+        <p>ボタンひとつで、暗い配色にできます。</p>
+        <button id="btnDark" class="btn">夜モードにする</button>
+      </section>
+
+    </main>
+
+    <footer class="foot"><p>&copy; 2026 ユウ ／ DAY 5（JavaScript 1回目）</p></footer>
+
+    <!-- JavaScript は body の一番下で読み込む（HTMLが先に出来ている必要があるため） -->
+    <script src="script.js"></script>
+  </body>
+</html>

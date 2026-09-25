@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIへの質問文メーカー｜Webのつくりかた</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  .sheet{ max-width:1080px; }
+  .modes{ display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin-bottom:20px; }
+  @media (max-width:900px){ .modes{ grid-template-columns:repeat(2,1fr); } }
+  .mode{
+    font:inherit; font-size:14px; text-align:left; cursor:pointer;
+    background:rgba(255,255,255,.75); border:1.6px solid rgba(44,58,66,.2);
+    border-top:5px solid rgba(44,58,66,.25); border-radius:6px; padding:11px 13px;
+    transition:border-color .15s, transform .12s;
+  }
+  .mode:hover{ transform:translateY(-2px); }
+  .mode.on{ border-top-color:var(--red); background:#fff; box-shadow:2px 3px 0 rgba(207,68,54,.16); }
+  .mode b{ display:block; font-size:15px; margin-bottom:2px; }
+  .mode span{ font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:15px; font-weight:600; margin-bottom:4px; }
+  .field .hint{ font-size:13px; color:var(--ink-2); margin-bottom:5px; }
+  .field textarea, .field input[type=text]{
+    width:100%; font:inherit; font-size:14.5px; padding:9px 13px;
+    border:1.5px solid rgba(44,58,66,.24); border-radius:6px;
+    background:#fffdf6; color:var(--ink); resize:vertical;
+  }
+  .field textarea{ font-family:var(--f-code); font-size:13.5px; line-height:1.65; min-height:90px; }
+  .field textarea.plain{ font-family:var(--f-body); font-size:14.5px; min-height:64px; }
+  .field:focus-within label{ color:var(--red); }
+
+  .result{
+    background:var(--code-bg); color:#e8e6df; border-radius:8px;
+    padding:16px 18px; font-family:var(--f-code); font-size:13.5px; line-height:1.75;
+    white-space:pre-wrap; word-break:break-word; min-height:150px;
+    box-shadow:2px 4px 0 rgba(44,58,66,.16);
+  }
+  .rbar{ display:flex; gap:10px; align-items:center; margin:12px 0 0; flex-wrap:wrap; }
+  .rbar .sp{ flex:1; }
+  .go{
+    display:inline-block; text-decoration:none; font-size:14px; padding:6px 18px;
+    border-radius:999px; border:1.5px solid rgba(44,58,66,.3); color:var(--ink); background:#fff;
+  }
+  .go:hover{ border-color:var(--blue); color:var(--blue); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>AIへの質問文メーカー</h1>
+  <p class="lead">AIは<b>聞き方で答えの質が変わる</b>。<br>
+    空欄を埋めると、<span class="mk">そのまま貼れる質問文</span>ができる。</p>
+
+  <div class="fusen" data-c="pink">
+    <b>これは「AIの代わり」ではない</b>
+    出てきた文をコピーして、Claude や ChatGPT に<b>自分で貼って</b>。
+    大事なのは聞き方を身につけることなので、慣れたらこのページは要らなくなる。
+  </div>
+
+  <h2 id="mode">① どういう場面？</h2>
+  <div class="modes" id="modes">
+    <button class="mode on" data-m="error"><b>エラーが出た</b><span>赤い文字が出ている</span></button>
+    <button class="mode" data-m="broken"><b>動かない</b><span>エラーは無いが思い通りでない</span></button>
+    <button class="mode" data-m="plan"><b>作りたいものがある</b><span>設計の相談をしたい</span></button>
+    <button class="mode" data-m="review"><b>見てもらいたい</b><span>書いたコードのレビュー</span></button>
+    <button class="mode" data-m="learn"><b>意味がわからない</b><span>コードや用語の説明</span></button>
+  </div>
+
+  <h2 id="fill">② 空欄を埋める</h2>
+  <div class="panel" id="form"></div>
+
+  <h2 id="out">③ これをコピーして貼る</h2>
+  <div class="result" id="result"></div>
+  <div class="rbar">
+    <button class="btn" id="btnCopy">コピーする</button>
+    <button class="btn" id="btnClear">入力を消す</button>
+    <div class="sp"></div>
+    <a class="go" href="https://claude.ai/" target="_blank" rel="noopener">Claude を開く</a>
+    <a class="go" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT を開く</a>
+  </div>
+
+  <h2 id="tips">聞き方のコツ</h2>
+  <div class="grid2">
+    <div class="panel" style="border-left:6px solid var(--green)">
+      <h3 style="color:var(--green); margin-top:0">○ 良い聞き方</h3>
+      <ul style="list-style:none; font-size:15px">
+        <li>・エラー文を<b>そのまま</b>貼る（要約しない）</li>
+        <li>・<b>該当のコード</b>も一緒に貼る</li>
+        <li>・「何をしたいのか」を書く</li>
+        <li>・使っている技術を書く（HTML/CSS/JSだけ、など）</li>
+        <li>・<b>「初心者なので簡単に」</b>と添える</li>
+        <li>・設計は「コードはまだ書かないで」と付ける</li>
+      </ul>
+    </div>
+    <div class="panel" style="border-left:6px solid var(--red)">
+      <h3 style="color:var(--red); margin-top:0">× もったいない聞き方</h3>
+      <ul style="list-style:none; font-size:15px">
+        <li>・「動きません」だけ</li>
+        <li>・「エラーが出た」だけ</li>
+        <li>・コードを貼らずに口で説明する</li>
+        <li>・「すごろく作って」（丸投げ）</li>
+        <li>・出てきたコードを<b>読まずに</b>貼る</li>
+        <li>・直らないとき、理由を見ずに作り直させる</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>返ってきたコードは、必ず読む</b>
+    分からない行があったら「<span class="mk">この行が何をしているか教えて</span>」と続けて聞いて。
+    これをやるかやらないかで、半年後の差が決まる。
+  </div>
+
+  <p style="margin-top:22px">
+    → <a href="index.html">ライブエディタ</a>で、もらったコードを試せる<br>
+    → <a href="../reference/errors.html">エラー辞典</a>（聞く前に見ると自力で直せることも多い）
+  </p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+
+/* =========================================================
+   場面ごとの入力項目
+   ========================================================= */
+const MODES = {
+  error: {
+    fields: [
+      { k:"goal", t:"何をしようとしていた？", h:"例：ボタンを押したら文字が変わるようにしたい", plain:true },
+      { k:"msg",  t:"エラー文（F12のConsoleの赤い文字）", h:"そのままコピーして貼る。省略しないこと" },
+      { k:"code", t:"関係しそうなコード", h:"エラーに出ていた行のまわり。多めでOK" }
+    ],
+    build: (v) =>
+      "HTML・CSS・JavaScript だけでWebページを作っている初心者です。\n" +
+      "次のエラーが出ました。原因と直し方を、専門用語をかみくだいて教えてください。\n\n" +
+      "【やりたかったこと】\n" + (v.goal || "（未記入）") + "\n\n" +
+      "【エラー文】\n" + (v.msg || "（未記入）") + "\n\n" +
+      "【コード】\n```\n" + (v.code || "（未記入）") + "\n```\n\n" +
+      "・なぜこのエラーが出たのかも説明してください。\n" +
+      "・直したコード全体ではなく、直す場所だけを示してください。"
+  },
+  broken: {
+    fields: [
+      { k:"want", t:"どうなってほしい？", h:"例：3つの箱を横に並べたい", plain:true },
+      { k:"now",  t:"いまどうなっている？", h:"例：縦に積まれてしまう", plain:true },
+      { k:"code", t:"コード（HTML と CSS / JS）", h:"関係する部分を貼る" }
+    ],
+    build: (v) =>
+      "HTML・CSS・JavaScript だけでWebページを作っている初心者です。\n" +
+      "エラーは出ていませんが、思ったとおりに動きません。\n\n" +
+      "【こうしたい】\n" + (v.want || "（未記入）") + "\n\n" +
+      "【いまこうなっている】\n" + (v.now || "（未記入）") + "\n\n" +
+      "【コード】\n```\n" + (v.code || "（未記入）") + "\n```\n\n" +
+      "・原因を先に説明してから、直し方を教えてください。\n" +
+      "・初心者なので、新しいライブラリは使わない方法でお願いします。"
+  },
+  plan: {
+    fields: [
+      { k:"what", t:"作りたいもの（一言で）", h:"例：手札のことばでプロポーズの文を作るパーティゲーム", plain:true },
+      { k:"who",  t:"誰が・いつ使う？", h:"例：友達と2人以上、遊びの場で。1回5分くらい", plain:true },
+      { k:"func", t:"欲しい機能（箇条書き）", h:"思いつくまま。順番も重要度も気にしない" },
+      { k:"skip", t:"今回はやらないこと", h:"例：ネット対戦、ランキング保存", plain:true }
+    ],
+    build: (v) =>
+      "HTML・CSS・JavaScript だけで、次のものを作ろうとしています。\n" +
+      "私は初心者で、使えるのは配列・オブジェクト・if・関数・DOM操作・localStorage くらいです。\n\n" +
+      "【作りたいもの】\n" + (v.what || "（未記入）") + "\n\n" +
+      "【誰が・いつ使う】\n" + (v.who || "（未記入）") + "\n\n" +
+      "【欲しい機能】\n" + (v.func || "（未記入）") + "\n\n" +
+      "【今回はやらないこと】\n" + (v.skip || "（未記入）") + "\n\n" +
+      "この内容で、次の3つを教えてください。**コードはまだ書かなくて大丈夫です。**\n" +
+      "1. 抜けている考慮点（バグになりそうな所、決め忘れていること）\n" +
+      "2. あると良い機能。ただし「無くても成立するもの」は分けて示してください\n" +
+      "3. どんなデータ（配列やオブジェクト）を用意すればよいか"
+  },
+  review: {
+    fields: [
+      { k:"what", t:"このコードは何をするもの？", h:"例：ボタンを押すとおみくじが出る", plain:true },
+      { k:"code", t:"コード", h:"ファイルごと貼ってOK" }
+    ],
+    build: (v) =>
+      "HTML・CSS・JavaScript を学び始めた初心者です。\n" +
+      "自分で書いた次のコードを見てください。動いてはいます。\n\n" +
+      "【何をするコードか】\n" + (v.what || "（未記入）") + "\n\n" +
+      "【コード】\n```\n" + (v.code || "（未記入）") + "\n```\n\n" +
+      "次の観点で指摘してください。\n" +
+      "1. 危ないところ（変な入力をされたら壊れる箇所など）\n" +
+      "2. もっと短く・読みやすく書ける場所\n" +
+      "3. 名前の付け方でよくないところ\n\n" +
+      "・全部書き直したコードではなく、**直す場所と理由**を教えてください。\n" +
+      "・難しい書き方（新しい文法やライブラリ）は使わない範囲でお願いします。"
+  },
+  learn: {
+    fields: [
+      { k:"code", t:"わからないコード・用語", h:"1行でも、まるごとでもOK" },
+      { k:"q",    t:"何が分からない？", h:"例：この () の中に何を書けばいいのか分からない", plain:true }
+    ],
+    build: (v) =>
+      "HTML・CSS・JavaScript を学び始めた初心者です。\n" +
+      "次のコード（または用語）の意味が分かりません。\n\n" +
+      "【これです】\n```\n" + (v.code || "（未記入）") + "\n```\n\n" +
+      "【分からないこと】\n" + (v.q || "（未記入）") + "\n\n" +
+      "・1行ずつ、日本語で何をしているか説明してください。\n" +
+      "・英単語（メソッド名など）の意味も添えてください。\n" +
+      "・そのあと、同じことをする**もっと簡単な例**を1つ見せてください。"
+  }
+};
+
+/* =========================================================
+   状態
+   ========================================================= */
+const KEY = "web-lesson-askai";
+let mode = "error";
+let vals = {};
+
+const savedRaw = localStorage.getItem(KEY);
+if (savedRaw !== null) {
+  try {
+    const s = JSON.parse(savedRaw);
+    if (s.mode && MODES[s.mode]) mode = s.mode;
+    if (s.vals) vals = s.vals;
+  } catch (e) { /* 壊れていたら初期値 */ }
+}
+
+function save() {
+  localStorage.setItem(KEY, JSON.stringify({ mode: mode, vals: vals }));
+}
+
+/* =========================================================
+   画面を作る
+   ========================================================= */
+function drawForm() {
+  const form = $("#form");
+  form.innerHTML = "";
+
+  MODES[mode].fields.forEach(function (f) {
+    const key = mode + "." + f.k;
+    const wrap = document.createElement("div");
+    wrap.className = "field";
+
+    const lab = document.createElement("label");
+    lab.textContent = f.t;
+    lab.setAttribute("for", "f_" + f.k);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = f.h;
+
+    const ta = document.createElement("textarea");
+    ta.id = "f_" + f.k;
+    if (f.plain) ta.className = "plain";
+    ta.value = vals[key] || "";
+    ta.addEventListener("input", function () {
+      vals[key] = ta.value;
+      save();
+      drawResult();
+    });
+
+    wrap.appendChild(lab);
+    wrap.appendChild(hint);
+    wrap.appendChild(ta);
+    form.appendChild(wrap);
+  });
+}
+
+function drawResult() {
+  const v = {};
+  MODES[mode].fields.forEach(function (f) {
+    v[f.k] = (vals[mode + "." + f.k] || "").trim();
+  });
+  $("#result").textContent = MODES[mode].build(v);
+}
+
+document.querySelectorAll(".mode").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll(".mode").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    mode = b.dataset.m;
+    save();
+    drawForm();
+    drawResult();
+  });
+});
+
+/* =========================================================
+   ボタン
+   ========================================================= */
+$("#btnCopy").addEventListener("click", function (e) {
+  const text = $("#result").textContent;
+  const btn = e.currentTarget;
+  const done = function (ok) {
+    btn.textContent = ok ? "コピーした！" : "コピーできません";
+    setTimeout(function () { btn.textContent = "コピーする"; }, 1400);
+  };
+  const fallback = function () {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta); done(ok);
+    } catch (err) { done(false); }
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+  } else { fallback(); }
+});
+
+$("#btnClear").addEventListener("click", function () {
+  MODES[mode].fields.forEach(function (f) { delete vals[mode + "." + f.k]; });
+  save();
+  drawForm();
+  drawResult();
+});
+
+/* ---- 起動 ---- */
+document.querySelectorAll(".mode").forEach(function (x) {
+  x.classList.toggle("on", x.dataset.m === mode);
+});
+drawForm();
+drawResult();
+</script>
+</body>
+</html>

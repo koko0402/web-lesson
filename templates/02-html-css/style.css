@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/* =========================================================
+   スターター用CSS
+   コメントの説明を読みながら、値を書き換えて使ってください。
+   ========================================================= */
+
+/* ---- 色をここにまとめておくと、あとで一括で変えられる ---- */
+:root {
+  --main:   #2f6d68;   /* 基本の色 */
+  --accent: #e2794f;   /* 目立たせる色 */
+  --bg:     #f6f3ec;   /* 背景 */
+  --ink:    #2f3338;   /* 文字 */
+  --line:   #ddd6c6;   /* 線 */
+}
+
+/* ---- 幅の計算をわかりやすくする定番のおまじない ---- */
+* { box-sizing: border-box; }
+
+/* ---- ページ全体 ---- */
+body {
+  margin: 0;
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+}
+
+/* ---- 上の帯 ---- */
+.head {
+  background: var(--main);
+  color: #ffffff;
+  padding: 32px 24px;
+  text-align: center;
+}
+.head h1 { margin: 0; font-size: 32px; letter-spacing: 0.06em; }
+.head .sub { margin: 6px 0 0; font-size: 14px; opacity: 0.85; }
+
+/* ---- 中身の幅を決めて中央に置く ---- */
+.wrap {
+  max-width: 780px;     /* これ以上は広げない */
+  margin: 0 auto;       /* 左右の余白を自動＝中央 */
+  padding: 30px 24px 50px;
+}
+
+/* ---- ひとかたまり ---- */
+.box {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);   /* 左だけ太い線 */
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.box h2 { margin: 0 0 10px; font-size: 20px; color: var(--accent); }
+.box p  { margin: 0; }
+
+/* ---- 下の帯 ---- */
+.foot {
+  background: var(--main);
+  color: #d7e8e6;
+  text-align: center;
+  padding: 18px;
+  font-size: 13px;
+}
+.foot p { margin: 0; }
+
+/* =========================================================
+   画面が狭いとき（スマホ）だけ効く
+   ========================================================= */
+@media (max-width: 700px) {
+  .head h1 { font-size: 24px; }
+  .wrap    { padding: 20px 16px 40px; }
+  .box     { padding: 16px 18px; }
+}

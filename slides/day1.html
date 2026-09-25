@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 1 ｜ HTMLだけでサイトを作る</title>
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">01</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;1 &nbsp;/ &nbsp;H T M L</div>
+    <h1 class="t">HTMLだけで<br>サイトを作る</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">今日はCSSもJavaScriptも使わない。<br>
+      <span class="mk">文字だけで1ページ</span>、最後まで作りきる。</p>
+    <p class="xs mt2">第1回 ／ タグの読み方・書き方・自己紹介ページの完成まで</p>
+  </div>
+  <div class="chara usa" style="right:130px; bottom:60px; width:96px"><img src="../assets/char/usagi.webp" alt=""></div>
+  <div class="fuki l" style="right:40px; bottom:230px; max-width:230px">
+    タグって、<br>何個おぼえるんだか。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日のゴール">
+  <div class="body">
+    <div class="kicker"><b>今日のゴール</b></div>
+    <h2 class="t">これを作って終わる</h2>
+    <div class="g32">
+      <div>
+        <p class="sm">見た目は素っ気ないだが、これは<b>ちゃんとしたWebページ</b>。
+          文字の大きさも、リストの点も、ぜんぶブラウザが勝手に付けてくれている。</p>
+        <ul class="check mt" style="font-size:18px">
+          <li>見出しと段落を書き分けられる</li>
+          <li>リストを2種類つかい分けられる</li>
+          <li>画像を表示できる</li>
+          <li>リンクで別のページへ飛べる</li>
+          <li>タグを見て意味がわかる</li>
+        </ul>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>今日はあえて「ダサいまま」</b>
+          色を付けたい気持ちをこらえて、まず<span class="mk">中身の構造</span>だけを作る。
+          飾りは DAY 3 でまとめて。
+        </div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>day1/index.html</span></div>
+          <img src="../assets/shots/day1-index.png" alt="完成イメージ" style="height:508px; object-fit:cover; object-position:top center">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="タグの形">
+  <div class="body">
+    <div class="kicker"><b>まずここだけ</b></div>
+    <h2 class="t">タグは「かっこ」でつつむ記号</h2>
+    <div class="g32">
+      <div>
+        <div class="card">
+          <script type="text/plain" class="code" data-lang="html">
+<h1>ユウのトリセツ</h1>
+          </script>
+          <div class="g3 mt" style="gap:10px; text-align:center">
+            <div><div class="hand" style="font-size:15px">開始タグ</div><div class="ic">&lt;h1&gt;</div></div>
+            <div><div class="hand" style="font-size:15px">中身</div><div class="ic">ユウのトリセツ</div></div>
+            <div><div class="hand" style="font-size:15px">終了タグ</div><div class="ic">&lt;/h1&gt;</div></div>
+          </div>
+          <p class="sm mt">この3つで1セット。まとめて<b>要素（エレメント）</b>と呼ぶ。
+            終了タグには <span class="pen">/</span> が付く、まずはこれだけ。</p>
+        </div>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>閉じないタグもある</b>
+          <span class="ic">&lt;img&gt;</span> <span class="ic">&lt;br&gt;</span> <span class="ic">&lt;hr&gt;</span> は中身を持たないので終了タグがない。
+          （空要素という）
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">属性 ＝ タグに付ける追加情報</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<img src="img/photo.webp" alt="ユウの写真">
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:110px">属性名</th><th>意味</th></tr>
+          <tr><td>src</td><td>どのファイルを表示するか</td></tr>
+          <tr><td>alt</td><td>画像が出ないときの代わりの文</td></tr>
+        </table>
+        <p class="sm mt"><b>書き方のきまり</b><br>
+          <span class="ic">属性名="値"</span>　半角のイコールと<b>ダブルクォート</b>。
+          全角で書くと動かない。</p>
+      </div>
+    </div>
+  </div>
+  <div class="chara rian" style="left:16px; bottom:12px; width:60px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="HTMLの骨組み">
+  <div class="body">
+    <div class="kicker"><b>毎回ぜったい書くやつ</b></div>
+    <h2 class="t">この6行は、おまじない</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="sm">
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>ユウのトリセツ</title>
+  </head>
+  <body>
+
+    ここに中身を書く
+
+  </body>
+</html>
+        </script>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>覚えなくていい</b>
+          VSCode で <span class="ic">!</span> と打って <b>Tab</b> キーを押すと、これが一瞬で出る。
+          （Emmet という機能）
+        </div>
+      </div>
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:150px">行</th><th>やっていること</th></tr>
+          <tr><td>&lt;!DOCTYPE html&gt;</td><td>「これはHTML」という宣言。1行目に必ず</td></tr>
+          <tr><td>&lt;html lang="ja"&gt;</td><td>全体のいれもの。日本語のページだと伝える</td></tr>
+          <tr><td>&lt;head&gt;</td><td><b>画面に出ない設定</b>を書く場所</td></tr>
+          <tr><td>&lt;meta charset&gt;</td><td>文字コードの指定。<span class="pen">これが無いと文字化け</span></td></tr>
+          <tr><td>&lt;title&gt;</td><td>タブに出る名前。検索結果にも出る</td></tr>
+          <tr><td>&lt;body&gt;</td><td><b>画面に出る中身</b>を書く場所</td></tr>
+        </table>
+        <div class="fusen mt2 push" style="max-width:none">
+          <b>head と body の違いだけ押さえる</b>
+          「見えない準備」が head、「見える中身」が body。
+          迷ったら body に書けば表示される。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="VSCodeで打つ">
+  <div class="body">
+    <div class="kicker"><b>実際の画面</b></div>
+    <h2 class="t blue">VSCode ではこう見える</h2>
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>Visual Studio Code — day1</span></div>
+      <img src="../assets/shots/vscode-intro.png" alt="VSCodeの画面" style="height:430px; object-fit:cover; object-position:top left">
+    </div>
+    <div class="row mt push" style="gap:16px">
+      <div class="fusen" data-c="blue" style="flex:1">
+        <b>左：ファイル一覧</b>
+        いま開いているフォルダの中身。クリックで切り替え。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>色が付いている</b>
+        タグは青、文字列はオレンジ。<span class="mk">色が付かない＝打ち間違い</span>のサイン。
+      </div>
+      <div class="fusen" data-c="green" style="flex:1">
+        <b>左の番号</b>
+        行番号。エラーが出たとき「何行目」で場所が分かる。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="見出し h1〜h6">
+  <div class="body">
+    <div class="kicker"><b>タグ ①</b></div>
+    <h2 class="t">見出し ── h1 から h6</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<h1>ユウのトリセツ</h1>
+<h2>基本仕様</h2>
+<h3>やってはいけないこと</h3>
+        </script>
+        <ul class="dot mt" style="font-size:18px">
+          <li><b>数字が小さいほど大きい見出し</b>（h1が最大）</li>
+          <li><span class="pen">h1 は1ページに1つ</span>。そのページの題名</li>
+          <li>h1 → h3 と飛ばさない。順番に使う</li>
+          <li>「大きくしたいから h1」はダメ。<b>大きさではなく意味</b>で選ぶ</li>
+        </ul>
+        <div class="yodan">なぜ h6 までなのか、実ははっきりした理由がない。
+          最初にHTMLを作った人が6段で足りると思った、というだけらしい。
+          実際、h4 より下はめったに使わない。</div>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>結果</span></div>
+          <div class="paneview" style="font-family:'Times New Roman',serif">
+            <div style="font-size:32px; font-weight:bold; margin-bottom:10px">ユウのトリセツ</div>
+            <div style="font-size:24px; font-weight:bold; margin-bottom:10px">基本仕様</div>
+            <div style="font-size:19px; font-weight:bold">やってはいけないこと</div>
+          </div>
+        </div>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>なぜ意味が大事？</b>
+          目の見えない人が使う読み上げソフトや、Googleの検索は
+          <span class="mk">タグの意味を頼りに</span>ページを理解している。
+          見た目は後からCSSでいくらでも変えられる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="段落 p と改行 br">
+  <div class="body">
+    <div class="kicker"><b>タグ ②</b></div>
+    <h2 class="t">段落 ── p と br</h2>
+    <p class="lead" style="font-size:19px">HTMLでは <span class="pen">Enterで改行しても、画面では改行されない</span>。ここが最初のつまずきポイント。</p>
+    <div class="g2 mt">
+      <div class="card v">
+        <h4 style="color:var(--red)">× 効かない書き方</h4>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<p>お腹がすくと
+無言になります。</p>
+        </script>
+        <p class="sm mt">→ 画面では <b>「お腹がすくと 無言になる。」</b> と1行につながる。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">○ 効く書き方</h4>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<p>お腹がすくと<br>
+無言になります。</p>
+        </script>
+        <p class="sm mt">→ <span class="ic">&lt;br&gt;</span> を書いた場所で改行される。</p>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" style="flex:1.3">
+        <b>p と br の使い分け</b>
+        文のかたまりが変わるなら <span class="ic">&lt;p&gt;</span> で分ける。同じ文の途中で折り返したいだけなら <span class="ic">&lt;br&gt;</span>。
+        <span class="mk">br の連打で余白を作るのはNG</span>（DAY 3 で余白の作り方をやる）。
+      </div>
+      <div class="fusen" data-c="green" style="flex:1">
+        <b>覚え方</b>
+        p ＝ paragraph（段落）<br>
+        br ＝ break（区切り）
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="リスト ul / ol">
+  <div class="body">
+    <div class="kicker"><b>タグ ③</b></div>
+    <h2 class="t">リスト ── ul と ol</h2>
+    <div class="g2">
+      <div>
+        <h3 class="st">順番なし ── ul</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<ul>
+  <li>からあげ</li>
+  <li>炭酸</li>
+  <li>睡眠</li>
+</ul>
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>結果</span></div>
+          <div class="paneview" style="font-family:'Times New Roman',serif; font-size:15px">
+            <div>・からあげ</div><div>・炭酸</div><div>・睡眠</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">順番あり ── ol</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<ol>
+  <li>夜のコンビニ</li>
+  <li>雨の音</li>
+  <li>全部乗せ</li>
+</ol>
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>結果</span></div>
+          <div class="paneview" style="font-family:'Times New Roman',serif; font-size:15px">
+            <div>1. 夜のコンビニ</div><div>2. 雨の音</div><div>3. 全部乗せ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>番号は自分で書かない</b>
+      <span class="ic">&lt;li&gt;1. 夜のコンビニ&lt;/li&gt;</span> と書くと「1. 1. 夜のコンビニ」になる。
+      番号はブラウザが振るので、<span class="mk">中身だけ書く</span>。順番を入れ替えても自動で振り直される。
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="文字の強調・区切り">
+  <div class="body">
+    <div class="kicker"><b>タグ ④</b></div>
+    <h2 class="t">強調と区切り</h2>
+    <table class="tbl">
+      <tr><th style="width:150px">タグ</th><th style="width:230px">意味</th><th>見た目（初期状態）</th><th style="width:270px">使いどころ</th></tr>
+      <tr><td><span class="ic">&lt;strong&gt;</span></td><td>強い重要性</td><td><b>太字</b></td><td>ここは絶対に伝えたい、という一語</td></tr>
+      <tr><td><span class="ic">&lt;em&gt;</span></td><td>強調・語気</td><td><i>斜体</i></td><td>読むとき力が入るところ</td></tr>
+      <tr><td><span class="ic">&lt;small&gt;</span></td><td>注釈・補足</td><td><small>小さい字</small></td><td>注意書き、コピーライト</td></tr>
+      <tr><td><span class="ic">&lt;hr&gt;</span></td><td>話題の区切り</td><td>横線</td><td>章と章の間</td></tr>
+      <tr><td><span class="ic">&lt;span&gt;</span></td><td>意味なし・目印だけ</td><td>変化なし</td><td>あとでCSSで色を付けたい一部分</td></tr>
+    </table>
+    <div class="g2 mt2 push">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<p>お腹がすくと <strong>無言</strong> になります。
+<em>だいたい直ります。</em></p>
+<hr>
+<p><small>作成：ユウ</small></p>
+        </script>
+      </div>
+      <div class="fusen" data-c="pink">
+        <b>&lt;b&gt; と &lt;strong&gt; の違い</b>
+        見た目は同じ太字。でも <span class="ic">&lt;b&gt;</span> は「ただ太くする」、<span class="ic">&lt;strong&gt;</span> は「大事だから太い」。
+        意味があるほうを選んでおくと、後で困らない。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="画像 img">
+  <div class="body">
+    <div class="kicker"><b>タグ ⑤</b></div>
+    <h2 class="t">画像 ── img とファイルの場所</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<img src="img/photo.webp" alt="ユウの写真" width="160">
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:100px">属性</th><th>説明</th></tr>
+          <tr><td>src</td><td>画像ファイルまでの<b>道順</b>。必須</td></tr>
+          <tr><td>alt</td><td>画像の説明文。読み上げ・画像が出ないとき用</td></tr>
+          <tr><td>width</td><td>幅（px）。高さは自動で比率を保つ</td></tr>
+        </table>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>「画像が出ない」の9割はパスのミス</b>
+          スペルミス・大文字小文字・拡張子ちがい（.jpg と .jpeg）を疑って。
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">パス（道順）の書き方</h3>
+        <script type="text/plain" class="code" data-lang="txt" data-size="sm">
+day1/
+├─ index.html   ← いま書いているファイル
+└─ img/
+    └─ photo.webp
+        </script>
+        <table class="tbl sm mt">
+          <tr><th style="width:150px">書き方</th><th>意味</th></tr>
+          <tr><td>photo.webp</td><td>同じフォルダの中</td></tr>
+          <tr><td>img/photo.webp</td><td>img フォルダの中へ<b>降りる</b></td></tr>
+          <tr><td>../photo.webp</td><td>1つ上のフォルダへ<b>上がる</b></td></tr>
+          <tr><td>https://…</td><td>ネット上の画像を直接</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="chara nana" style="right:20px; bottom:6px; width:92px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="リンク a">
+  <div class="body">
+    <div class="kicker"><b>タグ ⑥</b></div>
+    <h2 class="t">リンク ── a</h2>
+    <p class="lead" style="font-size:19px">Web が「Web（クモの巣）」と呼ばれる理由。ページ同士をつなぐタグ。</p>
+    <div class="g2 mt">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<a href="https://developer.mozilla.org/ja/">HTMLの辞書</a>
+
+<a href="spec.html">スペック表を見る</a>
+
+<a href="https://example.com" target="_blank">別のタブで開く</a>
+        </script>
+        <p class="sm mt"><span class="ic">href</span> ＝ 飛び先。ここに<b>URL</b>か<b>ファイル名</b>を書く。
+          タグではさんだ文字がリンクになる。</p>
+        <div class="yodan"><b>a</b> は anchor＝いかり。もともとは「ページの中のここに錨を下ろす」という
+          目印の意味だった。今の「他のページへ飛ぶ」用途のほうが有名になってしまった。</div>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>target="_blank"</b>
+          新しいタブで開く。<b>外部サイト</b>へのリンクに付けると便利。
+        </div>
+        <div class="fusen mt2" data-c="green">
+          <b>リンクの文は具体的に</b>
+          「<span class="pen">こちら</span>」だけのリンクは、読み上げソフトで聞くと何のことか分からない。
+          <span class="mk">飛び先が分かる言葉</span>にする。
+        </div>
+        <div class="fusen mt2 push">
+          <b>画像もリンクにできる</b>
+          <span class="ic">&lt;a&gt;&lt;img&gt;&lt;/a&gt;</span> のようにタグの中にタグを入れる。これを<b>入れ子</b>という。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="コメントとインデント">
+  <div class="body">
+    <div class="kicker"><b>読みやすく書く</b></div>
+    <h2 class="t">未来の自分のために</h2>
+    <div class="g2">
+      <div>
+        <h3 class="st">コメント ── 画面に出ないメモ</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<!-- ここから基本仕様 -->
+<h2>基本仕様</h2>
+
+<!-- <p>あとで使うかも</p> -->
+        </script>
+        <ul class="dot mt" style="font-size:18px">
+          <li>ブラウザは無視するので、何を書いてもOK</li>
+          <li>コードを<b>一時的に消す</b>のにも使える（コメントアウト）</li>
+          <li>ショートカット：<span class="ic">Ctrl + /</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="st b">インデント ── 入れ子を字下げする</h3>
+        <script type="text/plain" class="code" data-lang="html" data-size="sm">
+<body>
+  <ul>
+    <li>からあげ</li>
+  </ul>
+</body>
+        </script>
+        <p class="sm mt">中に入っているタグを<b>半角スペース2つ</b>ぶん下げる。
+          動作は1ミリも変わらないが、<span class="mk">閉じ忘れが一瞬で見つかる</span>。</p>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>ぐちゃぐちゃになったら</b>
+          VSCode で <span class="ic">Shift + Alt + F</span>。<br>自動で整えてくれる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12b Emmet -->
+<section class="slide" data-title="Emmet で速く書く">
+  <div class="body">
+    <div class="kicker"><b>入力量を半分にする</b></div>
+    <h2 class="t blue">Emmet ── 省略形を打って Tab</h2>
+    <p class="lead" style="font-size:19px">HTMLファイルの中で<b>省略形を打って Tab キー</b>。VSCode に最初から入っている。</p>
+    <div class="g2 mt">
+      <div>
+        <table class="tbl sm">
+          <tr><th style="width:190px">打つもの</th><th>出てくるもの</th></tr>
+          <tr><td>!</td><td>HTMLの骨組み一式</td></tr>
+          <tr><td>.box</td><td>&lt;div class="box"&gt;&lt;/div&gt;</td></tr>
+          <tr><td>h2{すきなもの}</td><td>&lt;h2&gt;すきなもの&lt;/h2&gt;</td></tr>
+          <tr><td>ul&gt;li*6</td><td>ul の中に li が<b>6個</b></td></tr>
+          <tr><td>lorem</td><td>ダミーの文章（配置確認用）</td></tr>
+        </table>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>記号の意味はこれだけ</b>
+          <span class="ic">&gt;</span> 中に入れる／<span class="ic">*</span> 繰り返す／<span class="ic">+</span> 並べる／
+          <span class="ic">.</span> class／<span class="ic">{ }</span> 中身の文字
+        </div>
+      </div>
+      <div>
+        <h3 class="st">表もこれ1行で出せる</h3>
+        <script type="text/plain" class="code" data-lang="txt" data-size="sm">
+table>(tr>th*2)+(tr>td*2)*3
+        </script>
+        <div class="arrow down"></div>
+        <script type="text/plain" class="code" data-lang="html" data-size="xs">
+<table>
+  <tr><th></th><th></th></tr>
+  <tr><td></td><td></td></tr>
+  <tr><td></td><td></td></tr>
+  <tr><td></td><td></td></tr>
+</table>
+        </script>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>まずは2つだけ</b>
+          <span class="ic">!</span> と <span class="ic">ul&gt;li*3</span> を試してみて。
+          残りは <span class="ic">reference/vscode.html</span> に一覧がある。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 章扉 -->
+<section class="slide" data-kind="chapter" data-title="── 手を動かす">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">実習：自分のトリセツ</div>
+    <div class="cover-rule"></div>
+    <p class="lead">ここからは打ち込む時間。<br>見本を丸写ししてから、<b>自分の内容に書き換えて</b>。</p>
+  </div>
+  <div class="chara rian" style="right:160px; bottom:70px;"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="実習：STEP 1 と 2">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">少しずつ育てていく</h2>
+    <div class="g2">
+      <div>
+        <h3 class="st">STEP 1 ── 骨組みと見出し</h3>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="sm">
+<h1>ユウのトリセツ</h1>
+<p>この人と仲良くするための説明書です。</p>
+        </script>
+        <div class="win mt">
+          <div class="bar"><i></i><i></i><i></i><span>step1.html</span></div>
+          <img src="../assets/shots/day1-step1.png" alt="STEP1の結果" style="height:112px; object-fit:cover; object-position:top left">
+        </div>
+      </div>
+      <div>
+        <h3 class="st b">STEP 2 ── 見出しとリストを足す</h3>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>step2.html</span></div>
+          <img src="../assets/shots/day1-step2.png" alt="STEP2の結果" style="height:290px; object-fit:cover; object-position:top left">
+        </div>
+        <p class="xs mt">見本は <span class="ic">practice/day1/step1.html</span> と <span class="ic">step2.html</span> にある。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" style="max-width:none">
+      <b>保存を忘れずに</b>
+      <span class="ic">Ctrl + S</span> で保存 → ブラウザで <span class="ic">F5</span>。この2つを<span class="mk">1分に1回</span>やる癖をつけると、どこで壊れたかすぐ分かる。
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="実習：STEP 3（完成）">
+  <div class="body">
+    <div class="kicker"><b>実習</b></div>
+    <h2 class="t">STEP 3 ── 画像とリンクを足して完成</h2>
+    <div class="g32">
+      <div>
+        <script type="text/plain" class="code" data-lang="html" data-file="index.html" data-size="xs">
+<h1>ユウのトリセツ</h1>
+<p>この人と仲良くするための説明書です。</p>
+<img src="img/photo.webp" alt="ユウの写真" width="160">
+<hr>
+
+<h2>基本仕様</h2>
+<ul>
+  <li>起動時間：11:00 ごろ</li>
+  <li>燃料：からあげ、炭酸、睡眠</li>
+</ul>
+<h2>すきなもの ベスト3</h2>
+<ol>
+  <li>夜のコンビニ</li>
+  <li>雨の音</li>
+</ol>
+<h2>取扱注意</h2>
+<p>お腹がすくと <strong>無言</strong> になります。<br>
+そういうときは何か食べさせて。</p>
+<hr>
+<p><small>作成：ユウ ／ DAY 1</small></p>
+        </script>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>index.html</span></div>
+          <img src="../assets/shots/day1-index.png" alt="完成" style="height:346px; object-fit:cover; object-position:top center">
+        </div>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>できたら書き換える</b>
+          名前・すきなもの・注意書きを<span class="mk">全部じぶんの内容に</span>。
+          ここが今日いちばん大事な作業。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="よくあるエラー">
+  <div class="body">
+    <div class="kicker"><b>ここでつまずく</b></div>
+    <h2 class="t">DAY 1 のつまずき 4つ</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">① 文字化けする</h4>
+        <p class="sm">画面が「譁�蟄怜喧縺�」みたいになる。<br>
+          → <span class="ic">&lt;meta charset="UTF-8"&gt;</span> が抜けている。head の中に足す。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">② 画像が出ない</h4>
+        <p class="sm">壊れたアイコンが出る。<br>
+          → <span class="ic">src</span> のパスかファイル名ミス。フォルダ名・大文字小文字・拡張子を確認。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">③ 改行されない</h4>
+        <p class="sm">Enter を押したのに1行のまま。<br>
+          → HTML では Enter は無視。<span class="ic">&lt;br&gt;</span> か <span class="ic">&lt;p&gt;</span> を使う。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">④ 途中から全部おかしい</h4>
+        <p class="sm">後半のレイアウトが崩れる。<br>
+          → <b>終了タグの閉じ忘れ</b>。<span class="ic">Shift+Alt+F</span> で整形すると場所が見つかる。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>直し方の基本</b>
+      「最後に書き足した部分」を消してみる → 直ったらそこが原因。
+      <span class="mk">一気に直そうとせず、1つずつ戻す</span>のが最短。
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="今日のタグ一覧">
+  <div class="body">
+    <div class="kicker"><b>持ち帰り用</b></div>
+    <h2 class="t">DAY 1 で出たタグ</h2>
+    <div class="g2 top" style="gap:22px">
+      <table class="tbl sm">
+        <tr><th style="width:120px">タグ</th><th>意味</th></tr>
+        <tr><td>&lt;!DOCTYPE html&gt;</td><td>HTMLの宣言</td></tr>
+        <tr><td>&lt;html&gt;</td><td>全体のいれもの</td></tr>
+        <tr><td>&lt;head&gt;</td><td>見えない設定</td></tr>
+        <tr><td>&lt;meta charset&gt;</td><td>文字コード</td></tr>
+        <tr><td>&lt;title&gt;</td><td>タブの名前</td></tr>
+        <tr><td>&lt;body&gt;</td><td>見える中身</td></tr>
+        <tr><td>&lt;h1&gt;〜&lt;h6&gt;</td><td>見出し</td></tr>
+        <tr><td>&lt;p&gt;</td><td>段落</td></tr>
+      </table>
+      <table class="tbl sm">
+        <tr><th style="width:120px">タグ</th><th>意味</th></tr>
+        <tr><td>&lt;br&gt;</td><td>改行</td></tr>
+        <tr><td>&lt;hr&gt;</td><td>区切り線</td></tr>
+        <tr><td>&lt;ul&gt; &lt;li&gt;</td><td>順番なしリスト</td></tr>
+        <tr><td>&lt;ol&gt; &lt;li&gt;</td><td>順番ありリスト</td></tr>
+        <tr><td>&lt;strong&gt;</td><td>強い重要性（太字）</td></tr>
+        <tr><td>&lt;em&gt;</td><td>強調（斜体）</td></tr>
+        <tr><td>&lt;small&gt;</td><td>注釈</td></tr>
+        <tr><td>&lt;img&gt;</td><td>画像</td></tr>
+        <tr><td>&lt;a&gt;</td><td>リンク</td></tr>
+      </table>
+    </div>
+    <div class="fusen mt2 push" style="max-width:none">
+      <b>全部おぼえなくていい</b>
+      <span class="ic">reference/html-tags.html</span> に一覧がある。<span class="mk">忘れたら見る</span>、で十分。
+      プロも毎日調べている。
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 1 おわり</b></div>
+    <h2 class="t">チェックリスト</h2>
+    <ul class="check" style="font-size:20px">
+      <li>タグは「開始・中身・終了」の3点セットだと説明できる</li>
+      <li>head と body の違いが言える</li>
+      <li>見出し・段落・リスト・画像・リンクが書ける</li>
+      <li>自分の内容に書き換えたページが手元にある</li>
+      <li>ブラウザで開いて確認した</li>
+    </ul>
+    <div class="row mt2 push" style="gap:20px">
+      <div class="fusen" data-c="blue" style="flex:1.3">
+        <b>次回 DAY 2 ／ ページを増やす</b>
+        表・フォーム・複数ページのリンク。<br>
+        「1枚のページ」から「<b>サイト</b>」になる。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>宿題（10分）</b>
+        今日のページに<span class="mk">好きなものを3つ</span>追加。<br>
+        <span class="ic">playground/</span> のライブエディタでも試せる。
+      </div>
+    </div>
+  </div>
+  <div class="chara usa" style="right:36px; bottom:12px; width:74px"><img src="../assets/char/usagi.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

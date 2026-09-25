@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS体験ラボ｜Webのつくりかた</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  .stage{
+    background:#fff; border:1.5px solid rgba(44,58,66,.22); border-radius:8px;
+    padding:18px; min-height:200px; display:grid; place-items:center;
+    box-shadow:2px 3px 0 rgba(44,58,66,.1);
+  }
+  .stage.left{ place-items:stretch; }
+
+  /* ---- ボックスモデル ---- */
+  #bmMargin{ background:#f3e0d8; display:inline-block; }
+  #bmBorder{ border-style:dashed; border-color:#7fa8c4; background:#fff; }
+  #bmPad{ background:#dff0e2; }
+  #bmContent{ background:#fff8c9; text-align:center; padding:10px 6px; font-size:15px; }
+  .legend{ display:flex; gap:14px; flex-wrap:wrap; font-size:13px; margin-top:10px; }
+  .legend i{ width:14px; height:14px; border-radius:3px; display:inline-block; vertical-align:-2px; margin-right:5px; }
+
+  /* ---- Flex / Grid ---- */
+  #flexBox{ width:100%; min-height:190px; background:#f6f3ec; border:2px dashed #c9c0ac; border-radius:8px; padding:10px; }
+  #flexBox > div{
+    background:#2f6d68; color:#fff; border-radius:8px; padding:16px 20px;
+    font-size:15px; display:grid; place-items:center;
+  }
+  #flexBox > div:nth-child(2){ background:#e2794f; }
+  #flexBox > div:nth-child(3){ background:#7a6ea8; }
+  #flexBox > div:nth-child(4){ background:#4f8a5b; }
+
+  .opts{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; align-items:center; }
+  .opts .lbl{ font-family:var(--f-code); font-size:13px; width:150px; flex:none; color:var(--ink-2); }
+
+  /* ---- 文字 ---- */
+  #txt{ max-width:100%; }
+
+  /* ---- 影・角丸 ---- */
+  #deco{ background:#fff; display:grid; place-items:center; width:220px; height:130px; font-size:16px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>CSS体験ラボ</h1>
+  <p class="lead">スライダーやボタンを動かすと、<b>その場で見た目が変わる</b>。<br>
+    下に<span class="mk">実際のCSS</span>も出るので、そのままコピーして使える。</p>
+
+  <div class="fusen" data-c="blue">
+    <b>使い方</b>
+    数字を「読んで覚える」のではなく、<span class="mk">動かして体で覚える</span>ためのページ。
+    極端な値にして、何が起きるか見てみて。
+  </div>
+
+  <!-- ================= ボックスモデル ================= -->
+  <h2 id="box">① ボックスモデル ── padding と margin のちがい</h2>
+  <p>CSSでいちばん最初につまずくところ。<b>内側を広げるのが padding、外側を空けるのが margin</b>。</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <div class="ctrl"><label for="bmP">padding</label><input type="range" id="bmP" min="0" max="60" value="22"><span class="val" id="bmPv">22px</span></div>
+      <div class="ctrl"><label for="bmB">border</label><input type="range" id="bmB" min="0" max="20" value="5"><span class="val" id="bmBv">5px</span></div>
+      <div class="ctrl"><label for="bmM">margin</label><input type="range" id="bmM" min="0" max="60" value="20"><span class="val" id="bmMv">20px</span></div>
+      <div class="ctrl"><label for="bmR">border-radius</label><input type="range" id="bmR" min="0" max="60" value="6"><span class="val" id="bmRv">6px</span></div>
+      <div class="legend">
+        <span><i style="background:#f3e0d8"></i>margin</span>
+        <span><i style="background:#fff; border:2px dashed #7fa8c4"></i>border</span>
+        <span><i style="background:#dff0e2"></i>padding</span>
+        <span><i style="background:#fff8c9"></i>content</span>
+      </div>
+      <div class="outcode" id="bmCode"></div>
+    </div>
+    <div class="stage">
+      <div id="bmMargin">
+        <div id="bmBorder">
+          <div id="bmPad">
+            <div id="bmContent">中身（content）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>試してみて</b>
+    padding だけを 60 にすると<b>箱そのものが大きく</b>なり、margin だけを 60 にすると
+    箱の大きさは変わらず、まわりが空くのが分かる。<span class="mk">この違いが分かれば CSS の半分は終わり。</span>
+  </div>
+
+  <!-- ================= Flexbox ================= -->
+  <h2 id="flex">② Flexbox ── 並べ方が変わる</h2>
+  <p>横に並べる仕組み。<b>指定するのは「並べたい箱」ではなく「その親」</b>。</p>
+
+  <div class="panel">
+    <div class="opts"><span class="lbl">flex-direction</span>
+      <button class="btn sm on" data-fx="flex-direction" data-v="row">row</button>
+      <button class="btn sm" data-fx="flex-direction" data-v="column">column</button>
+      <button class="btn sm" data-fx="flex-direction" data-v="row-reverse">row-reverse</button>
+    </div>
+    <div class="opts"><span class="lbl">justify-content</span>
+      <button class="btn sm on" data-fx="justify-content" data-v="flex-start">flex-start</button>
+      <button class="btn sm" data-fx="justify-content" data-v="center">center</button>
+      <button class="btn sm" data-fx="justify-content" data-v="flex-end">flex-end</button>
+      <button class="btn sm" data-fx="justify-content" data-v="space-between">space-between</button>
+      <button class="btn sm" data-fx="justify-content" data-v="space-around">space-around</button>
+    </div>
+    <div class="opts"><span class="lbl">align-items</span>
+      <button class="btn sm on" data-fx="align-items" data-v="stretch">stretch</button>
+      <button class="btn sm" data-fx="align-items" data-v="center">center</button>
+      <button class="btn sm" data-fx="align-items" data-v="flex-start">flex-start</button>
+      <button class="btn sm" data-fx="align-items" data-v="flex-end">flex-end</button>
+    </div>
+    <div class="ctrl"><label for="fxGap">gap</label><input type="range" id="fxGap" min="0" max="50" value="12"><span class="val" id="fxGapv">12px</span></div>
+    <div class="ctrl"><label for="fxFlex">子の flex</label><input type="range" id="fxFlex" min="0" max="1" step="1" value="0"><span class="val" id="fxFlexv">なし</span></div>
+
+    <div class="stage left" style="margin-top:12px">
+      <div id="flexBox">
+        <div>A</div><div>B</div><div>C</div><div>D</div>
+      </div>
+    </div>
+    <div class="outcode" id="fxCode"></div>
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>覚え方</b>
+    <b>justify</b> ＝ 横方向（主軸）、align ＝ 縦方向（交差軸）。<br>
+    <code>flex-direction: column</code> にすると、この2つの向きが<span class="mk">入れ替わる</span>。
+    実際に column にして justify-content を動かしてみて。
+  </div>
+
+  <!-- ================= Grid ================= -->
+  <h2 id="grid">③ Grid ── 格子に敷き詰める</h2>
+  <div class="panel">
+    <div class="opts"><span class="lbl">列の分け方</span>
+      <button class="btn sm on" data-gd="repeat(3, 1fr)">repeat(3, 1fr)</button>
+      <button class="btn sm" data-gd="repeat(2, 1fr)">repeat(2, 1fr)</button>
+      <button class="btn sm" data-gd="repeat(4, 1fr)">repeat(4, 1fr)</button>
+      <button class="btn sm" data-gd="2fr 1fr">2fr 1fr</button>
+      <button class="btn sm" data-gd="120px 1fr">120px 1fr</button>
+    </div>
+    <div class="stage left" style="margin-top:12px">
+      <div id="gridBox" style="display:grid; gap:10px; width:100%">
+        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
+      </div>
+    </div>
+    <div class="outcode" id="gdCode"></div>
+  </div>
+
+  <!-- ================= 文字 ================= -->
+  <h2 id="text">④ 文字 ── 読みやすさは行間で決まる</h2>
+  <div class="grid2">
+    <div class="panel">
+      <div class="ctrl"><label for="tSize">font-size</label><input type="range" id="tSize" min="10" max="34" value="16"><span class="val" id="tSizev">16px</span></div>
+      <div class="ctrl"><label for="tLine">line-height</label><input type="range" id="tLine" min="10" max="30" value="18"><span class="val" id="tLinev">1.8</span></div>
+      <div class="ctrl"><label for="tSpace">letter-spacing</label><input type="range" id="tSpace" min="-2" max="10" value="0"><span class="val" id="tSpacev">0em</span></div>
+      <div class="ctrl"><label for="tWidth">max-width</label><input type="range" id="tWidth" min="180" max="700" value="420"><span class="val" id="tWidthv">420px</span></div>
+      <div class="opts" style="margin-top:10px"><span class="lbl">text-align</span>
+        <button class="btn sm on" data-ta="left">left</button>
+        <button class="btn sm" data-ta="center">center</button>
+        <button class="btn sm" data-ta="right">right</button>
+      </div>
+      <div class="outcode" id="tCode"></div>
+    </div>
+    <div class="stage left">
+      <p id="txt" style="margin:0">この人と仲良くするための説明書。取り扱いには十分ご注意ください。
+        お腹がすくと無言になる。そういうときは何か食べさせて。だいたい直る。
+        朝いちで長い話をするのは非推奨。</p>
+    </div>
+  </div>
+
+  <div class="fusen">
+    <b>いちばん効くのは line-height</b>
+    文字の大きさを変えなくても、行間を <code>1.8</code> くらいにするだけで
+    <span class="mk">読みやすさが劇的に変わる</span>。max-width も動かしてみて。
+    1行が長すぎると、目が次の行を見失うのが分かる。
+  </div>
+
+  <!-- ================= 色と装飾 ================= -->
+  <h2 id="deco">⑤ 色・角丸・影</h2>
+  <div class="grid2">
+    <div class="panel">
+      <div class="ctrl"><label for="dBg">背景の色</label><input type="color" id="dBg" value="#2f6d68" style="width:100%; height:32px; border:none; background:none; cursor:pointer"><span class="val" id="dBgv">#2f6d68</span></div>
+      <div class="ctrl"><label for="dFg">文字の色</label><input type="color" id="dFg" value="#ffffff" style="width:100%; height:32px; border:none; background:none; cursor:pointer"><span class="val" id="dFgv">#ffffff</span></div>
+      <div class="ctrl"><label for="dR">border-radius</label><input type="range" id="dR" min="0" max="65" value="12"><span class="val" id="dRv">12px</span></div>
+      <div class="ctrl"><label for="dSy">影の縦ずれ</label><input type="range" id="dSy" min="0" max="30" value="6"><span class="val" id="dSyv">6px</span></div>
+      <div class="ctrl"><label for="dSb">影のぼかし</label><input type="range" id="dSb" min="0" max="50" value="16"><span class="val" id="dSbv">16px</span></div>
+      <div class="ctrl"><label for="dSa">影の濃さ</label><input type="range" id="dSa" min="0" max="60" value="20"><span class="val" id="dSav">0.20</span></div>
+      <div class="outcode" id="dCode"></div>
+    </div>
+    <div class="stage">
+      <div id="deco">ボタン</div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>border-radius を 65 にすると</b>
+    角が完全に丸まって<span class="mk">カプセル型</span>になる。ボタンでよく見る形はこれ。
+    正方形に <code>50%</code> を指定すると円になる。
+  </div>
+
+  <p style="margin-top:26px">
+    → <a href="index.html">ライブエディタ</a>（自由に書いて試す）<br>
+    → <a href="../reference/css-props.html">CSSプロパティ一覧</a>
+  </p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const cssLine = (p, v) => '<span class="p">' + p + '</span>: <span class="v">' + v + '</span>;';
+
+/* ================= ① ボックスモデル ================= */
+function bm() {
+  const p = +$("#bmP").value, b = +$("#bmB").value, m = +$("#bmM").value, r = +$("#bmR").value;
+  $("#bmPv").textContent = p + "px";
+  $("#bmBv").textContent = b + "px";
+  $("#bmMv").textContent = m + "px";
+  $("#bmRv").textContent = r + "px";
+
+  $("#bmMargin").style.padding = m + "px";
+  $("#bmBorder").style.borderWidth = b + "px";
+  $("#bmBorder").style.borderRadius = r + "px";
+  $("#bmPad").style.padding = p + "px";
+
+  $("#bmCode").innerHTML =
+    '<span class="s">.box</span> {\n  ' +
+    cssLine("padding", p + "px") + '\n  ' +
+    cssLine("border", b + "px solid #7fa8c4") + '\n  ' +
+    cssLine("border-radius", r + "px") + '\n  ' +
+    cssLine("margin", m + "px") + '\n}';
+}
+["bmP","bmB","bmM","bmR"].forEach((id) => $("#" + id).addEventListener("input", bm));
+bm();
+
+/* ================= ② Flexbox ================= */
+const fx = { "flex-direction":"row", "justify-content":"flex-start", "align-items":"stretch" };
+function drawFx() {
+  const box = $("#flexBox");
+  box.style.display = "flex";
+  box.style.flexDirection = fx["flex-direction"];
+  box.style.justifyContent = fx["justify-content"];
+  box.style.alignItems = fx["align-items"];
+  const g = +$("#fxGap").value;
+  box.style.gap = g + "px";
+  $("#fxGapv").textContent = g + "px";
+
+  const useFlex = $("#fxFlex").value === "1";
+  $("#fxFlexv").textContent = useFlex ? "flex: 1" : "なし";
+  Array.prototype.forEach.call(box.children, function (c) { c.style.flex = useFlex ? "1" : ""; });
+
+  $("#fxCode").innerHTML =
+    '<span class="s">.cards</span> {\n  ' +
+    cssLine("display", "flex") + '\n  ' +
+    cssLine("flex-direction", fx["flex-direction"]) + '\n  ' +
+    cssLine("justify-content", fx["justify-content"]) + '\n  ' +
+    cssLine("align-items", fx["align-items"]) + '\n  ' +
+    cssLine("gap", g + "px") + '\n}' +
+    (useFlex ? '\n\n<span class="s">.card</span> {\n  ' + cssLine("flex", "1") + '\n}' : "");
+}
+document.querySelectorAll("[data-fx]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    const key = b.dataset.fx;
+    document.querySelectorAll('[data-fx="' + key + '"]').forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    fx[key] = b.dataset.v;
+    drawFx();
+  });
+});
+$("#fxGap").addEventListener("input", drawFx);
+$("#fxFlex").addEventListener("input", drawFx);
+drawFx();
+
+/* ================= ③ Grid ================= */
+function drawGd(v) {
+  const box = $("#gridBox");
+  box.style.gridTemplateColumns = v;
+  Array.prototype.forEach.call(box.children, function (c, i) {
+    c.style.background = ["#2f6d68","#e2794f","#7a6ea8","#4f8a5b","#c2607a","#4a7f9e"][i % 6];
+    c.style.color = "#fff";
+    c.style.borderRadius = "8px";
+    c.style.padding = "22px 10px";
+    c.style.textAlign = "center";
+  });
+  $("#gdCode").innerHTML =
+    '<span class="s">.tiles</span> {\n  ' +
+    cssLine("display", "grid") + '\n  ' +
+    cssLine("grid-template-columns", v) + '\n  ' +
+    cssLine("gap", "10px") + '\n}';
+}
+document.querySelectorAll("[data-gd]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-gd]").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    drawGd(b.dataset.gd);
+  });
+});
+drawGd("repeat(3, 1fr)");
+
+/* ================= ④ 文字 ================= */
+let align = "left";
+function drawTxt() {
+  const s = +$("#tSize").value, l = (+$("#tLine").value / 10), sp = (+$("#tSpace").value / 100), w = +$("#tWidth").value;
+  $("#tSizev").textContent = s + "px";
+  $("#tLinev").textContent = l.toFixed(1);
+  $("#tSpacev").textContent = sp.toFixed(2) + "em";
+  $("#tWidthv").textContent = w + "px";
+
+  const t = $("#txt");
+  t.style.fontSize = s + "px";
+  t.style.lineHeight = l;
+  t.style.letterSpacing = sp + "em";
+  t.style.maxWidth = w + "px";
+  t.style.textAlign = align;
+
+  $("#tCode").innerHTML =
+    '<span class="s">p</span> {\n  ' +
+    cssLine("font-size", s + "px") + '\n  ' +
+    cssLine("line-height", l.toFixed(1)) + '\n  ' +
+    cssLine("letter-spacing", sp.toFixed(2) + "em") + '\n  ' +
+    cssLine("max-width", w + "px") + '\n  ' +
+    cssLine("text-align", align) + '\n}';
+}
+["tSize","tLine","tSpace","tWidth"].forEach((id) => $("#" + id).addEventListener("input", drawTxt));
+document.querySelectorAll("[data-ta]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-ta]").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    align = b.dataset.ta;
+    drawTxt();
+  });
+});
+drawTxt();
+
+/* ================= ⑤ 色・角丸・影 ================= */
+function drawDeco() {
+  const bg = $("#dBg").value, fg = $("#dFg").value;
+  const r = +$("#dR").value, sy = +$("#dSy").value, sb = +$("#dSb").value, sa = (+$("#dSa").value / 100);
+  $("#dBgv").textContent = bg;
+  $("#dFgv").textContent = fg;
+  $("#dRv").textContent = r + "px";
+  $("#dSyv").textContent = sy + "px";
+  $("#dSbv").textContent = sb + "px";
+  $("#dSav").textContent = sa.toFixed(2);
+
+  const shadow = "0 " + sy + "px " + sb + "px rgba(0, 0, 0, " + sa.toFixed(2) + ")";
+  const d = $("#deco");
+  d.style.background = bg;
+  d.style.color = fg;
+  d.style.borderRadius = r + "px";
+  d.style.boxShadow = shadow;
+
+  $("#dCode").innerHTML =
+    '<span class="s">.btn</span> {\n  ' +
+    cssLine("background-color", bg) + '\n  ' +
+    cssLine("color", fg) + '\n  ' +
+    cssLine("border-radius", r + "px") + '\n  ' +
+    cssLine("box-shadow", shadow) + '\n}';
+}
+["dBg","dFg","dR","dSy","dSb","dSa"].forEach((id) => $("#" + id).addEventListener("input", drawDeco));
+drawDeco();
+</script>
+</body>
+</html>

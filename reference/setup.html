@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめての準備｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .shot{ border:1.5px solid rgba(44,58,66,.3); border-radius:8px; overflow:hidden;
+         box-shadow:3px 5px 0 rgba(44,58,66,.12); margin:14px 0 18px; background:#fff; }
+  .shot img{ display:block; width:100%; }
+  .shot .cap{ font-size:13px; color:var(--ink-2); padding:8px 12px; border-top:1px solid rgba(44,58,66,.15);
+              background:rgba(255,255,255,.7); }
+  .big-step{ display:flex; align-items:center; gap:14px; margin:38px 0 12px; }
+  .big-step .n{ width:44px; height:44px; flex:none; border-radius:50%; background:var(--red); color:#fff;
+                display:grid; place-items:center; font-size:22px; font-weight:600; transform:rotate(-4deg); }
+  .big-step h2{ margin:0; }
+  .big-step h2::before{ display:none; }
+  .ok{ background:#e8f4e8; border-left:5px solid var(--green); padding:12px 16px; margin:14px 0;
+       font-size:16px; border-radius:0 6px 6px 0; }
+  .ok b{ color:var(--green); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>はじめての準備</h1>
+  <p class="lead">パソコンに何も入っていない状態から、<b>最初の1ページをブラウザで開く</b>まで。<br>
+    ここに書いてある順番どおりにやれば、必ずできる。<span class="mk">全部で30分ほど</span>。</p>
+
+  <div class="fusen" data-c="blue">
+    <b>用意するもの</b>
+    Windowsパソコンと、インターネット。それだけ。お金はかからない。<br>
+    <b>Macの人へ</b>：手順はほぼ同じ。<code>Ctrl</code> を <code>⌘</code> に読み替えて。
+  </div>
+
+  <div class="toc">
+    <a href="#s1">1. 拡張子を見えるようにする</a>
+    <a href="#s2">2. VSCodeを入れる</a>
+    <a href="#s3">3. 日本語にする</a>
+    <a href="#s4">4. フォルダを作る</a>
+    <a href="#s5">5. ファイルを作る</a>
+    <a href="#s6">6. ブラウザで開く</a>
+    <a href="#s7">つまずいたら</a>
+  </div>
+
+  <!-- ================= 1 ================= -->
+  <div class="big-step"><div class="n">1</div><h2 id="s1">拡張子を見えるようにする</h2></div>
+
+  <p><b>これを最初にやって。</b> やらないと、あとで必ず事故る。</p>
+  <p>「拡張子」はファイル名のうしろに付く <code>.html</code> <code>.css</code> の部分。
+    Windowsは初期設定でこれを隠している。隠れたままだと、
+    <code>index.html</code> を作ったつもりが <code>index.html.txt</code> になっていた、という事故が起きる。</p>
+
+  <h3>やり方（Windows 11）</h3>
+  <ol class="step">
+    <li>適当なフォルダを開く（何でもいい）</li>
+    <li>上の <b>「表示」</b> をクリック</li>
+    <li>いちばん下の <b>「表示」</b> にカーソルを合わせる</li>
+    <li><b>「ファイル名拡張子」</b> にチェックを入れる</li>
+  </ol>
+
+  <div class="shot">
+    <img src="../assets/shots/setup-explorer.png" alt="エクスプローラーの画面">
+    <div class="cap">上のツールバーに「表示」がある。設定が済むと、右のように <code>index.html</code>
+      <code>style.css</code> と拡張子まで見えるようになる。</div>
+  </div>
+
+  <p class="note">Windows 10 の場合は、フォルダを開いて上の「表示」タブ →「ファイル名拡張子」にチェック。</p>
+
+  <details><summary>うまく見つからないときの別ルート</summary>
+    <p>キーボードで <code>Windows キー + R</code> → 出てきた窓に次を貼り付けて Enter。</p>
+    <script type="text/plain" class="code" data-lang="txt">
+rundll32.exe shell32.dll,Options_RunDLL 7
+    </script>
+    <div class="shot" style="max-width:420px">
+      <img src="../assets/shots/setup-folderoptions.png" alt="エクスプローラーのオプション">
+      <div class="cap">この窓が開く。「詳細設定」の中を下にスクロールして
+        <b>「登録されている拡張子は表示しない」</b> の<span class="mk">チェックを外して</span> OK。</div>
+    </div>
+  </details>
+
+  <div class="ok"><b>できたら</b> … ファイル名の後ろに <code>.txt</code> や <code>.png</code> が見えていれば成功。</div>
+
+  <!-- ================= 2 ================= -->
+  <div class="big-step"><div class="n">2</div><h2 id="s2">VSCodeを入れる</h2></div>
+
+  <p>コードを書くためのソフト。Microsoft が無料で配っている。</p>
+
+  <ol class="step">
+    <li>ブラウザで <code>code.visualstudio.com</code> を開く</li>
+    <li>まん中の大きいボタン <b>「Download for Windows」</b> を押す</li>
+    <li>ダウンロードされた <code>VSCodeUserSetup-….exe</code> をダブルクリック</li>
+    <li>「同意する」を選んで <b>次へ</b></li>
+    <li><span class="mk">「PATH への追加」にチェックが入っているか確認</span>（初期状態で入っている）</li>
+    <li>あとは <b>次へ</b> を押していってインストール</li>
+  </ol>
+
+  <div class="shot">
+    <img src="../assets/shots/setup-vscode-site.png" alt="VSCodeの公式サイト">
+    <div class="cap">この画面の黒いボタンを押すだけ。「Insiders edition」は開発中の版なので<b>押さないこと</b>。</div>
+  </div>
+
+  <div class="shot">
+    <img src="../assets/shots/setup-vscode-dl.png" alt="VSCodeのダウンロードページ。Windows・Linux・Mac が並んでいる">
+    <div class="cap">ボタンを押すとこの画面に移る。<b>いちばん左の「Windows」</b>を押して。
+      下にずらっと並んでいる <code>x64</code> や <code>Arm64</code> は<span class="mk">押さなくていい</span>。</div>
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>広告サイトに注意</b>
+    「VSCode ダウンロード」で検索すると、公式でないサイトが上に出ることがある。
+    <span class="mk">アドレスが <code>code.visualstudio.com</code> であること</span>を必ず確認して。
+  </div>
+
+  <div class="ok"><b>できたら</b> … VSCodeが起動して、青っぽい歓迎画面が出れば成功。</div>
+
+  <!-- ================= 3 ================= -->
+  <div class="big-step"><div class="n">3</div><h2 id="s3">日本語にする（任意）</h2></div>
+
+  <p>最初は英語のメニュー。日本語にしたければ、拡張機能を1つ入れる。</p>
+
+  <ol class="step">
+    <li>左の縦にならんだアイコンのうち、<b>四角が4つのアイコン</b>をクリック<br>
+      <span class="note">（キーボードなら <code>Ctrl + Shift + X</code>）</span></li>
+    <li>上の検索欄に <code>Japanese</code> と入力</li>
+    <li><b>Japanese Language Pack for Visual Studio Code</b> の <b>Install</b> を押す</li>
+    <li>右下に出る <b>Change Language and Restart</b> を押す</li>
+  </ol>
+
+  <div class="fusen" data-c="green">
+    <b>ついでに入れておくと便利</b>
+    <b>Live Server</b> … 保存した瞬間にブラウザが自動で更新される。同じ手順で <code>Live Server</code> を検索。<br>
+    使い方は、htmlファイルを右クリック →「Open with Live Server」。<br>
+    <span class="mk">無くても大丈夫</span>（ダブルクリックで開いて F5 で更新すればいい）。
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>入れすぎ注意</b>
+    「便利そう」で10個入れると重くなる。<b>困ってから足す</b>のが正解。
+  </div>
+
+  <!-- ================= 4 ================= -->
+  <div class="big-step"><div class="n">4</div><h2 id="s4">フォルダを作る</h2></div>
+
+  <ol class="step">
+    <li>デスクトップの何もない所を<b>右クリック</b> → 新規作成 → フォルダー</li>
+    <li>名前を <code>web</code> にする（<span class="mk">半角の英小文字</span>）</li>
+    <li><code>web</code> の中に、もう1つ <code>day1</code> というフォルダを作る</li>
+  </ol>
+
+  <div class="fusen" data-c="pink">
+    <b>フォルダ名・ファイル名のきまり</b>
+    <ul class="dot" style="margin-top:6px">
+      <li><b>半角の英数字</b>だけ使う（日本語・スペースは避ける）</li>
+      <li>区切りたいときは <code>-</code> か <code>_</code>（例：<code>my-site</code>）</li>
+      <li>大文字と小文字は<span class="mk">別物として扱われることがある</span>ので、小文字で統一するのが安全</li>
+    </ul>
+  </div>
+
+  <details><summary>デスクトップが OneDrive になっている人へ</summary>
+    <p>デスクトップが OneDrive に同期されていると、パスに <code>OneDrive</code> が入る。
+      <b>それ自体は問題ない</b>が、次の2点だけ気をつけて。</p>
+    <ul class="dot">
+      <li>同期中はファイルの保存が一瞬待たされることがある</li>
+      <li>あとで <b>GitHub に公開</b>するときは、同期対象から外れた場所（例：<code>C:\web</code>）のほうが扱いやすい</li>
+    </ul>
+    <p class="note">今の段階では気にしなくて大丈夫。</p>
+  </details>
+
+  <!-- ================= 5 ================= -->
+  <div class="big-step"><div class="n">5</div><h2 id="s5">ファイルを作る</h2></div>
+
+  <ol class="step">
+    <li>VSCode を開く</li>
+    <li>メニューの <b>ファイル → フォルダーを開く</b> で、さっき作った <code>day1</code> を選ぶ<br>
+      <span class="note">「このフォルダー内のファイルの作成者を信頼しますか？」と聞かれたら「はい、作成者を信頼します」</span></li>
+    <li>左側に <b>DAY1</b> と出る。その右の <b>新しいファイル</b> のアイコン（紙に＋のマーク）を押す</li>
+    <li>ファイル名に <code>index.html</code> と入力して Enter</li>
+  </ol>
+
+  <div class="shot">
+    <img src="../assets/shots/vscode-intro.png" alt="VSCodeでファイルを開いた画面">
+    <div class="cap">左がファイル一覧、右が書く場所。慣れるとこの2つしか見ない。
+      左端の数字は<b>行番号</b>で、エラーが出たときに場所を教えてくれる。</div>
+  </div>
+
+  <p>右側の白い（黒い）エリアに、次の2行を打ち込んで。<b>すべて半角</b>で。</p>
+  <script type="text/plain" class="code" data-lang="html">
+<h1>はじめてのページ</h1>
+<p>今日から Web を作ります。</p>
+  </script>
+
+  <p>打てたら <code>Ctrl + S</code> で保存。<span class="mk">タブの右にあった ● が × に変われば保存できている。</span></p>
+
+  <div class="fusen" data-c="blue">
+    <b>&lt; が打てない？</b>
+    <b>日本語入力をオフ</b>にして（<code>半角/全角</code> キー、または <code>Alt + `</code>）。
+    画面右下が「あ」なら日本語、「A」なら半角。<br>
+    <code>&lt;</code> は Shift + 、、<code>&gt;</code> は Shift + 。 。
+  </div>
+
+  <!-- ================= 6 ================= -->
+  <div class="big-step"><div class="n">6</div><h2 id="s6">ブラウザで開く</h2></div>
+
+  <ol class="step">
+    <li>デスクトップの <code>web</code> → <code>day1</code> フォルダを開く</li>
+    <li><code>index.html</code> を<b>ダブルクリック</b></li>
+  </ol>
+
+  <div class="shot" style="max-width:640px">
+    <img src="../assets/shots/day0-first.png" alt="ブラウザで開いた結果">
+    <div class="cap">こう表示されたら成功。</div>
+  </div>
+
+  <div class="ok"><b>おめでとうある。</b> あなたはもう「Webページを作った人」。<br>
+    ここがスタートライン。あとは DAY 1 から順にやっていくだけ。</div>
+
+  <p>これから何度もやる操作なので、覚えておいて。</p>
+  <table>
+    <tr><th style="width:230px">やること</th><th>操作</th></tr>
+    <tr><td>保存する</td><td><code>Ctrl + S</code>（VSCodeで）</td></tr>
+    <tr><td>結果を見る</td><td><code>F5</code>（ブラウザで）</td></tr>
+    <tr><td>元に戻す</td><td><code>Ctrl + Z</code></td></tr>
+  </table>
+  <p><b>「書く → Ctrl+S → F5 で見る」</b>。この3つを1分に1回くらい繰り返すのが、
+    いちばん速く・いちばん楽な進め方。</p>
+
+  <!-- ================= 7 ================= -->
+  <h2 id="s7">つまずいたら</h2>
+
+  <table>
+    <tr><th style="width:300px">こうなった</th><th>こうする</th></tr>
+    <tr><td>ダブルクリックしたら、コードがそのまま出た</td>
+        <td>拡張子が <code>.txt</code> になっている。手順1に戻ってから、ファイル名を <code>index.html</code> に直す</td></tr>
+    <tr><td>メモ帳が開いた</td>
+        <td>右クリック →「プログラムから開く」→ ブラウザ（Chrome や Edge）を選ぶ</td></tr>
+    <tr><td>文字が「譁�蟄怜喧」みたいに壊れる</td>
+        <td>1行目に <code>&lt;meta charset="UTF-8"&gt;</code> を足す（DAY 1 でやる）</td></tr>
+    <tr><td>&lt; や &gt; が全角になってしまう</td>
+        <td>日本語入力をオフに。画面右下が「A」になっているか確認</td></tr>
+    <tr><td>VSCodeの左にファイル一覧が出ない</td>
+        <td><code>Ctrl + B</code> で出たり隠れたりする</td></tr>
+    <tr><td>変更が画面に出ない</td>
+        <td>保存を忘れている（<code>Ctrl + S</code>）。それでもダメなら <code>Ctrl + Shift + R</code></td></tr>
+    <tr><td>ファイル名を間違えた</td>
+        <td>VSCodeの左の一覧で右クリック →「名前の変更」</td></tr>
+  </table>
+
+  <div class="fusen">
+    <b>まだ「プログラム」は書いていない</b>
+    ここまでは全部<b>準備</b>。うまくいかなくても、あなたの理解力の問題ではない。
+    <span class="mk">道具の使い方に慣れていないだけ</span>なので、遠慮なく聞いて。
+  </div>
+
+  <p class="mt2">次は → <a href="../slides/day0.html">DAY 0 のスライド</a>、
+    または <a href="basics.html">パソコンとファイルの基本</a></p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

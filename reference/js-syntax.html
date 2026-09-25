@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript構文一覧｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>JavaScript構文一覧</h1>
+  <p class="lead">この講座で使う書き方を全部まとめた。C言語を触ったことがある人向けの対応表も付けている。</p>
+
+  <div class="search">
+    <input type="text" placeholder="キーワードで検索（例：配列、ランダム、保存、クリック）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#var">変数と型</a><a href="#calc">計算・比較</a><a href="#if">条件分岐</a>
+    <a href="#loop">繰り返し</a><a href="#func">関数</a><a href="#array">配列</a>
+    <a href="#obj">オブジェクト</a><a href="#dom">画面をさわる</a><a href="#event">イベント</a>
+    <a href="#time">時間</a><a href="#store">保存</a><a href="#math">Math・文字列</a><a href="#c">C言語との対応</a>
+  </div>
+
+  <section data-sec>
+    <h2 id="var">変数と型</h2>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>const name = "ユウ";</code></td><td>あとで書き換えない箱。<b>まずこれを使う</b></td></tr>
+      <tr><td><code>let count = 0;</code></td><td>書き換える箱（カウンターなど）</td></tr>
+      <tr><td><code>count = count + 1;</code></td><td>書き換え</td></tr>
+      <tr><td><code>count += 1;</code></td><td>同じ意味の省略形。<code>-=</code> <code>*=</code> もある</td></tr>
+      <tr><td><code>count++;</code></td><td>1増やす（C言語と同じ）</td></tr>
+      <tr><td><code>42</code></td><td>数値（number）</td></tr>
+      <tr><td><code>"からあげ"</code> / <code>'ok'</code></td><td>文字列（string）。どちらのクォートでもよい</td></tr>
+      <tr><td><code>`こんにちは、${name} さん`</code></td><td>バッククォート。<b><code>${ }</code> で変数を埋め込める</b></td></tr>
+      <tr><td><code>true</code> / <code>false</code></td><td>真偽値（boolean）</td></tr>
+      <tr><td><code>null</code></td><td>「何も無い」。要素が見つからないときに返る</td></tr>
+      <tr><td><code>undefined</code></td><td>「まだ入っていない」</td></tr>
+      <tr><td><code>typeof x</code></td><td>型を調べる</td></tr>
+      <tr><td><code>Number("5")</code></td><td>文字列 → 数値</td></tr>
+      <tr><td><code>String(5)</code></td><td>数値 → 文字列</td></tr>
+    </table>
+    <div class="fusen" data-c="pink">
+      <b>いちばんハマる罠</b>
+      <code>"5" + 1</code> は <code>6</code> ではなく <code>"51"</code>。
+      入力欄から取った値は<span class="mk">数字に見えても文字列</span>なので、計算前に <code>Number()</code> を通す。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="calc">計算・比較</h2>
+    <table>
+      <tr><th style="width:180px">記号</th><th>意味</th><th>注意</th></tr>
+      <tr><td><code>+ - * /</code></td><td>四則演算</td><td><code>+</code> は文字列の連結にもなる</td></tr>
+      <tr><td><code>%</code></td><td>あまり</td><td><code>i % 2 === 0</code> で偶数判定</td></tr>
+      <tr><td><code>===</code></td><td>厳密に等しい</td><td><b>いつもこれを使う</b></td></tr>
+      <tr><td><code>!==</code></td><td>等しくない</td><td>—</td></tr>
+      <tr><td><code>==</code></td><td>ゆるい等しい</td><td>型を勝手にそろえる。<b>使わない</b></td></tr>
+      <tr><td><code>&gt; &lt; &gt;= &lt;=</code></td><td>大小</td><td>C言語と同じ</td></tr>
+      <tr><td><code>&amp;&amp;</code></td><td>かつ（AND）</td><td>両方 true のとき true</td></tr>
+      <tr><td><code>||</code></td><td>または（OR）</td><td>どちらか true なら true</td></tr>
+      <tr><td><code>!</code></td><td>否定</td><td><code>!flag</code> で逆にする</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="if">条件分岐</h2>
+    <script type="text/plain" class="code" data-lang="js">
+if (count >= 10) {
+  msg.textContent = "食べすぎです。";
+} else if (count >= 5) {
+  msg.textContent = "いいペースですね。";
+} else {
+  msg.textContent = "";
+}
+    </script>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>if ( ) { }</code></td><td>条件が true のとき実行</td></tr>
+      <tr><td><code>else if ( ) { }</code></td><td>上が false のときに次を判定</td></tr>
+      <tr><td><code>else { }</code></td><td>どれにも当てはまらないとき</td></tr>
+      <tr><td><code>switch (x) { case 1: … }</code></td><td>値がたくさんに分かれるとき</td></tr>
+      <tr><td><code>x ? "A" : "B"</code></td><td>短く書く三項演算子（C言語と同じ）</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>上から順に判定される</b>
+      最初に当てはまった1つだけが実行される。<span class="mk">条件は厳しいものから書く</span>のが鉄則。
+    </div>
+  </section>
+
+  <section data-sec>
+    <h2 id="loop">繰り返し</h2>
+    <script type="text/plain" class="code" data-lang="js">
+// 配列を1つずつ（おすすめ）
+likes.forEach(function (item, index) {
+  console.log(index, item);
+});
+
+// C言語と同じ書き方
+for (let i = 0; i < likes.length; i++) {
+  console.log(likes[i]);
+}
+
+// 条件が true のあいだ
+while (count < 10) {
+  count++;
+}
+    </script>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>配列.forEach(関数)</code></td><td>1つずつ取り出して処理（<b>ふだんはこれ</b>）</td></tr>
+      <tr><td><code>for (let i = 0; …)</code></td><td>回数で回す</td></tr>
+      <tr><td><code>for (const x of 配列)</code></td><td>中身だけ取り出して回す</td></tr>
+      <tr><td><code>while ( )</code></td><td>条件が true のあいだ回す</td></tr>
+      <tr><td><code>break</code></td><td>ループを抜ける（forEach では使えない）</td></tr>
+      <tr><td><code>continue</code></td><td>次の回に飛ばす</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="func">関数</h2>
+    <script type="text/plain" class="code" data-lang="js">
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+
+const dice = rollDice();
+
+// 値を受け取る関数
+function clamp(n) {
+  if (n > 100) return 100;
+  if (n < 0)   return 0;
+  return n;
+}
+    </script>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>function 名前() { }</code></td><td>関数を定義する（この時点では動かない）</td></tr>
+      <tr><td><code>名前()</code></td><td>呼び出す（ここで動く）</td></tr>
+      <tr><td><code>function f(a, b) { }</code></td><td>引数を受け取る</td></tr>
+      <tr><td><code>return 値;</code></td><td>値を返して<b>その場で終了</b></td></tr>
+      <tr><td><code>(a, b) =&gt; a + b</code></td><td>アロー関数。短く書ける書き方</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="array">配列</h2>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>const a = [1, 2, 3];</code></td><td>配列を作る</td></tr>
+      <tr><td><code>a[0]</code></td><td>1つ目を取り出す（<b>0から数える</b>）</td></tr>
+      <tr><td><code>a.length</code></td><td>個数</td></tr>
+      <tr><td><code>a.push(値)</code></td><td>末尾に足す</td></tr>
+      <tr><td><code>a.pop()</code></td><td>末尾を取り出して消す</td></tr>
+      <tr><td><code>a.shift()</code></td><td>先頭を取り出して消す</td></tr>
+      <tr><td><code>a.unshift(値)</code></td><td>先頭に足す</td></tr>
+      <tr><td><code>a.includes(値)</code></td><td>入っているか（true / false）</td></tr>
+      <tr><td><code>a.indexOf(値)</code></td><td>何番目か（無ければ -1）</td></tr>
+      <tr><td><code>a.splice(i, 1)</code></td><td>i番目から1個消す</td></tr>
+      <tr><td><code>a.filter(条件)</code></td><td>条件に合うものだけの新しい配列</td></tr>
+      <tr><td><code>a.map(関数)</code></td><td>全部を変換した新しい配列</td></tr>
+      <tr><td><code>a.join(", ")</code></td><td>つなげて1つの文字列に</td></tr>
+      <tr><td><code>a.sort()</code></td><td>並べ替え</td></tr>
+      <tr><td><code>a.reverse()</code></td><td>逆順にする</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="obj">オブジェクト</h2>
+    <script type="text/plain" class="code" data-lang="js">
+const state = { hunger: 50, mood: 50 };
+
+state.hunger        // 50
+state.mood = 70;    // 書き換え
+
+// オブジェクトの配列（いちばんよく使う形）
+const SQUARES = [
+  { type: "good", label: "目が合った", love: 8 },
+  { type: "bad",  label: "既読スルー", love: -10 }
+];
+
+SQUARES[0].label    // "目が合った"
+    </script>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>{ 名前: 値 }</code></td><td>オブジェクトを作る</td></tr>
+      <tr><td><code>obj.名前</code></td><td>取り出す・書き換える</td></tr>
+      <tr><td><code>obj["名前"]</code></td><td>同じ（名前を変数で指定したいとき）</td></tr>
+      <tr><td><code>Object.keys(obj)</code></td><td>名前の一覧を配列で取得</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="dom">画面をさわる</h2>
+    <table>
+      <tr><th style="width:300px">書き方</th><th>説明</th></tr>
+      <tr><td><code>document.getElementById("x")</code></td><td>id で1つ取ってくる</td></tr>
+      <tr><td><code>document.querySelector("#x")</code></td><td>CSSの書き方で最初の1つ</td></tr>
+      <tr><td><code>document.querySelectorAll(".x")</code></td><td>CSSの書き方で全部</td></tr>
+      <tr><td><code>要素.textContent</code></td><td>文字の読み書き</td></tr>
+      <tr><td><code>要素.innerHTML</code></td><td>HTMLごと読み書き（<code>= ""</code> で空にする）</td></tr>
+      <tr><td><code>要素.value</code></td><td>入力欄の中身</td></tr>
+      <tr><td><code>要素.style.color</code></td><td>CSSを直接書き換え（<code>background-color</code> は <code>backgroundColor</code>）</td></tr>
+      <tr><td><code>要素.classList.add("x")</code></td><td>クラスを付ける</td></tr>
+      <tr><td><code>要素.classList.remove("x")</code></td><td>クラスを外す</td></tr>
+      <tr><td><code>要素.classList.toggle("x")</code></td><td>付いてなければ付ける、付いていれば外す</td></tr>
+      <tr><td><code>要素.classList.contains("x")</code></td><td>付いているか調べる</td></tr>
+      <tr><td><code>document.createElement("li")</code></td><td>新しいタグを作る</td></tr>
+      <tr><td><code>親.appendChild(子)</code></td><td>子として末尾に追加</td></tr>
+      <tr><td><code>親.prepend(子)</code></td><td>先頭に追加</td></tr>
+      <tr><td><code>要素.remove()</code></td><td>その要素を消す</td></tr>
+      <tr><td><code>要素.disabled = true</code></td><td>ボタンを押せなくする</td></tr>
+      <tr><td><code>要素.dataset.名前</code></td><td><code>data-名前</code> 属性を読む</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="event">イベント</h2>
+    <script type="text/plain" class="code" data-lang="js">
+btn.addEventListener("click", function () {
+  hello.textContent = "押されました！";
+});
+
+// Enter キーで実行
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") addTodo();
+});
+    </script>
+    <table>
+      <tr><th style="width:200px">イベント名</th><th>タイミング</th></tr>
+      <tr><td><code>click</code></td><td>クリックされた</td></tr>
+      <tr><td><code>input</code></td><td>入力欄が変わるたび</td></tr>
+      <tr><td><code>change</code></td><td>入力が確定した</td></tr>
+      <tr><td><code>keydown</code></td><td>キーが押された（<code>e.key</code> で判定）</td></tr>
+      <tr><td><code>submit</code></td><td>フォームが送信された</td></tr>
+      <tr><td><code>mouseover</code> / <code>mouseout</code></td><td>マウスが乗った／離れた</td></tr>
+      <tr><td><code>e.preventDefault()</code></td><td>本来の動き（送信・スクロール）を止める</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="time">時間</h2>
+    <table>
+      <tr><th style="width:260px">書き方</th><th>説明</th></tr>
+      <tr><td><code>setTimeout(関数, 500)</code></td><td>500ミリ秒後に<b>1回だけ</b></td></tr>
+      <tr><td><code>setInterval(関数, 80)</code></td><td>80ミリ秒ごとに<b>ずっと</b></td></tr>
+      <tr><td><code>clearInterval(timer)</code></td><td>setInterval を止める（<b>忘れると回り続ける</b>）</td></tr>
+      <tr><td><code>clearTimeout(timer)</code></td><td>setTimeout を取り消す</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="store">保存</h2>
+    <script type="text/plain" class="code" data-lang="js">
+// 保存
+localStorage.setItem("todos", JSON.stringify(todos));
+
+// 読み込み
+const saved = localStorage.getItem("todos");
+if (saved !== null) {
+  todos = JSON.parse(saved);
+}
+    </script>
+    <table>
+      <tr><th style="width:300px">書き方</th><th>説明</th></tr>
+      <tr><td><code>localStorage.setItem(名前, 値)</code></td><td>保存（<b>文字列のみ</b>）</td></tr>
+      <tr><td><code>localStorage.getItem(名前)</code></td><td>読み込み（無ければ <code>null</code>）</td></tr>
+      <tr><td><code>localStorage.removeItem(名前)</code></td><td>1つ消す</td></tr>
+      <tr><td><code>localStorage.clear()</code></td><td>全部消す</td></tr>
+      <tr><td><code>JSON.stringify(データ)</code></td><td>配列やオブジェクト → 文字列</td></tr>
+      <tr><td><code>JSON.parse(文字列)</code></td><td>文字列 → 配列やオブジェクト</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="math">Math と 文字列</h2>
+    <table>
+      <tr><th style="width:300px">書き方</th><th>説明</th></tr>
+      <tr><td><code>Math.random()</code></td><td>0以上1未満の小数</td></tr>
+      <tr><td><code>Math.floor(x)</code></td><td>切り捨て</td></tr>
+      <tr><td><code>Math.ceil(x)</code></td><td>切り上げ</td></tr>
+      <tr><td><code>Math.round(x)</code></td><td>四捨五入</td></tr>
+      <tr><td><code>Math.max(a, b)</code> / <code>Math.min(a, b)</code></td><td>大きいほう／小さいほう</td></tr>
+      <tr><td><code>Math.abs(x)</code></td><td>絶対値</td></tr>
+      <tr><td><code>Math.floor(Math.random() * 6) + 1</code></td><td><b>サイコロ</b>（1〜6）</td></tr>
+      <tr><td><code>str.length</code></td><td>文字数</td></tr>
+      <tr><td><code>str.trim()</code></td><td>前後の空白を消す</td></tr>
+      <tr><td><code>str.toUpperCase()</code></td><td>大文字にする</td></tr>
+      <tr><td><code>str.includes("あ")</code></td><td>含まれているか</td></tr>
+      <tr><td><code>str.split(",")</code></td><td>区切って配列に</td></tr>
+      <tr><td><code>str.replace("a", "b")</code></td><td>置き換える</td></tr>
+      <tr><td><code>console.log(x)</code></td><td>F12 の Console に出す</td></tr>
+      <tr><td><code>alert("文")</code></td><td>警告ダイアログを出す</td></tr>
+    </table>
+  </section>
+
+  <section data-sec>
+    <h2 id="c">C言語との対応表</h2>
+    <table>
+      <tr><th style="width:300px">C言語</th><th>JavaScript</th></tr>
+      <tr><td><code>int x = 5;</code></td><td><code>let x = 5;</code>（型は書かない）</td></tr>
+      <tr><td><code>printf("%d", x);</code></td><td><code>console.log(x);</code></td></tr>
+      <tr><td><code>if (a == b)</code></td><td><code>if (a === b)</code>（イコール3つ）</td></tr>
+      <tr><td><code>for (i = 0; i &lt; n; i++)</code></td><td>そのまま同じ（<code>let i</code> にする）</td></tr>
+      <tr><td><code>int a[10];</code></td><td><code>const a = [];</code>（大きさの指定不要）</td></tr>
+      <tr><td><code>struct</code></td><td><code>{ 名前: 値 }</code> のオブジェクト</td></tr>
+      <tr><td><code>malloc / free</code></td><td>不要（自動で片づく）</td></tr>
+      <tr><td>コンパイルして実行</td><td>保存してブラウザで開くだけ</td></tr>
+      <tr><td><code>rand() % 6</code></td><td><code>Math.floor(Math.random() * 6)</code></td></tr>
+      <tr><td>関数の戻り値に型を書く</td><td>書かない</td></tr>
+    </table>
+  </section>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

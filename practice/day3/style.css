@@ -1,0 +1,98 @@
+@charset "UTF-8";
+/* =========================================================
+   DAY 3 ／ CSS 1回目
+   色・文字・余白・枠。まだ「並べる」ことはしません。
+   ========================================================= */
+
+/* ---- ページ全体 ---------------------------------------- */
+body {
+  font-family: "Yu Gothic", "Meiryo", sans-serif;  /* 文字の種類 */
+  color: #33333d;                                   /* 文字の色 */
+  background-color: #f4f1e8;                        /* 背景の色 */
+  line-height: 1.9;                                 /* 行の高さ */
+  margin: 0;                                        /* 画面のフチの余白を消す */
+  padding: 24px;
+}
+
+/* ---- ヘッダー ------------------------------------------ */
+header {
+  background-color: #3c4a52;
+  color: #ffffff;
+  padding: 28px 24px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.08em;
+}
+
+.sub {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #c3d0d6;
+}
+
+/* ---- 中身のかたまり ------------------------------------ */
+.box {
+  background-color: #ffffff;
+  border: 1px solid #ddd6c4;
+  border-left: 6px solid #d97b57;   /* 左だけ太い線にすると急に「それっぽく」なる */
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 21px;
+  margin: 0 0 12px;
+  color: #d97b57;
+}
+
+/* ---- 文字の装飾 ---------------------------------------- */
+.hilight {
+  background-color: #ffe9a8;   /* 蛍光ペン風 */
+  font-weight: bold;
+  padding: 0 4px;
+}
+
+strong {
+  color: #c0432f;
+}
+
+.caution {
+  font-size: 14px;
+  color: #7a7a85;
+}
+
+/* ---- 画像 ---------------------------------------------- */
+.photo {
+  width: 140px;
+  border: 4px solid #f4f1e8;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-photo {
+  text-align: center;
+}
+
+/* ---- リスト -------------------------------------------- */
+ul {
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* ---- フッター ------------------------------------------ */
+footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 13px;
+  color: #8b8b95;
+}

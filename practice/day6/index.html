@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ユウのトリセツ｜DAY 6</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <header class="bar">
+      <div class="bar-logo">ユウのトリセツ</div>
+      <nav class="bar-nav"><a href="#list">データで作る</a></nav>
+    </header>
+
+    <main class="wrap">
+
+      <h1 class="ttl-big">データを置いておいて、画面はそこから作る</h1>
+      <p class="lead">DAY 5 は「1個の文字を書き換える」でした。今日は
+      <b>まとまったデータ</b>を持って、そこから画面を組み立てます。
+      ここができると、作れるものが一気に増えます。</p>
+
+      <!-- ======== ① 配列から一覧を作る ======== -->
+      <section class="box" id="list">
+        <h2>① 配列から一覧を作る</h2>
+        <p>HTML には <code>&lt;ul&gt;</code> の空っぽの箱しか置いていません。
+        中身は JavaScript が作ります。</p>
+        <ul id="likeList" class="like-list"></ul>
+        <button id="btnAddLike" class="btn btn-sm">項目を1つ足す</button>
+      </section>
+
+      <!-- ======== ② ルーレット ======== -->
+      <section class="box">
+        <h2>② 今日のごはんルーレット</h2>
+        <p>配列の中からランダムに1つ選びます。ボードゲームの「カードを引く」と同じ仕組みです。</p>
+        <div id="rouletteBox" class="roulette">？？？</div>
+        <button id="btnRoulette" class="btn">まわす</button>
+      </section>
+
+      <!-- ======== ③ 状態（オブジェクト） ======== -->
+      <section class="box">
+        <h2>③ 状態をひとまとめにする</h2>
+        <p>ばらばらの変数ではなく、<code>state</code> という1つの箱にまとめて管理します。</p>
+        <div class="status">
+          <div class="status-item">満腹度 <span id="hunger">50</span></div>
+          <div class="status-item">機嫌   <span id="mood">50</span></div>
+          <div class="status-item">体力   <span id="power">50</span></div>
+        </div>
+        <div class="gauge"><div id="moodBar" class="gauge-in"></div></div>
+        <p class="btn-row">
+          <button id="btnEat"   class="btn btn-sm">ごはんをあげる</button>
+          <button id="btnPlay"  class="btn btn-sm">遊ぶ</button>
+          <button id="btnSleep" class="btn btn-sm">寝かせる</button>
+        </p>
+        <p id="stateMsg" class="msg"></p>
+      </section>
+
+      <!-- ======== ④ 保存される持ち物リスト ======== -->
+      <section class="box">
+        <h2>④ 閉じても消えないチェックリスト</h2>
+        <p>ブラウザに保存するので、リロードしても残ります（<code>localStorage</code>）。</p>
+        <div class="add-row">
+          <input type="text" id="todoInput" placeholder="持っていくもの">
+          <button id="btnAddTodo" class="btn btn-sm">追加</button>
+        </div>
+        <ul id="todoList" class="todo-list"></ul>
+        <button id="btnClearTodo" class="btn btn-sub btn-sm">全部消す</button>
+      </section>
+
+    </main>
+
+    <footer class="foot"><p>&copy; 2026 ユウ ／ DAY 6（JavaScript 2回目）</p></footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

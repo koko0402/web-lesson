@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>記号と英単語の読み方｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  td.sym{ font-family:var(--f-code); font-size:22px; text-align:center; }
+  td.yomi{ font-weight:600; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>記号と英単語の読み方</h1>
+  <p class="lead">地味だが、<b>これが分からないと質問も検索もできない</b>。<br>
+    「なんか波かっこの中に……」と言えるだけで、話が一気に通じるようになる。</p>
+
+  <div class="search">
+    <input type="text" placeholder="記号や単語で検索（例：セミコロン、href、toggle）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#kakko">かっこ</a><a href="#kugiri">区切り記号</a><a href="#enzan">その他の記号</a>
+    <a href="#html">HTMLタグの読み方</a><a href="#css">CSSの読み方</a><a href="#js">JavaScriptの読み方</a>
+    <a href="#eigo">よく出る英単語</a>
+  </div>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="kakko">かっこ</h2>
+    <table>
+      <tr><th style="width:90px">記号</th><th style="width:230px">読み方</th><th>どこで使う</th></tr>
+      <tr><td class="sym">( )</td><td class="yomi">まるかっこ／パーレン</td><td>関数。<code>rollDice()</code> <code>Math.floor(x)</code></td></tr>
+      <tr><td class="sym">{ }</td><td class="yomi">なみかっこ／ブレース</td><td>CSSのまとまり、JSの処理のまとまり、オブジェクト</td></tr>
+      <tr><td class="sym">[ ]</td><td class="yomi">かくかっこ／ブラケット</td><td>配列。<code>[1, 2, 3]</code> <code>likes[0]</code></td></tr>
+      <tr><td class="sym">&lt; &gt;</td><td class="yomi">やまかっこ／不等号</td><td>HTMLタグ。JSでは大小の比較</td></tr>
+    </table>
+    <div class="fusen" data-c="blue">
+      <b>かっこは必ずペア</b>
+      開いたら必ず閉じる。VSCodeでは<span class="mk">片方をクリックすると相方が光る</span>。
+      「Unexpected end of input」というエラーは、たいてい <code>}</code> の閉じ忘れ。
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="kugiri">区切り記号</h2>
+    <table>
+      <tr><th style="width:90px">記号</th><th style="width:230px">読み方</th><th>意味・使いどころ</th></tr>
+      <tr><td class="sym">;</td><td class="yomi">セミコロン</td><td><b>1行の終わり</b>。CSSとJSで使う。忘れると次の行まで壊れる</td></tr>
+      <tr><td class="sym">:</td><td class="yomi">コロン</td><td>CSSの「何を：どうする」の区切り。オブジェクトの「名前：値」</td></tr>
+      <tr><td class="sym">,</td><td class="yomi">カンマ</td><td>ものを並べる。<code>[1, 2, 3]</code></td></tr>
+      <tr><td class="sym">.</td><td class="yomi">ドット／ピリオド</td><td>「〜の」。<code>state.mood</code>＝stateのmood。CSSではclass</td></tr>
+      <tr><td class="sym">"</td><td class="yomi">ダブルクォート</td><td>文字列を囲む。HTMLの属性の値</td></tr>
+      <tr><td class="sym">'</td><td class="yomi">シングルクォート</td><td>同じく文字列。どちらでもよい</td></tr>
+      <tr><td class="sym">`</td><td class="yomi">バッククォート</td><td>JSの文字列。中で <code>${ }</code> が使える</td></tr>
+      <tr><td class="sym">/</td><td class="yomi">スラッシュ</td><td>終了タグ、パスの区切り、割り算、コメント</td></tr>
+      <tr><td class="sym">\</td><td class="yomi">バックスラッシュ／円マーク</td><td>特別な文字を打つとき。日本語キーボードでは ￥ と同じキー</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="enzan">その他の記号</h2>
+    <table>
+      <tr><th style="width:90px">記号</th><th style="width:230px">読み方</th><th>意味・使いどころ</th></tr>
+      <tr><td class="sym">-</td><td class="yomi">ハイフン／マイナス</td><td>CSSのプロパティ名（<code>font-size</code>）、引き算</td></tr>
+      <tr><td class="sym">_</td><td class="yomi">アンダースコア／アンダーバー</td><td>名前の区切り（<code>my_file</code>）</td></tr>
+      <tr><td class="sym">=</td><td class="yomi">イコール</td><td><b>代入</b>（入れる）。比較は <code>===</code> で3つ</td></tr>
+      <tr><td class="sym">+</td><td class="yomi">プラス</td><td>足し算。文字列だと<b>連結</b>になる</td></tr>
+      <tr><td class="sym">*</td><td class="yomi">アスタリスク／こめじるし</td><td>かけ算。CSSでは「すべて」</td></tr>
+      <tr><td class="sym">%</td><td class="yomi">パーセント</td><td>CSSでは割合。JSでは<b>あまり</b></td></tr>
+      <tr><td class="sym">#</td><td class="yomi">シャープ／ハッシュ</td><td>CSSのid、色コード（<code>#ff0000</code>）</td></tr>
+      <tr><td class="sym">$</td><td class="yomi">ドル</td><td>JSの <code>${ 変数 }</code> で使う</td></tr>
+      <tr><td class="sym">&amp;</td><td class="yomi">アンパサンド</td><td><code>&amp;&amp;</code> で「かつ」</td></tr>
+      <tr><td class="sym">|</td><td class="yomi">パイプ／縦棒</td><td><code>||</code> で「または」</td></tr>
+      <tr><td class="sym">!</td><td class="yomi">エクスクラメーション／びっくり</td><td>「〜でない」。<code>!==</code> は「等しくない」</td></tr>
+      <tr><td class="sym">?</td><td class="yomi">クエスチョン／はてな</td><td>三項演算子、URLの区切り</td></tr>
+      <tr><td class="sym">@</td><td class="yomi">アットマーク</td><td>CSSの <code>@media</code> <code>@keyframes</code></td></tr>
+      <tr><td class="sym">&gt;</td><td class="yomi">大なり</td><td>CSSでは「直接の子」、Emmetでは「中に入れる」</td></tr>
+      <tr><td class="sym">//</td><td class="yomi">スラッシュ2つ</td><td>JSのコメント（その行は無視される）</td></tr>
+      <tr><td class="sym">/* */</td><td class="yomi">スラッシュアスタリスク</td><td>CSSのコメント</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="html">HTMLタグの読み方</h2>
+    <table>
+      <tr><th style="width:150px">タグ</th><th style="width:200px">読み方</th><th>もとの英語</th></tr>
+      <tr><td><code>&lt;div&gt;</code></td><td class="yomi">ディブ</td><td>division（区画）</td></tr>
+      <tr><td><code>&lt;span&gt;</code></td><td class="yomi">スパン</td><td>span（範囲）</td></tr>
+      <tr><td><code>&lt;p&gt;</code></td><td class="yomi">ピー</td><td>paragraph（段落）</td></tr>
+      <tr><td><code>&lt;h1&gt;</code></td><td class="yomi">エイチワン</td><td>heading（見出し）</td></tr>
+      <tr><td><code>&lt;a&gt;</code></td><td class="yomi">エー</td><td>anchor（いかり＝つなぎとめる）</td></tr>
+      <tr><td><code>&lt;img&gt;</code></td><td class="yomi">イメージ／イメジ</td><td>image（画像）</td></tr>
+      <tr><td><code>&lt;ul&gt;</code></td><td class="yomi">ユーエル</td><td>unordered list（順序なしリスト）</td></tr>
+      <tr><td><code>&lt;ol&gt;</code></td><td class="yomi">オーエル</td><td>ordered list（順序ありリスト）</td></tr>
+      <tr><td><code>&lt;li&gt;</code></td><td class="yomi">エルアイ</td><td>list item（リストの項目）</td></tr>
+      <tr><td><code>&lt;nav&gt;</code></td><td class="yomi">ナブ／ナビ</td><td>navigation（案内）</td></tr>
+      <tr><td><code>&lt;br&gt;</code></td><td class="yomi">ビーアール</td><td>break（改行）</td></tr>
+      <tr><td><code>&lt;hr&gt;</code></td><td class="yomi">エイチアール</td><td>horizontal rule（横線）</td></tr>
+      <tr><td><code>&lt;tr&gt;</code></td><td class="yomi">ティーアール</td><td>table row（表の行）</td></tr>
+      <tr><td><code>&lt;td&gt;</code></td><td class="yomi">ティーディー</td><td>table data（表のマス）</td></tr>
+      <tr><td><code>&lt;th&gt;</code></td><td class="yomi">ティーエイチ</td><td>table header（表の見出しマス）</td></tr>
+      <tr><td><code>href</code></td><td class="yomi">エイチレフ</td><td>hypertext reference（リンク先）</td></tr>
+      <tr><td><code>src</code></td><td class="yomi">エスアールシー／ソース</td><td>source（もと）</td></tr>
+      <tr><td><code>alt</code></td><td class="yomi">オルト</td><td>alternative（代わりの説明）</td></tr>
+      <tr><td><code>meta</code></td><td class="yomi">メタ</td><td>meta（そのページ自身についての情報）</td></tr>
+      <tr><td><code>charset</code></td><td class="yomi">キャラセット</td><td>character set（文字の種類）</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="css">CSSの読み方</h2>
+    <table>
+      <tr><th style="width:210px">プロパティ</th><th style="width:200px">読み方</th><th>意味</th></tr>
+      <tr><td><code>margin</code></td><td class="yomi">マージン</td><td>余白（外側）</td></tr>
+      <tr><td><code>padding</code></td><td class="yomi">パディング</td><td>詰め物（内側の余白）</td></tr>
+      <tr><td><code>border</code></td><td class="yomi">ボーダー</td><td>境界線</td></tr>
+      <tr><td><code>border-radius</code></td><td class="yomi">ボーダーレイディアス</td><td>角の丸み（radius＝半径）</td></tr>
+      <tr><td><code>box-shadow</code></td><td class="yomi">ボックスシャドウ</td><td>影</td></tr>
+      <tr><td><code>flex</code></td><td class="yomi">フレックス</td><td>flexible（伸び縮みする）</td></tr>
+      <tr><td><code>justify-content</code></td><td class="yomi">ジャスティファイコンテント</td><td>中身の横方向の配置</td></tr>
+      <tr><td><code>align-items</code></td><td class="yomi">アラインアイテムズ</td><td>要素の縦方向の配置</td></tr>
+      <tr><td><code>gap</code></td><td class="yomi">ギャップ</td><td>すきま</td></tr>
+      <tr><td><code>grid</code></td><td class="yomi">グリッド</td><td>格子</td></tr>
+      <tr><td><code>position</code></td><td class="yomi">ポジション</td><td>位置の決め方</td></tr>
+      <tr><td><code>transition</code></td><td class="yomi">トランジション</td><td>移り変わり（ゆっくり変化）</td></tr>
+      <tr><td><code>transform</code></td><td class="yomi">トランスフォーム</td><td>変形（動かす・回す）</td></tr>
+      <tr><td><code>opacity</code></td><td class="yomi">オパシティ</td><td>不透明度</td></tr>
+      <tr><td><code>hover</code></td><td class="yomi">ホバー</td><td>（マウスが）上にとどまる</td></tr>
+      <tr><td><code>@media</code></td><td class="yomi">アットメディア</td><td>画面の種類ごとの指定</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="js">JavaScriptの読み方</h2>
+    <table>
+      <tr><th style="width:250px">書き方</th><th style="width:230px">読み方</th><th>意味</th></tr>
+      <tr><td><code>const</code></td><td class="yomi">コンスト</td><td>constant（定数＝変えないもの）</td></tr>
+      <tr><td><code>let</code></td><td class="yomi">レット</td><td>「〜とする」（変える箱）</td></tr>
+      <tr><td><code>function</code></td><td class="yomi">ファンクション</td><td>関数</td></tr>
+      <tr><td><code>return</code></td><td class="yomi">リターン</td><td>返す</td></tr>
+      <tr><td><code>document</code></td><td class="yomi">ドキュメント</td><td>いま開いているページ全体</td></tr>
+      <tr><td><code>getElementById</code></td><td class="yomi">ゲットエレメントバイアイディー</td><td>idで要素を取ってくる</td></tr>
+      <tr><td><code>querySelector</code></td><td class="yomi">クエリセレクター</td><td>CSSの書き方で探す</td></tr>
+      <tr><td><code>addEventListener</code></td><td class="yomi">アドイベントリスナー</td><td>「〜されたら」を登録する</td></tr>
+      <tr><td><code>textContent</code></td><td class="yomi">テキストコンテント</td><td>文字の中身</td></tr>
+      <tr><td><code>innerHTML</code></td><td class="yomi">インナーエイチティーエムエル</td><td>内側のHTML</td></tr>
+      <tr><td><code>classList</code></td><td class="yomi">クラスリスト</td><td>付いているclassの一覧</td></tr>
+      <tr><td><code>toggle</code></td><td class="yomi">トグル</td><td>切り替える（ON/OFF）</td></tr>
+      <tr><td><code>console.log</code></td><td class="yomi">コンソールログ</td><td>記録を出す</td></tr>
+      <tr><td><code>Math.random</code></td><td class="yomi">マスランダム</td><td>数学・でたらめな数</td></tr>
+      <tr><td><code>Math.floor</code></td><td class="yomi">マスフロア</td><td>床＝切り捨て</td></tr>
+      <tr><td><code>push</code></td><td class="yomi">プッシュ</td><td>押し込む（配列の末尾に足す）</td></tr>
+      <tr><td><code>forEach</code></td><td class="yomi">フォーイーチ</td><td>それぞれについて</td></tr>
+      <tr><td><code>localStorage</code></td><td class="yomi">ローカルストレージ</td><td>この端末の保管庫</td></tr>
+      <tr><td><code>JSON</code></td><td class="yomi">ジェイソン</td><td>データを文字で表す形式</td></tr>
+      <tr><td><code>setInterval</code></td><td class="yomi">セットインターバル</td><td>間隔をあけて繰り返す</td></tr>
+      <tr><td><code>null</code></td><td class="yomi">ヌル／ナル</td><td>何も無い</td></tr>
+      <tr><td><code>undefined</code></td><td class="yomi">アンディファインド</td><td>まだ決まっていない</td></tr>
+      <tr><td><code>boolean</code></td><td class="yomi">ブーリアン</td><td>true / false の型</td></tr>
+    </table>
+  </section>
+
+  <!-- ========================================================= -->
+  <section data-sec>
+    <h2 id="eigo">よく出る英単語</h2>
+    <p>プログラムの名前は英語。<b>単語の意味が分かるだけで、初めて見るコードも半分読める。</b></p>
+
+    <h3>動作をあらわす言葉</h3>
+    <table>
+      <tr><th style="width:180px">単語</th><th style="width:150px">読み</th><th>意味</th></tr>
+      <tr><td><code>get</code></td><td>ゲット</td><td>取ってくる</td></tr>
+      <tr><td><code>set</code></td><td>セット</td><td>設定する・入れる</td></tr>
+      <tr><td><code>add</code></td><td>アド</td><td>足す</td></tr>
+      <tr><td><code>remove</code></td><td>リムーブ</td><td>取り除く</td></tr>
+      <tr><td><code>create</code></td><td>クリエイト</td><td>作る</td></tr>
+      <tr><td><code>append</code></td><td>アペンド</td><td>末尾にくっつける</td></tr>
+      <tr><td><code>toggle</code></td><td>トグル</td><td>切り替える</td></tr>
+      <tr><td><code>select</code></td><td>セレクト</td><td>選ぶ</td></tr>
+      <tr><td><code>show</code> / <code>hide</code></td><td>ショー／ハイド</td><td>見せる／隠す</td></tr>
+      <tr><td><code>draw</code> / <code>render</code></td><td>ドロー／レンダー</td><td>描く（画面を作る）</td></tr>
+      <tr><td><code>update</code></td><td>アップデート</td><td>更新する</td></tr>
+      <tr><td><code>reset</code></td><td>リセット</td><td>元に戻す</td></tr>
+      <tr><td><code>check</code></td><td>チェック</td><td>調べる</td></tr>
+      <tr><td><code>save</code> / <code>load</code></td><td>セーブ／ロード</td><td>保存／読み込み</td></tr>
+    </table>
+
+    <h3>ものをあらわす言葉</h3>
+    <table>
+      <tr><th style="width:180px">単語</th><th style="width:150px">読み</th><th>意味</th></tr>
+      <tr><td><code>element</code></td><td>エレメント</td><td>要素（HTMLのタグ1つ）</td></tr>
+      <tr><td><code>content</code></td><td>コンテント</td><td>中身</td></tr>
+      <tr><td><code>value</code></td><td>バリュー</td><td>値（入力欄の中身）</td></tr>
+      <tr><td><code>item</code></td><td>アイテム</td><td>1つの項目</td></tr>
+      <tr><td><code>index</code></td><td>インデックス</td><td>何番目か（0から数える）</td></tr>
+      <tr><td><code>length</code></td><td>レングス</td><td>長さ・個数</td></tr>
+      <tr><td><code>event</code></td><td>イベント</td><td>起きたこと（クリックなど）</td></tr>
+      <tr><td><code>target</code></td><td>ターゲット</td><td>対象</td></tr>
+      <tr><td><code>parent</code> / <code>child</code></td><td>ペアレント／チャイルド</td><td>親／子（入れ子の関係）</td></tr>
+      <tr><td><code>state</code></td><td>ステート</td><td>状態</td></tr>
+      <tr><td><code>result</code></td><td>リザルト</td><td>結果</td></tr>
+      <tr><td><code>current</code></td><td>カレント</td><td>今の</td></tr>
+      <tr><td><code>default</code></td><td>デフォルト</td><td>初期状態</td></tr>
+      <tr><td><code>source</code></td><td>ソース</td><td>もと（元ファイル）</td></tr>
+      <tr><td><code>string</code></td><td>ストリング</td><td>文字列</td></tr>
+      <tr><td><code>number</code></td><td>ナンバー</td><td>数値</td></tr>
+      <tr><td><code>array</code></td><td>アレイ</td><td>配列</td></tr>
+      <tr><td><code>object</code></td><td>オブジェクト</td><td>名前つきのデータのまとまり</td></tr>
+      <tr><td><code>property</code></td><td>プロパティ</td><td>性質・設定項目</td></tr>
+      <tr><td><code>attribute</code></td><td>アトリビュート</td><td>属性（タグに付ける情報）</td></tr>
+    </table>
+
+    <h3>エラーによく出る言葉</h3>
+    <table>
+      <tr><th style="width:200px">単語</th><th style="width:150px">読み</th><th>意味</th></tr>
+      <tr><td><code>error</code></td><td>エラー</td><td>間違い</td></tr>
+      <tr><td><code>warning</code></td><td>ワーニング</td><td>警告（動くが注意）</td></tr>
+      <tr><td><code>failed</code></td><td>フェイルド</td><td>失敗した</td></tr>
+      <tr><td><code>not found</code></td><td>ノットファウンド</td><td>見つからない</td></tr>
+      <tr><td><code>not defined</code></td><td>ノットディファインド</td><td>そんな名前は無い</td></tr>
+      <tr><td><code>unexpected</code></td><td>アンエクスペクテッド</td><td>予期しない（想定外のものがある）</td></tr>
+      <tr><td><code>invalid</code></td><td>インバリッド</td><td>正しくない</td></tr>
+      <tr><td><code>required</code></td><td>リクワイアド</td><td>必須</td></tr>
+      <tr><td><code>cannot read</code></td><td>キャナットリード</td><td>読み取れない</td></tr>
+      <tr><td><code>is not a function</code></td><td>—</td><td>関数ではない（名前のつづり違い）</td></tr>
+    </table>
+
+    <div class="fusen" data-c="green">
+      <b>読めると、こうなる</b>
+      <code>document.getElementById("btn")</code> は<br>
+      「<span class="mk">ページ</span> の idで要素を取ってくる（"btn"という名前の）」<br>
+      と読める。<b>暗記ではなく、英語として読む</b>クセをつけると一気に楽になる。
+    </div>
+  </section>
+
+  <p class="mt2">関連 → <a href="basics.html">パソコンとファイルの基本</a>
+    <a href="errors.html">エラー辞典</a>
+    <a href="glossary.html">用語辞典</a></p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

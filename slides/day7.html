@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DAY 7 ｜ 総合制作 — プロポーズの言葉を君に捧ぐよ</title>
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+/* この回だけで使うフロー図 */
+.flow{ display:flex; flex-direction:column; gap:7px; }
+.fbox{
+  background:#fff; border:2px solid var(--ink); border-radius:7px;
+  padding:7px 12px; font-size:15px; text-align:center;
+}
+.fbox.q{ border-radius:22px; border-color:var(--red); color:var(--red); font-weight:600; }
+.fbox.s{ border-color:var(--green); background:#eef7ef; }
+.fbox.e{ border-color:var(--gold,#c99a2e); background:#fdf3d6; font-weight:600; }
+.fdown{
+  width:18px; height:18px; margin:0 auto; flex:none;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M9,1 L9,13 M4,9 L9,14 L14,9' fill='none' stroke='%232c3a42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.fsplit{ display:flex; gap:10px; }
+.fsplit > div{ flex:1; }
+.flabel{ font-family:var(--f-hand); font-size:13px; color:var(--blue); text-align:center; }
+</style>
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- 01 -->
+<section class="slide" data-kind="cover" data-title="表紙">
+  <div class="tape tl"></div>
+  <div class="cover-num">07</div>
+  <div class="body">
+    <div class="cover-day">D A Y &nbsp;7 &nbsp;/ &nbsp;M A K I N G</div>
+    <h1 class="t">ゼロから<br>作ってみる</h1>
+    <div class="cover-rule"></div>
+    <p class="lead">新しい文法は<span class="mk">1つも出てこない</span>。<br>
+      今日学ぶのは「作り方」そのものだ。</p>
+    <p class="xs mt2">第7回 ／ 総合制作『プロポーズの言葉を君に捧ぐよ』</p>
+  </div>
+  <div class="chara nana" style="right:104px; bottom:48px; width:130px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+  <div class="fuki l" style="right:48px; bottom:204px; max-width:244px">
+    今日はコードあんまり書かない。<br>いちばん地味で、<br>たぶんいちばん効く回。
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="slide" data-title="今日やること">
+  <div class="body">
+    <div class="kicker"><b>今日は毛色がちがう</b></div>
+    <h2 class="t">コードを覚える日ではない</h2>
+    <div class="g2">
+      <div class="card v">
+        <h4 style="color:var(--red)">DAY 1〜6 でやったこと</h4>
+        <p class="sm">「これを書くと、こう動く」という<b>部品の使い方</b>。</p>
+        <ul class="dot r" style="font-size:17px">
+          <li>タグの書き方</li>
+          <li>色の付け方</li>
+          <li>ボタンの反応のさせ方</li>
+          <li>配列の回し方</li>
+        </ul>
+        <p class="sm mt">これはもう、<span class="mk">調べれば出てくる知識</span>。</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">今日やること</h4>
+        <p class="sm">「作りたいもの」を<b>作れる形にほぐす</b>手順。</p>
+        <ul class="check" style="font-size:17px">
+          <li>何を作りたいのかハッキリさせる</li>
+          <li>必要な機能を言葉にする</li>
+          <li>動きの流れを細かく決める</li>
+          <li>壊れそうな所を先に潰す</li>
+          <li>図にしてから、コードにする</li>
+        </ul>
+        <p class="sm mt">こっちは<span class="mk">検索しても出てこない</span>。</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>身も蓋もない話</b>
+      コードは、正直AIに書かせても動く。でも
+      <span class="mk">「何を作るか」が決まっていないと、AIにも頼めない</span>。<br>
+      そこだけは代わりにやってもらえない、という話。
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="slide" data-title="制作の型">
+  <div class="body">
+    <div class="kicker"><b>今日の地図</b></div>
+    <h2 class="t">ものを作るときの、いつもの順番</h2>
+    <div class="g3" style="gap:14px">
+      <div class="card v">
+        <h4 style="color:var(--red)">A. 考える</h4>
+        <ol class="step" style="font-size:15px; gap:8px">
+          <li>どんなものを作りたいか</li>
+          <li>欲しい機能を言葉にする</li>
+          <li>そのために必要なものを挙げる</li>
+        </ol>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">B. 固める</h4>
+        <ol class="step" style="font-size:15px; gap:8px">
+          <li>システムの流れを細かく決める</li>
+          <li>問題が起きそうな所を挙げる</li>
+          <li>調べる・AIに相談する</li>
+          <li>図や文で1度まとめる</li>
+        </ol>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--green)">C. 作る・直す</h4>
+        <ol class="step" style="font-size:15px; gap:8px">
+          <li>実装する</li>
+          <li>動かしてエラーを潰す</li>
+          <li>見た目・動きを整える</li>
+          <li>しばらく触って直す</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="pink" style="flex:1.4">
+        <b>A に一番時間をかける</b>
+        初心者ほど「9. 実装する」から始めようとして、途中で止まる。
+        <span class="mk">手が止まる原因は、たいてい技術ではなく「決まっていないこと」</span>。
+      </div>
+      <div class="fusen" style="flex:1">
+        <b>行ったり来たりでいい</b>
+        作っている途中で「やっぱりこうしたい」は必ず起きる。
+        そのたび A に戻ってOK。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="slide" data-title="STEP 1 イメージ">
+  <div class="body">
+    <div class="kicker"><b>STEP 1 ／ 考える</b></div>
+    <h2 class="t">どんなものを作りたいか</h2>
+    <div class="g32">
+      <div>
+        <div class="card">
+          <h4>今回の題材</h4>
+          <p class="sm">実際にあるパーティゲーム『たった今考えたプロポーズの言葉を君に捧ぐよ。』を、
+            <b>1台のパソコンで遊べる形</b>にする。</p>
+          <p class="sm mt">ひとことで言うと ──</p>
+          <div class="fusen mt" data-c="blue" style="max-width:none">
+            「手札のことばを言いまわしに当てはめて<br>
+            プロポーズの文を作る。<span class="mk">親がいちばんグッときた文を選ぶ</span>」
+          </div>
+        </div>
+        <div class="yodan">
+          カードの文言そのものは商品のものだから、そのまま使わない。
+          <b>仕組みだけ真似て、ことばは自分たちで作る。</b>これは守ること。
+        </div>
+      </div>
+      <div>
+        <div class="card v">
+          <h4>先に決めておくこと</h4>
+          <ul class="dot" style="font-size:17px">
+            <li><b>誰が遊ぶ</b> → 3〜6人。その場にいる人</li>
+            <li><b>どこで遊ぶ</b> → 1台をまわす</li>
+            <li><b>1回どれくらい</b> → 10分くらい</li>
+            <li><b>勝ち負け</b> → 指輪を3つ渡しきった人の勝ち</li>
+          </ul>
+          <div class="fusen mt2 push" style="max-width:none">
+            <b>ここが決まると規模が決まる</b>
+            「1台をまわす」→ <span class="mk">通信は要らない</span>。<br>
+            「10分」→ 指輪は3つで十分。<br>
+            決めないと、作る量が無限に膨らむ。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="slide" data-title="STEP 2 機能を言葉に">
+  <div class="body">
+    <div class="kicker"><b>STEP 2 ／ 考える</b></div>
+    <h2 class="t">欲しい機能を、ぜんぶ書き出す</h2>
+    <div class="g2">
+      <div>
+        <div class="card">
+          <h4>「できてほしいこと」を並べる</h4>
+          <ul class="check" style="font-size:17px">
+            <li>人数と名前を決められる</li>
+            <li>手札のことばが配られる</li>
+            <li>言いまわしを選べる</li>
+            <li>ことばを穴に入れて文が作れる</li>
+            <li>やりなおせる</li>
+            <li>全員ぶんの文が並ぶ</li>
+            <li>親が1つ選べる</li>
+            <li>選ばれた人の指輪が1つ減る</li>
+            <li>3つ渡しきったら勝ち</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink" style="max-width:none">
+          <b>やらないことも決める</b>
+          ・通信対戦　・カードの絵　・BGM　・セーブ<br>
+          <span class="mk">「やらない」と書いた瞬間、作る量が半分になる。</span>
+          あとから足せばいい。
+        </div>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>主語をつけて書く</b>
+          「カードが配られる」ではなく<b>「誰に」配られるのか</b>。<br>
+          「選べる」ではなく<b>「誰が」選ぶのか</b>。<br>
+          ここが曖昧だと、あとで必ず作り直しになる。
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>紙に書く</b>
+          画面で書くと、消したり整えたりに気を取られる。
+          <b>箇条書きで、汚くていい。</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="slide" data-title="STEP 3 必要なものを挙げる">
+  <div class="body">
+    <div class="kicker"><b>STEP 3 ／ 考える</b></div>
+    <h2 class="t">機能を、習った技術に対応づける</h2>
+    <table class="tbl sm">
+      <tr><th style="width:250px">やりたいこと</th><th style="width:230px">画面に要るもの</th><th>使う技術</th></tr>
+      <tr><td>言いまわしが6種類ある</td><td>番号ボタン</td><td>配列 ／ DAY 6</td></tr>
+      <tr><td>ことばが配られる</td><td>手札のカード</td><td>配列 ＋ <span class="ic">Math.random</span> ／ DAY 5</td></tr>
+      <tr><td>ことばを穴に入れる</td><td>組み立て中の文</td><td><span class="ic">replace</span> で置きかえ</td></tr>
+      <tr><td>今の状況を覚えておく</td><td>—</td><td><span class="ic">game</span> オブジェクト ／ DAY 6</td></tr>
+      <tr><td>全員ぶんの文が並ぶ</td><td>発表のリスト</td><td>配列に <span class="ic">push</span> ／ DAY 6</td></tr>
+      <tr><td>親が1つ選ぶ</td><td>押せるカード</td><td><span class="ic">addEventListener</span> ／ DAY 5</td></tr>
+      <tr><td>指輪が減る</td><td>指輪の表示</td><td>数を引く ＋ <span class="ic">if</span></td></tr>
+      <tr><td>画面が切りかわる</td><td>6つの画面</td><td><span class="ic">classList</span> で出し入れ ／ DAY 5</td></tr>
+    </table>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="green" style="flex:1">
+        <b>全部 DAY 1〜6 の範囲</b>
+        新しい文法は1つも要らない。<span class="mk">知らない技術が出てこない</span>と分かると、
+        作る前の怖さが半分消える。
+      </div>
+      <div class="fusen" data-c="pink" style="flex:1">
+        <b>ここで「知らない」が出たら</b>
+        それが今日<b>調べる対象</b>。作りながら探すより、先に洗い出しておくほうが早い。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="slide" data-title="STEP 4 流れを決める">
+  <div class="body">
+    <div class="kicker"><b>STEP 4 ／ 固める</b></div>
+    <h2 class="t">1回ぶんの流れを、細かく書く</h2>
+    <div class="g2">
+      <div>
+        <div class="card">
+          <h4>1回戦のあいだに起きること</h4>
+          <ol class="step" style="font-size:16px; gap:9px">
+            <li>親を決める（最初は1番の人）</li>
+            <li>親以外の人へ、順番に画面をわたす</li>
+            <li>その人に手札を6枚くばる</li>
+            <li>言いまわしを選び、ことばを2つ入れる</li>
+            <li>決定したら、次の人へ</li>
+            <li>全員できたら、まとめて発表</li>
+            <li>親がいちばんいいものを選ぶ</li>
+            <li>選ばれた人の指輪を1つ減らす</li>
+            <li>0になった人がいたら終わり</li>
+            <li>いなければ親を隣に送って、1へ</li>
+          </ol>
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue" style="max-width:none">
+          <b>「順番に画面をわたす」を1行入れる</b>
+          1台で遊ぶゲームは、<span class="mk">誰の番かを画面が言ってくれない</span>と必ず混乱する。
+          引きつぎの画面を1枚はさむだけで解決する。
+        </div>
+        <div class="fusen mt2" style="max-width:none">
+          <b>②で「親以外」と書けているか</b>
+          親も作れてしまうと、自分の文を自分で選べる。
+          <b>ここは流れを書く段階でしか気づけない。</b>
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>番号を振る</b>
+          あとで「⑦がまだ」と言えるようになる。
+          この番号が、そのまま関数の名前になっていく。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="slide" data-title="STEP 5 問題点を挙げる">
+  <div class="body">
+    <div class="kicker"><b>STEP 5 ／ 固める</b></div>
+    <h2 class="t">壊れそうな所を、先に潰す</h2>
+    <table class="tbl sm">
+      <tr><th style="width:280px">起きそうなこと</th><th style="width:250px">どうなる</th><th>先に決めておく</th></tr>
+      <tr><td>同じことばが手札に2枚くる</td><td>同じ語を2回使えてしまう</td><td>配るとき<b>重複をはじく</b></td></tr>
+      <tr><td>親も文を作れてしまう</td><td>自分で自分を選べる</td><td>順番を送るとき<b>親を飛ばす</b></td></tr>
+      <tr><td>名前を入れずに始めた</td><td>名前が空っぽで誰か分からない</td><td>空なら<b>「プレイヤー1」</b>を入れる</td></tr>
+      <tr><td>穴が1つしか埋まっていない</td><td>◯◯のまま発表される</td><td>2つ埋まるまで<b>決定を押せなくする</b></td></tr>
+      <tr><td>指輪が0より減る</td><td>「のこり -1」と出る</td><td>0になった時点で<b>終わらせる</b></td></tr>
+      <tr><td>次の人が前の人の文を見る</td><td>まねされる</td><td>引きつぎ画面を<b>あいだにはさむ</b></td></tr>
+    </table>
+    <div class="row mt2 push" style="gap:18px">
+      <div class="fusen" data-c="pink" style="flex:1.3">
+        <b>「変なことをする人」を想像する</b>
+        押しっぱなしにする、空欄のまま進む、同じボタンを連打する。
+        <span class="mk">自分は絶対にやらない操作を、他人は必ずやる。</span>
+      </div>
+      <div class="fusen" data-c="blue" style="flex:1">
+        <b>この表が、そのまま if になる</b>
+        右の列は全部「〜なら〜する」の形。書いておけば、実装は写すだけ。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="slide" data-title="STEP 6 AIに相談する">
+  <div class="body">
+    <div class="kicker"><b>STEP 6 ／ 固める</b></div>
+    <h2 class="t">AIには「答え」ではなく「抜け」を聞く</h2>
+    <div class="g2">
+      <div>
+        <div class="card">
+          <h4>こう聞く</h4>
+          <div class="fusen mt" data-c="blue" style="max-width:none; font-size:15px">
+            こういうパーティゲームをWebで作る。<br><br>
+            ・3〜6人、1台をまわして遊ぶ<br>
+            ・手札のことば6枚から2つ選ぶ<br>
+            ・6種類の言いまわしの穴に当てはめる<br>
+            ・親以外の全員が作り、親が1つ選ぶ<br>
+            ・選ばれた人の指輪が1つ減る<br>
+            ・3つ渡しきった人の勝ち<br><br>
+            <b>この仕様で抜けているところ、<br>
+            プレイ中に困りそうなところを挙げて。</b>
+          </div>
+        </div>
+        <p class="xs mt">→ 「同点はどうする？」「途中でやめたら？」など、
+          自分では気づかない穴が返ってくる。</p>
+      </div>
+      <div>
+        <div class="fusen" data-c="pink" style="max-width:none">
+          <b>「作って」と頼まない</b>
+          全部書かせると、<span class="mk">動くけど自分で直せないもの</span>ができる。
+          直せないものは、作ったことにならない。
+        </div>
+        <div class="fusen mt2" style="max-width:none">
+          <b>聞いていいこと</b>
+          ・仕様の抜けを指摘して<br>
+          ・この書き方で合ってる？<br>
+          ・このエラーの意味は？<br>
+          ・もっと短く書ける？
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>返ってきたものは疑う</b>
+          AIは平気で嘘をつく。<b>動かして確かめるまで信じない。</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="STEP 7 図にする">
+  <div class="body">
+    <div class="kicker"><b>STEP 7 ／ 固める</b></div>
+    <h2 class="t">流れを、図にしてから書く</h2>
+    <div class="g32">
+      <div class="flow" style="gap:4px; font-size:13px">
+        <div class="fbox s" style="padding:5px 10px; font-size:14px">親を決める</div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox" style="padding:5px 10px; font-size:14px">親以外の人へ画面をわたす</div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox" style="padding:5px 10px; font-size:14px">手札を6枚くばる</div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox" style="padding:5px 10px; font-size:14px">言いまわし＋ことば2つで文を作る</div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox q" style="padding:4px 10px; font-size:14px">まだ作っていない人がいる？</div>
+        <div class="fsplit" style="gap:8px">
+          <div>
+            <div class="flabel" style="font-size:12px">いる</div>
+            <div class="fbox" style="padding:5px 8px; font-size:13px">次の人へ</div>
+          </div>
+          <div>
+            <div class="flabel" style="font-size:12px">いない</div>
+            <div class="fbox" style="padding:5px 8px; font-size:13px">全員ぶんを発表</div>
+          </div>
+        </div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox" style="padding:5px 10px; font-size:14px">親が1つ選ぶ → 指輪を1つ減らす</div>
+        <div class="fdown" style="width:14px; height:14px"></div>
+        <div class="fbox q" style="padding:4px 10px; font-size:14px">指輪が0になった？</div>
+        <div class="fsplit" style="gap:8px">
+          <div>
+            <div class="flabel" style="font-size:12px">なった</div>
+            <div class="fbox e" style="padding:5px 8px; font-size:13px">その人の勝ち</div>
+          </div>
+          <div>
+            <div class="flabel" style="font-size:12px">まだ</div>
+            <div class="fbox" style="padding:5px 8px; font-size:13px">親を隣に送る</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue" style="max-width:none">
+          <b>四角と、ひし形</b>
+          四角＝<b>やること</b>。丸っこいの＝<b>分かれ道</b>。<br>
+          この2つだけで、たいていの流れは描ける。
+        </div>
+        <div class="fusen mt2" style="max-width:none">
+          <b>分かれ道は、そのまま if</b>
+          <span class="ic">if (まだ作っていない人がいる)</span><br>
+          <span class="ic">if (指輪 === 0)</span><br>
+          <span class="mk">図が描けていれば、あとは訳すだけ。</span>
+        </div>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none">
+          <b>紙でいい</b>
+          ツールを探しはじめると、そこで1時間溶ける。
+          <b>ノートに手書き5分</b>で十分。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-kind="chapter" data-title="── 実装する">
+  <div class="tape tr"></div>
+  <div class="body">
+    <div class="chapter-no">C H A P T E R &nbsp;/ &nbsp;0 2</div>
+    <div class="chapter-ttl">図を、コードに訳す</div>
+    <div class="cover-rule"></div>
+    <p class="lead">ここからが実装。<br>作る順番も、実は決まっている。</p>
+  </div>
+  <div class="chara rian" style="right:174px; bottom:60px; width:96px"><img src="../assets/char/rian.webp" alt=""></div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="作る順番">
+  <div class="body">
+    <div class="kicker"><b>実装の順番</b></div>
+    <h2 class="t">データ → 表示 → 操作 → 演出</h2>
+    <div class="g2">
+      <div>
+        <ol class="step">
+          <li><b>データを決める</b>（言いまわしの配列・ことばの配列・game）</li>
+          <li><b>表示だけ作る</b>（文と手札が出る。まだ押せない）</li>
+          <li><b>操作を付ける</b>（カードを押す、決定、親が選ぶ）</li>
+          <li><b>演出を足す</b>（色、浮くカード、引きつぎ画面）</li>
+        </ol>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>逆順にやると地獄</b>
+          先に見た目を作り込むと、データの形を変えたときに
+          <span class="mk">全部作り直しになる</span>。
+          見た目は最後。ずっと素っ気なくても、我慢。
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>各段階で必ず動かす</b>
+          ①のあと <span class="ic">console.log(WORDS)</span><br>
+          ②のあと 手札が並ぶか目で確認<br>
+          ③のあと 実際に1回戦プレイ<br>
+          <span class="mk">4つ全部書いてから初めて開く、は絶対にやらない。</span>
+        </div>
+        <div class="fusen mt2 push" data-c="green">
+          <b>「動くもの」を常に手元に置く</b>
+          途中でどれだけ不格好でも、<b>動いている状態</b>を保ちながら進める。
+          そうすれば、壊れたとき「さっき足した部分」が犯人だと即分かる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="実装① データ">
+  <div class="body">
+    <div class="kicker"><b>実装 ①</b></div>
+    <h2 class="t">ことばと、言いまわしを並べる</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 言いまわし（定型文カード）
+   {1} {2} のところに、手札のことばが入る */
+const TEMPLATES = [
+  "{1}な君に、{2}を捧ぐよ。",
+  "君の{1}は、{2}みたいだ。",
+  "{1}でも{2}でも、ぼくは君を選ぶ。",
+  "ぼくの{1}を、ぜんぶ{2}に捧ぐ。",
+];
+
+/* ことば（単語カード）。テーマごとに分ける */
+const WORDS = {
+  ふつう:   ["星空", "やさしさ", "帰り道"],
+  ダーク:   ["沈黙", "執念", "未読のまま"],
+  あまあま: ["ハチミツ", "二度寝", "ぎゅっと"],
+  うすい:   ["まあまあ", "特になし", "空気"],
+};
+        </script>
+      </div>
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 今の状況を、ぜんぶこの箱に入れる */
+const game = {
+  players: [],   // { name, rings }
+  parent:  0,    // 親が何番目か
+  builder: 0,    // いま作っている人
+  round:   1,
+  entries: [],   // { who, text }
+  hand:    [],   // いまの人の手札
+  tmpl:    0,    // 選んだ言いまわし
+  slots:   ["", ""],  // 穴に入れたことば
+};
+        </script>
+        <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+          <b>データが先、画面はあと</b>
+          <span class="mk">この2つが決まれば、残りは全部「描き直す」だけ</span>になる。
+          逆に、ここが雑だとあとで必ず作り直す。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="実装② 手札を配る">
+  <div class="body">
+    <div class="kicker"><b>実装 ②</b></div>
+    <h2 class="t">ランダムに6枚、ただし重複なし</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 全テーマのことばを1つの配列にまとめる */
+function allWords() {
+  const list = [];
+  const keys = Object.keys(WORDS);
+  for (let i = 0; i < keys.length; i++) {
+    const set = WORDS[keys[i]];
+    for (let j = 0; j < set.length; j++) {
+      list.push(set[j]);
+    }
+  }
+  return list;
+}
+        </script>
+      </div>
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 6枚くばる。同じことばが2枚こないようにする */
+function dealHand() {
+  const pool = allWords();
+  const hand = [];
+
+  while (hand.length < 6) {
+    const w = pool[rnd(pool.length)];
+
+    // もう持っていないか調べる
+    let already = false;
+    for (let i = 0; i < hand.length; i++) {
+      if (hand[i] === w) already = true;
+    }
+    if (!already) hand.push(w);
+  }
+  return hand;
+}
+        </script>
+      </div>
+    </div>
+    <div class="fusen mt push" data-c="pink" style="max-width:none; font-size:16px">
+      <b>STEP 5 の表が、そのままここに来た</b>
+      「同じことばが2枚くる」→「配るとき重複をはじく」。
+      <span class="mk">先に書き出したから迷わず書ける。</span>考えながらだと <span class="ic">already</span> は必ず抜ける。
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="実装③ 文を組み立てる">
+  <div class="body">
+    <div class="kicker"><b>実装 ③</b></div>
+    <h2 class="t">穴に、ことばをはめる</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* {1} {2} を、入れたことばに置きかえる
+   まだ入っていなければ ◯◯ のまま出す */
+function fill(tmpl, slots) {
+  let t = tmpl;
+  t = t.replace("{1}", slots[0] === "" ? "◯◯" : slots[0]);
+  t = t.replace("{2}", slots[1] === "" ? "◯◯" : slots[1]);
+  return t;
+}
+        </script>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>1つの関数は、1つの仕事</b>
+          <span class="ic">fill()</span> は<b>文を作るだけ</b>。画面には触らない。
+          分けておくと、あとで直す場所が一発で分かる。
+        </div>
+      </div>
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 手札を押したとき ── 空いているほうの穴に入れる */
+hand.addEventListener("click", function (e) {
+  const b = e.target.closest("[data-word]");
+  if (!b) return;
+  const w = b.dataset.word;
+
+  // もう入っていたら、取り消す
+  if (w === game.slots[0]) { game.slots[0] = ""; drawBuild(); return; }
+  if (w === game.slots[1]) { game.slots[1] = ""; drawBuild(); return; }
+
+  // 空いているほうへ
+  if (game.slots[0] === "")      game.slots[0] = w;
+  else if (game.slots[1] === "") game.slots[1] = w;
+
+  drawBuild();   // ← game を書き換えたら、必ず描き直す
+});
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="実装④ 発表と指輪">
+  <div class="body">
+    <div class="kicker"><b>実装 ④</b></div>
+    <h2 class="t">分かれ道を if で書く</h2>
+    <div class="g2">
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 決定を押したとき */
+doneBtn.addEventListener("click", function () {
+  game.entries.push({
+    who:  game.builder,
+    text: fill(TEMPLATES[game.tmpl], game.slots),
+  });
+
+  // 次の人へ。親は飛ばす
+  let next = (game.builder + 1) % game.players.length;
+  if (next === game.parent) next = (next + 1) % game.players.length;
+
+  // 全員ぶん集まったら発表へ
+  if (game.entries.length >= game.players.length - 1) {
+    drawShow();
+    show("showScreen");
+  } else {
+    game.builder = next;
+    goPass();
+  }
+});
+        </script>
+      </div>
+      <div>
+        <script type="text/plain" class="code" data-lang="js" data-size="sm">
+/* 親が選んだとき ── 指輪を1つ渡す */
+function pick(i) {
+  const e = game.entries[i];
+  const p = game.players[e.who];
+  p.rings = p.rings - 1;
+  drawRings("ringBoard");
+  show("roundScreen");
+}
+
+/* つぎの回へ進む前に、勝者がいないか調べる */
+for (let i = 0; i < game.players.length; i++) {
+  if (game.players[i].rings <= 0) {
+    show("winScreen");
+    return;
+  }
+}
+        </script>
+        <div class="fusen mt2 push" data-c="green" style="max-width:none; font-size:16px">
+          <b>図の分かれ道が、そのまま if</b>
+          STEP 7 の「まだ作っていない人がいる？」「指輪が0になった？」が、
+          <span class="mk">そのまま if の並びになっている</span>。図を描いてあれば訳すだけ。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="完成">
+  <div class="body">
+    <div class="kicker"><b>完成</b></div>
+    <h2 class="t">動かしてみる</h2>
+    <div class="g3" style="grid-template-columns:repeat(4,1fr); gap:14px">
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>スタート画面</span></div>
+          <img src="../assets/shots/game-title.png" alt="タイトル" style="height:196px; object-fit:cover; object-position:top center">
+        </div>
+        <p class="xs mt">人数と名前を決める</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>文を作る</span></div>
+          <img src="../assets/shots/game-build.png" alt="文を作る画面" style="height:196px; object-fit:cover; object-position:top center">
+        </div>
+        <p class="xs mt">手札を押して穴を埋める</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>発表</span></div>
+          <img src="../assets/shots/game-show.png" alt="発表画面" style="height:196px; object-fit:cover; object-position:top center">
+        </div>
+        <p class="xs mt">親が1つ選ぶ</p>
+      </div>
+      <div>
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span>結果</span></div>
+          <img src="../assets/shots/game-result.png" alt="結果画面" style="height:196px; object-fit:cover; object-position:top center">
+        </div>
+        <p class="xs mt">指輪が1つ動く</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+      <b>コードは <span class="ic">final/propose/</span> にある</b>
+      HTML・CSS・JavaScript の3ファイルだけ。全部で 400行ほどだが、
+      <span class="mk">使っている文法は DAY 1〜6 に出たものだけ</span>。読めば必ず分かる。
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-title="作ったあと">
+  <div class="body">
+    <div class="kicker"><b>ここからが本番</b></div>
+    <h2 class="t">1週間、自分で触る</h2>
+    <div class="g32">
+      <div>
+        <p class="lead" style="font-size:19px">動いた時点では、まだ<b>半分</b>。
+          しばらく使ってみると、必ず「これ要るな」「これ邪魔だな」が出てくる。</p>
+        <div class="card mt">
+          <h4>実際に遊んで出てきた話</h4>
+          <ul class="dot" style="font-size:17px">
+            <li>誰の番か分からない → <b>引きつぎ画面をはさむ</b></li>
+            <li>入れたことばを戻せない → <b>もう一度押したら取り消し</b></li>
+            <li>言いまわしが少なくて飽きる → <b>6種類に増やす</b></li>
+            <li>指輪の残りが見えない → <b>全員ぶんを並べて出す</b></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue" style="max-width:none">
+          <b>友達に触らせる</b>
+          自分では絶対に気づけないことが、<span class="mk">他人が触ると3分で出てくる</span>。
+          説明せずに渡して、黙って見ているのがコツ。
+        </div>
+        <div class="fusen mt2" data-c="green" style="max-width:none">
+          <b>「自分以外が触る」目線</b>
+          説明なしで分かるか？　押せると分かるか？　間違えても壊れないか？
+          <span class="mk">ここを考えられる人は、伸び方が変わる。</span>
+        </div>
+        <div class="fusen mt2 push" data-c="pink" style="max-width:none">
+          <b>直して、また触る</b>
+          これを2〜3周まわしたら完成でいい。
+          <b>完璧を目指すと、永遠に終わらない。</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-title="改造してみる">
+  <div class="body">
+    <div class="kicker"><b>課題</b></div>
+    <h2 class="t">自分の作品にする</h2>
+    <div class="g3">
+      <div class="card v">
+        <h4 style="color:var(--green)">やさしい</h4>
+        <ul class="dot" style="font-size:16px">
+          <li>ことばを20個、自分たちのネタに書き換える</li>
+          <li>言いまわしを2つ足す</li>
+          <li>色を好きな配色に</li>
+          <li>勝ったときのセリフを変える</li>
+        </ul>
+        <p class="xs mt">→ 配列を書き換えるだけ</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--blue)">ふつう</h4>
+        <ul class="dot" style="font-size:16px">
+          <li>テーマを選んでから配れるようにする</li>
+          <li>穴を3つにした言いまわしを足す</li>
+          <li>手札を1枚だけ引き直せるようにする</li>
+          <li>制限時間を付ける</li>
+        </ul>
+        <p class="xs mt">→ 配列＋ if を少し足す</p>
+      </div>
+      <div class="card v">
+        <h4 style="color:var(--red)">むずかしい</h4>
+        <ul class="dot r" style="font-size:16px">
+          <li>自分でことばを追加できる画面</li>
+          <li>作った文を localStorage に残す</li>
+          <li>名作をあとから読み返せる「殿堂」</li>
+          <li>スマホで遊べるようにする</li>
+        </ul>
+        <p class="xs mt">→ game の設計から考え直す</p>
+      </div>
+    </div>
+    <div class="fusen mt2 push" data-c="blue" style="max-width:none">
+      <b>やる前に、必ず STEP 1〜7 を通す</b>
+      「テーマを選べるようにしたい」と思ったら、いきなりコードを開かない。
+      <span class="mk">何が必要か・何が壊れるかを先に書き出す</span>。今日の型を、そのまま使って。
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-title="まとめ・次回">
+  <div class="body">
+    <div class="kicker"><b>DAY 7 おわり</b></div>
+    <h2 class="t">今日いちばん持ち帰ってほしいこと</h2>
+    <div class="g32">
+      <div>
+        <div class="fusen" data-c="pink" style="max-width:none; font-size:20px">
+          <b>大事なのは、イメージ</b>
+          どういうものを作りたいか。そのために何が要るか。どう動くのか。
+          <span class="mk">そこさえ決まっていれば、コードは最悪AIでもどうにかなる。</span>
+          決まっていなければ、誰にも頼めない。
+        </div>
+        <ul class="check mt2" style="font-size:18px">
+          <li>作りたいものを言葉にできる</li>
+          <li>機能を分解して、必要な技術に対応づけられる</li>
+          <li>動きの流れを図にできる</li>
+          <li>壊れそうな所を先に挙げられる</li>
+          <li>AIに、答えではなく<b>抜けの指摘</b>を頼める</li>
+        </ul>
+      </div>
+      <div>
+        <div class="fusen" data-c="blue">
+          <b>次回 DAY 8 ／ 直す・公開する</b>
+          F12を使った本格的なデバッグ、エラーの読み方、
+          そして<b>作ったものをネットに公開する</b>方法。<br>
+          Firebase の話もここで。
+        </div>
+        <div class="fusen mt2 push">
+          <b>宿題（大事）</b>
+          改造課題を<span class="mk">最低1つ</span>やってくること。<br>
+          やさしいレベルで構わない。<br>
+          「自分で手を入れた」という事実が大事。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chara nana" style="right:24px; bottom:6px; width:98px"><img src="../assets/char/nanamoon.webp" alt=""></div>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

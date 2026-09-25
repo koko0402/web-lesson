@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>練習問題集｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>練習問題集</h1>
+  <p class="lead">各回のあとに解く問題。<b>ヒントと答えは折りたたんである。</b>
+    先に自分で書いて、動かなくなってからヒントを開いて。</p>
+
+  <div class="fusen" data-c="pink">
+    <b>答えは1つではない</b>
+    ここに載せているのは<span class="mk">答えの一例</span>。自分のコードが違っていても、
+    ちゃんと動いているなら正解。「もっと短く書けないか」を考えるときだけ見比べて。
+  </div>
+
+  <div class="toc">
+    <a href="#d1">DAY 1</a><a href="#d2">DAY 2</a><a href="#d3">DAY 3</a>
+    <a href="#d4">DAY 4</a><a href="#d5">DAY 5</a><a href="#d6">DAY 6</a><a href="#d7">総合</a>
+  </div>
+
+  <!-- ============================== DAY 1 ============================== -->
+  <h2 id="d1">DAY 1 ／ HTML</h2>
+
+  <div class="q">
+    <h3><span class="no">問 1</span>俳句のページ<span class="lv">やさしい</span></h3>
+    <p>ファイル名 <code>haiku.html</code>、タブに出る名前を「わたしの俳句」にして、
+      次のように表示されるページを作って。</p>
+    <script type="text/plain" class="code" data-lang="txt">
+わたしの俳句            ← 大きい見出し
+
+古池や
+蛙飛びこむ
+水の音              ← 1つの段落の中で改行されている
+
+夏草や
+兵どもが
+夢の跡
+    </script>
+    <details><summary>ヒント</summary>
+      <p>段落の<b>中</b>で改行するタグがある。空行を入れても改行されないことを思い出して。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="html">
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>わたしの俳句</title>
+  </head>
+  <body>
+    <h1>わたしの俳句</h1>
+
+    <p>古池や<br>蛙飛びこむ<br>水の音</p>
+    <p>夏草や<br>兵どもが<br>夢の跡</p>
+  </body>
+</html>
+      </script>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 2</span>タグを選ぶ<span class="lv">やさしい</span></h3>
+    <p>次の①〜⑥に入るタグは何だろう。</p>
+    <table>
+      <tr><th style="width:60px">番号</th><th>使いたい場面</th></tr>
+      <tr><td>①</td><td>ページのいちばん大きい題名</td></tr>
+      <tr><td>②</td><td>数行の文章のかたまり</td></tr>
+      <tr><td>③</td><td>順番のある3つの項目</td></tr>
+      <tr><td>④</td><td>写真を出す</td></tr>
+      <tr><td>⑤</td><td>他のサイトへ飛ばす</td></tr>
+      <tr><td>⑥</td><td>ここは大事、と強調する</td></tr>
+    </table>
+    <details class="ans"><summary>答え</summary>
+      <p>① <code>&lt;h1&gt;</code>　② <code>&lt;p&gt;</code>　③ <code>&lt;ol&gt;</code> と <code>&lt;li&gt;</code>
+        ④ <code>&lt;img&gt;</code>　⑤ <code>&lt;a&gt;</code>　⑥ <code>&lt;strong&gt;</code></p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 3</span>画像をリンクにする<span class="lv">ふつう</span></h3>
+    <p>画像をクリックしたら、好きなサイトが<b>新しいタブで</b>開くようにして。</p>
+    <details><summary>ヒント</summary>
+      <p>タグの中にタグを入れられる（入れ子）。新しいタブは属性を1つ足すだけ。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="html">
+<a href="https://developer.mozilla.org/ja/" target="_blank">
+  <img src="img/photo.webp" alt="MDNへ" width="200">
+</a>
+      </script>
+    </details>
+  </div>
+
+  <div class="q dbg">
+    <h3><span class="no">デバッグ 1</span>途中から崩れる<span class="lv">ふつう</span></h3>
+    <p>このHTMLは、リストのあとが全部おかしくなる。どこが悪いだろう。</p>
+    <script type="text/plain" class="code" data-lang="html">
+<h2>すきなもの</h2>
+<ul>
+  <li>夜のコンビニ</li>
+  <li>雨の音
+  <li>全部乗せ</li>
+</ul>
+<p>以上です。</p>
+    </script>
+    <details><summary>ヒント</summary>
+      <p>VSCode で <code>Shift + Alt + F</code> を押すと、インデントの形がおかしい場所が見える。</p>
+    </details>
+    <details class="ans"><summary>答え</summary>
+      <p>2つ目の <code>&lt;li&gt;雨の音</code> に <code>&lt;/li&gt;</code> がない。
+        <b>終了タグの閉じ忘れ</b>。閉じると直る。</p>
+      <p class="note">※ ブラウザは親切に補ってくれることもあるが、崩れ方が予測できなくなるので必ず閉じよう。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 4</span>Emmet を使ってみる<span class="lv">やさしい</span></h3>
+    <p>HTMLファイルで次の省略形を打って <b>Tab</b> を押すと、何が出るか予想してから試して。</p>
+    <table>
+      <tr><th style="width:280px">打つもの</th><th>出てくるもの（予想）</th></tr>
+      <tr><td><code>ul&gt;li*6</code></td><td></td></tr>
+      <tr><td><code>table&gt;(tr&gt;th*2)+(tr&gt;td*2)*3</code></td><td></td></tr>
+      <tr><td><code>.card*3</code></td><td></td></tr>
+      <tr><td><code>h2{すきなもの}</code></td><td></td></tr>
+    </table>
+    <details class="ans"><summary>答え</summary>
+      <p><code>ul&gt;li*6</code> … ul の中に li が6個<br>
+        <code>table&gt;(tr&gt;th*2)+(tr&gt;td*2)*3</code> … 見出し2マスの行が1つ＋データ2マスの行が3つ<br>
+        <code>.card*3</code> … <code>&lt;div class="card"&gt;</code> が3個<br>
+        <code>h2{すきなもの}</code> … <code>&lt;h2&gt;すきなもの&lt;/h2&gt;</code></p>
+      <p><code>&gt;</code>＝中に入れる、<code>*</code>＝繰り返す、<code>+</code>＝並べる、
+        <code>{ }</code>＝中身の文字、<code>.</code>＝class。<b>これだけ覚えると入力量が半分になる。</b></p>
+    </details>
+  </div>
+
+  <!-- ============================== DAY 2 ============================== -->
+  <h2 id="d2">DAY 2 ／ HTML②</h2>
+
+  <div class="q">
+    <h3><span class="no">問 5</span>時間割の表<span class="lv">ふつう</span></h3>
+    <p>次のような表を作って。1行目は見出しのマスにする。</p>
+    <table>
+      <tr><th>時限</th><th>月</th><th>火</th></tr>
+      <tr><td>1</td><td>国語</td><td>数学</td></tr>
+      <tr><td>2</td><td>英語</td><td>体育</td></tr>
+      <tr><td>3</td><td>理科</td><td>社会</td></tr>
+    </table>
+    <details><summary>ヒント</summary>
+      <p>Emmet で <code>table&gt;(tr&gt;th*3)+(tr&gt;td*3)*3</code> と打つと骨組みが一発で出る。
+        見出しのマスは <code>td</code> ではない。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="html">
+<table border="1">
+  <thead>
+    <tr><th>時限</th><th>月</th><th>火</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>国語</td><td>数学</td></tr>
+    <tr><td>2</td><td>英語</td><td>体育</td></tr>
+    <tr><td>3</td><td>理科</td><td>社会</td></tr>
+  </tbody>
+</table>
+      </script>
+    </details>
+  </div>
+
+  <div class="q dbg">
+    <h3><span class="no">デバッグ 2</span>表がずれる<span class="lv">ふつう</span></h3>
+    <p>この表は、2行目だけマスがずれる。なぜだろう。</p>
+    <script type="text/plain" class="code" data-lang="html">
+<table border="1">
+  <tr><th>名前</th><th>好きな食べ物</th><th>ひとこと</th></tr>
+  <tr><td>ユウ</td><td>からあげ</td></tr>
+  <tr><td>うさぎ</td><td>にんじん</td><td>よろしく</td></tr>
+</table>
+    </script>
+    <details class="ans"><summary>答え</summary>
+      <p>2行目の <code>&lt;td&gt;</code> が<b>2個しかない</b>。見出しが3列なので、
+        すべての行で <code>&lt;td&gt;</code> を3個にそろえる。
+        中身が無い場合も <code>&lt;td&gt;&lt;/td&gt;</code> と空で置いておく。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 6</span>3ページを行き来する<span class="lv">ふつう</span></h3>
+    <p><code>index.html</code> / <code>works.html</code> / <code>links.html</code> の3ページを作り、
+      <b>どのページからでも他の2ページへ行ける</b>ようにして。</p>
+    <details><summary>ヒント</summary>
+      <p>同じ <code>&lt;nav&gt;</code> を3ページ全部に貼り付ける。面倒だが今はこれで正解。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="html">
+<nav>
+  <a href="index.html">トップ</a> ｜
+  <a href="works.html">作ったもの</a> ｜
+  <a href="links.html">リンク集</a>
+</nav>
+      </script>
+      <p>これを3つのファイルの同じ位置に貼る。<b>今いるページへのリンクも残しておく</b>のが普通
+        （押しても同じページが出るだけで、迷わない）。</p>
+    </details>
+  </div>
+
+  <!-- ============================== DAY 3 ============================== -->
+  <h2 id="d3">DAY 3 ／ CSS①</h2>
+
+  <div class="q">
+    <h3><span class="no">問 7</span>見た目を再現する<span class="lv">ふつう</span></h3>
+    <p><code>class="box"</code> の要素を、次の見た目にして。</p>
+    <ul class="dot">
+      <li>背景は白</li>
+      <li>左だけ 6px の太い線（色は自由）</li>
+      <li>角は 8px 丸く</li>
+      <li>内側の余白は上下20px・左右24px</li>
+      <li>他の箱との間隔は上に20px</li>
+    </ul>
+    <details><summary>ヒント</summary>
+      <p>「内側」と「外側」で使うプロパティが違う。左だけの線は <code>border-左</code>。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="css">
+.box {
+  background-color: #ffffff;
+  border-left: 6px solid #d97b57;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-top: 20px;
+}
+      </script>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 8</span>真ん中に置く<span class="lv">ふつう</span></h3>
+    <p>幅600pxの箱を、画面の<b>左右まんなか</b>に置いて。
+      さらに、中の文字も中央ぞろえにして。</p>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="css">
+.box {
+  max-width: 600px;
+  margin: 0 auto;      /* 左右の余白を自動＝中央 */
+  text-align: center;  /* 中の文字を中央に */
+}
+      </script>
+      <p class="note"><code>width</code> ではなく <code>max-width</code> にしておくと、
+        スマホなど600pxより狭い画面でもはみ出さない。</p>
+    </details>
+  </div>
+
+  <div class="q dbg">
+    <h3><span class="no">デバッグ 3</span>色が変わらない<span class="lv">ふつう</span></h3>
+    <p>次のCSSを書いたのに、見出しの色が変わらない。原因を3つ挙げて。</p>
+    <script type="text/plain" class="code" data-lang="css">
+h1 {
+  color: crimson
+  font-size: 34px;
+}
+    </script>
+    <details class="ans"><summary>答え</summary>
+      <ol class="step">
+        <li><code>color: crimson</code> のうしろに <b>セミコロンが無い</b>。
+          そのため次の行までまとめて無効になる</li>
+        <li>そもそも <code>&lt;link rel="stylesheet"&gt;</code> を書き忘れていないか</li>
+        <li>保存していない（VSCodeのタブに ● が付いていないか）</li>
+      </ol>
+      <p>この3つで「CSSが効かない」の大半は説明がつく。それでもダメなら
+        <b>F12 → Elements</b> で、その指定が当たっているか（取り消し線が付いていないか）を見る。</p>
+    </details>
+  </div>
+
+  <!-- ============================== DAY 4 ============================== -->
+  <h2 id="d4">DAY 4 ／ CSS②</h2>
+
+  <div class="q">
+    <h3><span class="no">問 9</span>カードを3枚ならべる<span class="lv">ふつう</span></h3>
+    <p>次のHTMLで、カード3枚を<b>同じ幅で横に</b>並べ、間隔を18pxあけて。
+      さらにマウスを乗せたら少し浮くようにする。</p>
+    <script type="text/plain" class="code" data-lang="html">
+<div class="cards">
+  <div class="card">起動</div>
+  <div class="card">燃料</div>
+  <div class="card">稼働</div>
+</div>
+    </script>
+    <details><summary>ヒント</summary>
+      <p>横に並べる指定を書くのは、カードそのものではなく<b>その親</b>。
+        「同じ幅で伸びる」は子のほうに書く。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="css">
+.cards {
+  display: flex;
+  gap: 18px;
+}
+
+.card {
+  flex: 1;                     /* 3枚が同じ幅で伸びる */
+  background: #fff;
+  padding: 22px 20px;
+  border-radius: 12px;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.13);
+}
+      </script>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 10</span>スマホでは縦に<span class="lv">ふつう</span></h3>
+    <p>問9のカードを、画面が700px以下のときだけ<b>縦並び</b>にして。</p>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="css">
+@media (max-width: 700px) {
+  .cards { flex-direction: column; }
+}
+      </script>
+      <p class="note">確認は <b>F12 → 左上のスマホのアイコン</b>。
+        またはブラウザの窓の右端をつまんで細くするだけでも分かる。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 11</span>画面のど真ん中<span class="lv">むずかしい</span></h3>
+    <p>「Loading...」という文字を、<b>画面のタテもヨコもぴったり中央</b>に表示して。</p>
+    <details><summary>ヒント</summary>
+      <p>高さを画面いっぱいにする単位がある（<code>vh</code>）。中央寄せは2行で書ける。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="css">
+body {
+  margin: 0;
+  min-height: 100vh;      /* 画面の高さいっぱい */
+  display: grid;
+  place-items: center;    /* タテヨコ中央 */
+}
+      </script>
+      <p><code>display: grid; place-items: center;</code> はとにかく便利なので覚えておいて。</p>
+    </details>
+  </div>
+
+  <!-- ============================== DAY 5 ============================== -->
+  <h2 id="d5">DAY 5 ／ JavaScript①</h2>
+
+  <div class="q">
+    <h3><span class="no">問 12</span>カウンター<span class="lv">やさしい</span></h3>
+    <p>「＋1」「−1」「リセット」の3つのボタンで、数が増えたり減ったりするページを作って。
+      ただし<b>0より下にはならない</b>ようにする。</p>
+    <details><summary>ヒント</summary>
+      <p>数を入れる変数は、<b>関数の外</b>で <code>let</code> で作る。中で作ると毎回0に戻る。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="html">
+<p>いま <span id="num">0</span> 個</p>
+<button id="plus">＋1</button>
+<button id="minus">−1</button>
+<button id="reset">リセット</button>
+      </script>
+      <script type="text/plain" class="code" data-lang="js">
+let count = 0;
+const num = document.getElementById("num");
+
+function draw() {
+  num.textContent = count;
+}
+
+document.getElementById("plus").addEventListener("click", function () {
+  count += 1;
+  draw();
+});
+
+document.getElementById("minus").addEventListener("click", function () {
+  count -= 1;
+  if (count < 0) count = 0;   // 0より下にしない
+  draw();
+});
+
+document.getElementById("reset").addEventListener("click", function () {
+  count = 0;
+  draw();
+});
+      </script>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 13</span>おみくじ<span class="lv">ふつう</span></h3>
+    <p>ボタンを押すと「大吉・中吉・小吉・吉・末吉・凶」からランダムに1つ表示されるページを作って。</p>
+    <details><summary>ヒント</summary>
+      <p>6つの言葉を<b>配列</b>に入れる。何番目を選ぶかは
+        <code>Math.floor(Math.random() * 個数)</code> で決まる。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="js">
+const kuji = ["大吉", "中吉", "小吉", "吉", "末吉", "凶"];
+
+document.getElementById("btn").addEventListener("click", function () {
+  const i = Math.floor(Math.random() * kuji.length);
+  document.getElementById("result").textContent = kuji[i];
+});
+      </script>
+      <p class="note"><code>kuji.length</code> と書いておくと、あとで項目を増やしても
+        <b>このコードは直さなくていい</b>のがポイント。</p>
+    </details>
+  </div>
+
+  <div class="q dbg">
+    <h3><span class="no">デバッグ 4</span>足し算が変<span class="lv">ふつう</span></h3>
+    <p>2つの入力欄に 5 と 3 を入れて計算させたら、<b>8 ではなく 53</b> と出た。なぜ？</p>
+    <script type="text/plain" class="code" data-lang="js">
+const a = document.getElementById("a").value;
+const b = document.getElementById("b").value;
+document.getElementById("ans").textContent = a + b;
+    </script>
+    <details class="ans"><summary>答え</summary>
+      <p>入力欄から取った <code>.value</code> は、数字に見えても<b>文字列</b>。
+        文字列どうしの <code>+</code> は「連結」になるので <code>"5" + "3"</code> は <code>"53"</code> になる。</p>
+      <script type="text/plain" class="code" data-lang="js">
+const a = Number(document.getElementById("a").value);
+const b = Number(document.getElementById("b").value);
+document.getElementById("ans").textContent = a + b;
+      </script>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 14</span>時間であいさつを変える<span class="lv">ふつう</span></h3>
+    <p>ページを開いた時刻によって、あいさつを変えて。<br>
+      5〜11時：おはよう／12〜17時：こんにちは／18〜4時：こんばんは</p>
+    <details><summary>ヒント</summary>
+      <p>今の時刻は <code>new Date().getHours()</code> で 0〜23 の数字が取れる。
+        条件は<b>厳しいものから</b>書く。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="js">
+const h = new Date().getHours();
+let msg;
+
+if (h >= 5 && h <= 11) {
+  msg = "おはよう";
+} else if (h >= 12 && h <= 17) {
+  msg = "こんにちは";
+} else {
+  msg = "こんばんは";
+}
+
+document.getElementById("greet").textContent = msg;
+      </script>
+    </details>
+  </div>
+
+  <!-- ============================== DAY 6 ============================== -->
+  <h2 id="d6">DAY 6 ／ JavaScript②</h2>
+
+  <div class="q">
+    <h3><span class="no">問 15</span>じゃんけんアプリ<span class="lv">ふつう</span></h3>
+    <p>グー・チョキ・パーのボタンを押すと、相手の手がランダムに決まり、
+      勝ち・負け・あいこが表示されるページを作って。</p>
+    <details><summary>ヒント</summary>
+      <p>グー＝0、チョキ＝1、パー＝2 と数字にする。<br>
+        自分を <code>a</code>、相手を <code>i</code> としたとき、<b>自分が勝つ</b>のは次の3通り。<br>
+        （a=0, i=1）／（a=1, i=2）／（a=2, i=0）<br>
+        ここに規則性が見つかると、条件を1行で書ける。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="js">
+const TE = ["グー", "チョキ", "パー"];
+
+function janken(a) {                                // a = 自分の手（0〜2）
+  const i = Math.floor(Math.random() * 3);          // i = 相手の手
+
+  let result;
+  if (a === i) {
+    result = "あいこ";
+  } else if ((a + 1) % 3 === i) {                   // 自分の次の手＝相手 なら勝ち
+    result = "勝ち！";
+  } else {
+    result = "負け…";
+  }
+
+  document.getElementById("out").textContent =
+    "あなた：" + TE[a] + " ／ 相手：" + TE[i] + " → " + result;
+}
+      </script>
+      <p><code>(a + 1) % 3 === i</code> が肝。0→1、1→2、2→0 と<b>輪っかになる</b>ので、
+        あまり（<code>%</code>）を使うと3通りの条件が1行にまとまる。</p>
+      <p class="note">もちろん <code>if</code> を3つ並べて書いても正解。
+        <b>動くほうが先、短くするのはあと。</b></p>
+    </details>
+  </div>
+
+  <div class="q dbg">
+    <h3><span class="no">デバッグ 5</span>何も選んでいないのに勝敗が出る<span class="lv">むずかしい</span></h3>
+    <p>問15を「数字を入力してボタンを押す」形で作ったところ、
+      <b>入力欄が空のままボタンを押しても勝ち負けが出てしまう</b>。直して。</p>
+    <script type="text/plain" class="code" data-lang="js">
+function janken() {
+  const a = Number(document.getElementById("te").value);
+  const i = Math.floor(Math.random() * 3);
+  // …以下、勝敗の判定
+}
+    </script>
+    <details><summary>ヒント</summary>
+      <p>空の入力欄の <code>.value</code> は <code>""</code>（空の文字列）。
+        それを <code>Number()</code> に通すと何になるだろう？
+        F12 の Console で <code>Number("")</code> と打って確かめてみて。</p>
+    </details>
+    <details class="ans"><summary>答え</summary>
+      <p><code>Number("")</code> は <b>0</b> になる。つまり「何も入力していない」が
+        「グー（0）を出した」と同じ扱いになってしまうのが原因。</p>
+      <p>数字に変換する<b>前に</b>、空かどうかを調べる。</p>
+      <script type="text/plain" class="code" data-lang="js">
+function janken() {
+  const raw = document.getElementById("te").value.trim();
+
+  // ① 空っぽなら、そこで止める
+  if (raw === "") {
+    document.getElementById("out").textContent = "正しい手（0〜2）を入力しよう";
+    return;
+  }
+
+  const a = Number(raw);
+
+  // ② 0〜2 以外の数字も弾いておく
+  if (a !== 0 && a !== 1 && a !== 2) {
+    document.getElementById("out").textContent = "0・1・2 のどれかを入力しよう";
+    return;
+  }
+
+  const i = Math.floor(Math.random() * 3);
+  // …以下、勝敗の判定
+}
+      </script>
+      <p><b>これが「入力チェック」。</b>
+        自分で使っているうちは気づかないが、<span class="mk">他人に触らせると3秒で見つかる</span>。
+        「変な入力をされたらどうなるか」を考えるクセをつけて。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 16</span>同じ問題を連続で出さない<span class="lv">むずかしい</span></h3>
+    <p>5つのクイズをランダムに出題するプログラムを作る。ただし
+      <b>同じ問題が2回出ない</b>ようにして（5問すべて出たら終わり）。</p>
+    <details><summary>ヒント</summary>
+      <p>出した問題の番号を、別の配列に<b>覚えておく</b>。
+        次に選ぶときは「まだ出していない番号か」を <code>includes()</code> で調べる。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="js">
+const QUIZ = ["問題A", "問題B", "問題C", "問題D", "問題E"];
+let used = [];               // 出した番号を覚えておく
+
+function nextQuiz() {
+  // 全部出しきったら終わり
+  if (used.length >= QUIZ.length) {
+    document.getElementById("q").textContent = "おしまい！";
+    return;
+  }
+
+  let i;
+  do {
+    i = Math.floor(Math.random() * QUIZ.length);
+  } while (used.includes(i));   // まだ出していない番号が出るまで選び直す
+
+  used.push(i);
+  document.getElementById("q").textContent = QUIZ[i];
+}
+      </script>
+      <p class="note"><code>do { … } while ( … )</code> は「とりあえず1回やって、条件に合うまで繰り返す」書き方。
+        最終課題のゲームでも、手札に同じことばが来ないようにするのに<b>ほとんど同じ形</b>を使っている。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 17</span>買い物リスト<span class="lv">むずかしい</span></h3>
+    <p>入力欄とボタンで項目を追加でき、項目をクリックすると消え、
+      <b>ブラウザを閉じても残る</b>買い物リストを作って。</p>
+    <details><summary>ヒント</summary>
+      <p>「データを直す → 画面を作り直す」。配列を直したら、必ず描画の関数を呼ぶ。
+        保存は <code>JSON.stringify</code> を通してから。</p>
+    </details>
+    <details class="ans"><summary>答えの一例</summary>
+      <script type="text/plain" class="code" data-lang="js">
+let items = [];
+
+// 起動時：保存されていたら読み込む
+const saved = localStorage.getItem("kaimono");
+if (saved !== null) items = JSON.parse(saved);
+
+const list = document.getElementById("list");
+
+function draw() {
+  list.innerHTML = "";                       // これを忘れると増え続ける
+
+  items.forEach(function (text, index) {
+    const li = document.createElement("li");
+    li.textContent = text;
+
+    li.addEventListener("click", function () {
+      items.splice(index, 1);                // index番目を1つ消す
+      save();
+      draw();
+    });
+
+    list.appendChild(li);
+  });
+}
+
+function save() {
+  localStorage.setItem("kaimono", JSON.stringify(items));
+}
+
+document.getElementById("add").addEventListener("click", function () {
+  const input = document.getElementById("text");
+  const text = input.value.trim();
+  if (text === "") return;                   // 空なら何もしない
+
+  items.push(text);
+  input.value = "";
+  save();
+  draw();
+});
+
+draw();
+      </script>
+    </details>
+  </div>
+
+  <!-- ============================== 総合 ============================== -->
+  <h2 id="d7">総合 ／ ことば遊びを改造する</h2>
+
+  <div class="q">
+    <h3><span class="no">問 18</span>ことばを自分たちのネタにする<span class="lv">やさしい</span></h3>
+    <p><code>final/propose/script.js</code> の <code>WORDS</code> に、
+      自分たちのネタだけのテーマを1つ足して。ことばは10個。</p>
+    <details class="ans"><summary>やり方</summary>
+      <script type="text/plain" class="code" data-lang="js">
+const WORDS = {
+  ふつう: ["星空", "やさしさ", "帰り道"],
+
+  // ここに足す。テーマ名は自由
+  うちわネタ: ["三限の教室", "あいつの口ぐせ", "部室のにおい"],
+};
+      </script>
+      <p>テーマを足すだけで、そのことばも手札に混ざるようになる。
+        <b>身内しか分からないことば</b>を入れると、いちばん盛り上がる。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 19</span>手札を1枚だけ引き直せるようにする<span class="lv">ふつう</span></h3>
+    <p>「この1枚が使えない」というときに、1回だけ交換できるボタンを足して。</p>
+    <details><summary>ヒント</summary>
+      <p><code>game</code> に「もう引き直したか」を覚えるフラグを1つ持たせる。
+        手札の配列の中身を、新しいことばで<b>上書き</b>すればいい。</p>
+    </details>
+    <details class="ans"><summary>答えの方針</summary>
+      <ol class="step">
+        <li><code>game</code> に <code>redraw: true</code> を足す（配るたびに true に戻す）</li>
+        <li>カードを長押し／右のボタンで「この1枚を引き直す」を出す</li>
+        <li><code>game.hand[i] = allWords()[rnd(allWords().length)];</code> で入れ替える</li>
+        <li>入れ替えたら <code>game.redraw = false;</code> にして、2回目を止める</li>
+      </ol>
+      <p class="note">DAY 7 の型どおり、<b>先に「何が起きるか」を書き出してから</b>手を動かして。
+        いきなり書き始めると、すでに穴に入れたことばを引き直して表示が食い違う。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 20</span>名作を残す<span class="lv">むずかしい</span></h3>
+    <p>親に選ばれた文を保存して、タイトル画面に「これまでの名作」として出して。</p>
+    <details class="ans"><summary>答えの方針</summary>
+      <script type="text/plain" class="code" data-lang="js">
+// pick() の中で
+const best = JSON.parse(localStorage.getItem("propose-best") || "[]");
+best.push(e.text);
+localStorage.setItem("propose-best", JSON.stringify(best));
+      </script>
+      <p><code>|| "[]"</code> は「左が null や空なら空の配列を使う」という書き方。
+        初回はまだ保存されていないので、この保険が要る。
+        配列はそのままでは保存できないので、<code>JSON.stringify</code> で文字にしてから入れる。</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <h3><span class="no">問 21</span>自分のアプリを作る<span class="lv">最終課題</span></h3>
+    <p>何でもいいので、<b>自分が使いたいもの</b>を1つ作って。</p>
+    <ul class="dot">
+      <li>今日の献立ルーレット</li>
+      <li>割り勘の計算ツール</li>
+      <li>友達の誕生日カード（開くと音が鳴る）</li>
+      <li>自分専用のリンク集</li>
+      <li>2人用の相性診断</li>
+    </ul>
+    <p>作る前に必ず <a href="workflow.html">作り方の型</a> のワークシートを埋めて。
+      <b>そこを飛ばすと、必ず途中で止まる。</b></p>
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

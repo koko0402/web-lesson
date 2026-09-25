@@ -1,0 +1,181 @@
+@charset "UTF-8";
+/* =========================================================
+   DAY 4 ／ CSS 2回目：並べる・動かす
+   Flexbox / Grid / position / 変数 / transition / レスポンシブ
+   ========================================================= */
+
+/* ---- 色を1か所にまとめる（CSS変数） ------------------- */
+:root {
+  --main:  #2f6d68;   /* 基本の色 */
+  --accent:#e2794f;   /* 目立たせる色 */
+  --bg:    #f6f3ec;
+  --ink:   #2f3338;
+  --line:  #ddd6c6;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }   /* 幅の計算をわかりやすくする定番 */
+
+body {
+  margin: 0;
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+}
+
+/* ---- 上の帯：画面上部に貼りつく ------------------------ */
+.bar {
+  position: sticky;          /* スクロールしても上に残る */
+  top: 0;
+  z-index: 10;
+  display: flex;             /* 中身を横ならびに */
+  align-items: center;
+  justify-content: space-between;   /* 左右の端に寄せる */
+  padding: 12px 26px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+}
+.bar-logo { font-weight: bold; letter-spacing: 0.06em; }
+.bar-nav { display: flex; gap: 20px; }
+.bar-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;    /* ゆっくり変化させる */
+}
+.bar-nav a:hover { border-bottom-color: var(--accent); }
+
+/* ---- ヒーロー ------------------------------------------ */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 46px;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 64px 26px;
+}
+.hero-photo {
+  width: 210px;
+  border-radius: 50%;
+  background: #fff;
+  border: 8px solid #fff;
+  box-shadow: 0 10px 28px rgba(60, 50, 30, 0.16);
+  flex: none;                 /* 縮ませない */
+}
+.hero-eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+}
+.hero h1 {
+  margin: 6px 0 10px;
+  font-size: 42px;
+  line-height: 1.3;
+}
+.hero-lead { margin: 0 0 22px; color: #6b6b73; }
+
+.btn {
+  display: inline-block;
+  background: var(--main);
+  color: #fff;
+  text-decoration: none;
+  padding: 11px 30px;
+  border-radius: 999px;
+  font-size: 15px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover {
+  transform: translateY(-2px);            /* ちょっと浮く */
+  box-shadow: 0 6px 16px rgba(47, 109, 104, 0.35);
+}
+
+/* ---- 共通の囲み ---------------------------------------- */
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 26px 60px; }
+
+.ttl {
+  font-size: 24px;
+  margin: 52px 0 18px;
+  padding-left: 14px;
+  border-left: 5px solid var(--accent);
+}
+
+/* ---- Flexbox：横に3枚 ---------------------------------- */
+.cards { display: flex; gap: 18px; }
+.card {
+  flex: 1;                      /* 3枚が同じ幅で伸びる */
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(60, 50, 30, 0.13);
+}
+.card-icon {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  background: var(--main);
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 999px;
+}
+.card h3 { margin: 12px 0 6px; font-size: 20px; }
+.card p  { margin: 0; font-size: 14px; color: #63636b; }
+
+/* ---- Grid：きれいに敷き詰める -------------------------- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* 3列 */
+  gap: 12px;
+}
+.tile {
+  background: #fff;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 26px 12px;
+  text-align: center;
+  font-size: 15px;
+  transition: background 0.2s, color 0.2s;
+}
+.tile:hover { background: var(--accent); color: #fff; border-style: solid; }
+
+/* ---- 左右に分ける -------------------------------------- */
+.split { display: flex; gap: 20px; }
+.split-l, .split-r {
+  flex: 1;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  border-top: 4px solid var(--main);
+}
+.split-r { border-top-color: var(--accent); }
+.split h3 { margin: 0 0 8px; font-size: 18px; }
+.split p  { margin: 0; font-size: 14px; }
+
+/* ---- フッター ------------------------------------------ */
+.foot {
+  background: var(--main);
+  color: #d7e8e6;
+  text-align: center;
+  padding: 22px;
+  font-size: 13px;
+}
+.foot p { margin: 0; }
+
+/* =========================================================
+   レスポンシブ：画面が 700px より狭いときだけ効く
+   ========================================================= */
+@media (max-width: 700px) {
+  .hero { flex-direction: column; text-align: center; gap: 26px; padding: 40px 20px; }
+  .hero h1 { font-size: 30px; }
+  .cards, .split { flex-direction: column; }   /* 横ならび → 縦ならび */
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+  .bar-nav { gap: 12px; }
+}

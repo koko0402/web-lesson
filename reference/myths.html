@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>よくある勘違い｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .m{
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.18);
+    border-left:6px solid var(--red); border-radius:6px;
+    padding:16px 20px 14px; margin-bottom:18px;
+  }
+  .m h3{
+    margin:0 0 8px; font-size:19px; color:var(--red);
+    display:flex; align-items:baseline; gap:9px;
+  }
+  .m h3::before{
+    content:'✕'; font-size:14px; color:#fff; background:var(--red);
+    width:22px; height:22px; border-radius:50%; display:grid; place-items:center; flex:none;
+  }
+  .m .ans{
+    display:flex; align-items:baseline; gap:9px;
+    font-size:17px; font-weight:600; color:var(--green); margin:10px 0 6px;
+  }
+  .m .ans::before{
+    content:'○'; font-size:13px; color:#fff; background:var(--green);
+    width:22px; height:22px; border-radius:50%; display:grid; place-items:center; flex:none;
+  }
+  .m p{ font-size:15.5px; margin-bottom:6px; }
+  .m p:last-child{ margin-bottom:0; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>よくある勘違い</h1>
+  <p class="lead">エラーは出ないけれど、思い込みのせいで遠回りする話をまとめた。<br>
+    <a href="errors.html">エラー辞典</a> が「症状」から引くものなら、こちらは<b>「思い違い」</b>から引くものだ。</p>
+
+  <div class="search">
+    <input type="text" placeholder="キーワードで検索（例：Java、保存、スマホ、著作権）">
+    <span class="hit"></span>
+  </div>
+
+  <div class="toc">
+    <a href="#lang">言語について</a><a href="#make">作り方について</a>
+    <a href="#see">見え方について</a><a href="#pub">公開と権利</a><a href="#ai">AIについて</a>
+  </div>
+
+  <!-- ================= 言語 ================= -->
+  <section data-sec>
+    <h2 id="lang">言語について</h2>
+
+    <div class="m">
+      <h3>JavaScript は Java の一種</h3>
+      <p class="ans">まったく別の言語</p>
+      <p>名前が似ているだけで、作った会社も文法も用途も違う。
+        当時 Java が流行っていたので、名前を借りて注目を集めようとしただけ。
+        <b>「Java」で検索すると欲しい答えが出てこない</b>ので、必ず「JavaScript」で調べて。</p>
+    </div>
+
+    <div class="m">
+      <h3>HTML はプログラミング言語</h3>
+      <p class="ans">マークアップ言語</p>
+      <p>計算も分岐もできない。「ここは見出し」「ここは画像」と<b>印をつけるだけ</b>の言語。
+        だから HTML を覚えても「プログラムが書けるようになった」ことにはならないし、
+        逆に<b>HTMLが書けなくてもプログラマーではある</b>という人もいる。</p>
+      <p class="note">この講座で「プログラム」と呼べるのは DAY 5 以降の JavaScript だけ。</p>
+    </div>
+
+    <div class="m">
+      <h3>CSSが書ければ何でもレイアウトできる</h3>
+      <p class="ans">できるが、順番がある</p>
+      <p>HTMLの構造がめちゃくちゃだと、CSSでいくら頑張っても整わない。
+        「CSSで直せない」と思ったときは、<b>たいていHTMLの組み方が原因</b>。
+        先にHTMLを直すほうが早い、というのはよくある。</p>
+    </div>
+
+    <div class="m">
+      <h3>Python を覚えないとWebは作れない</h3>
+      <p class="ans">この講座の範囲では1行も要らない</p>
+      <p>ブラウザが読めるのは HTML・CSS・JavaScript だけ。
+        Python が必要になるのは「サーバー側の処理を自分で書きたくなったとき」で、
+        しかも Firebase のようなサービスを使えば、それすら書かずに済む。</p>
+    </div>
+  </section>
+
+  <!-- ================= 作り方 ================= -->
+  <section data-sec>
+    <h2 id="make">作り方について</h2>
+
+    <div class="m">
+      <h3>全部おぼえてから作り始める</h3>
+      <p class="ans">おぼえる前に作り始めて</p>
+      <p>タグもプロパティも数百ある。全部おぼえてから始めようとすると、永遠に始まらない。
+        必要になったときに調べる、で十分。<b>プロも毎日調べている。</b></p>
+      <p class="note">おぼえるべきは「調べ方」と「直し方」の2つだけ。</p>
+    </div>
+
+    <div class="m">
+      <h3>コードを全部書いてから、まとめて確認する</h3>
+      <p class="ans">1つ書くごとに確認して</p>
+      <p>まとめて書くと、動かなくなったときに<b>どこが原因か分からなくなる</b>。
+        書く → <code>Ctrl+S</code> → <code>F5</code>、を1分に1回。
+        遠回りに見えて、これが一番速い。</p>
+    </div>
+
+    <div class="m">
+      <h3>まず見た目から作る</h3>
+      <p class="ans">データと構造が先</p>
+      <p>先に見た目を作り込むと、あとでデータの持ち方を変えたくなったときに全部やり直しになる。
+        <b>データを決める → 表示する → 操作を付ける → 最後に飾る</b>、の順が結局いちばん速い。</p>
+    </div>
+
+    <div class="m">
+      <h3>エラーが出ない＝正しく動いている</h3>
+      <p class="ans">別の話</p>
+      <p>エラーは「文法として成立しない」ときに出るもの。
+        文法が合っていて意図と違うことをしている場合、<b>何も言われない</b>。
+        「思ったとおりに動かないがエラーも出ない」ときは、<code>console.log</code> で
+        中身を見ていくしかない。</p>
+    </div>
+
+    <div class="m">
+      <h3>動いているコードは触らないほうがいい</h3>
+      <p class="ans">壊して覚えるのが一番速い</p>
+      <p>コピーを取っておけば、いくら壊しても戻せる。
+        <code>innerHTML = ""</code> を消したらどうなるか、<code>flex: 1</code> を外したらどうなるか。
+        <b>やってみたほうが、説明を読むより10倍わかる。</b></p>
+    </div>
+  </section>
+
+  <!-- ================= 見え方 ================= -->
+  <section data-sec>
+    <h2 id="see">見え方について</h2>
+
+    <div class="m">
+      <h3>自分の画面で見えているものが、みんなにも同じに見える</h3>
+      <p class="ans">かなり違う</p>
+      <p>画面の大きさ、ブラウザの種類、フォントの有無、文字サイズの設定。
+        条件が変われば見え方も変わる。<b>スマホでは特に別物</b>だと思って。
+        F12 のスマホ表示で必ず確認する癖をつけると、あとで慌てずに済む。</p>
+    </div>
+
+    <div class="m">
+      <h3>フォントを指定すれば、その書体で表示される</h3>
+      <p class="ans">相手のPCに入っていなければ別の書体になる</p>
+      <p><code>font-family</code> は「この書体があれば使って」というお願いにすぎない。
+        だからカンマ区切りで候補を並べ、最後に <code>sans-serif</code> のような
+        <b>大分類を書いておく</b>のが決まりになっている。</p>
+    </div>
+
+    <div class="m">
+      <h3>保存すればブラウザの表示も変わる</h3>
+      <p class="ans">リロードが要る</p>
+      <p>保存は「ファイルを書き換える」だけ。ブラウザは<b>読み込んだ時点の内容を表示し続ける</b>。
+        <code>F5</code> で読み直して。それでも変わらないときは <code>Ctrl+Shift+R</code>。</p>
+    </div>
+
+    <div class="m">
+      <h3>localStorage に保存すれば、どこからでも見られる</h3>
+      <p class="ans">その端末のそのブラウザの中だけ</p>
+      <p>同じPCでも Chrome と Edge では別。スマホからは当然見えない。
+        <b>「保存」というより「そのブラウザが覚えている」</b>くらいの感覚が正しい。
+        みんなで共有したいなら Firebase などが必要になる。</p>
+    </div>
+  </section>
+
+  <!-- ================= 公開と権利 ================= -->
+  <section data-sec>
+    <h2 id="pub">公開と権利</h2>
+
+    <div class="m">
+      <h3>サイトを公開するにはお金がかかる</h3>
+      <p class="ans">この規模なら無料でできる</p>
+      <p>GitHub Pages などを使えば0円。独自のドメイン名（<code>○○.com</code>）が欲しくなったときに
+        初めてお金の話が出てくる。<b>まずは無料の範囲で十分</b>。</p>
+    </div>
+
+    <div class="m">
+      <h3>ネットで拾った画像は自由に使える</h3>
+      <p class="ans">使えない</p>
+      <p>画像・イラスト・音楽には作った人の権利がある。
+        <b>身内で見せるだけならまだしも、公開すると問題になり得る。</b>
+        公開するなら、自分で作ったものか、使ってよいと明示されている素材に差し替えて。</p>
+      <p class="note">この教材のキャラクター画像も、教材の中だけで使っている。</p>
+    </div>
+
+    <div class="m">
+      <h3>ローカルで動いたなら、公開しても同じに動く</h3>
+      <p class="ans">大文字小文字で止まることがある</p>
+      <p>自分のPC（Windows）は <code>Photo.png</code> と <code>photo.png</code> を同じ扱いにするが、
+        <b>公開先のサーバーは別物として扱う。</b>
+        「ローカルでは出た画像が公開したら出ない」は、ほぼこれ。</p>
+    </div>
+
+    <div class="m">
+      <h3>公開したページは、あとから完全に消せる</h3>
+      <p class="ans">消したつもりでも残ることがある</p>
+      <p>検索エンジンやアーカイブサービスが控えを持っている場合がある。
+        <b>本名・住所・学校名・電話番号は最初から書かない</b>のが唯一の対策。
+        公開する前に、必ず一度ファイル全体を見直して。</p>
+    </div>
+  </section>
+
+  <!-- ================= AI ================= -->
+  <section data-sec>
+    <h2 id="ai">AIについて</h2>
+
+    <div class="m">
+      <h3>AIが書いたコードは正しい</h3>
+      <p class="ans">動くとは限らないし、古いこともある</p>
+      <p>それらしいコードが出てくるのと、正しく動くのは別。
+        <b>読んで、動かして、確かめる</b>のは結局こちらの仕事。
+        「動かない」と言えば直してくれるが、何が違うのか分からないままだと同じ所をぐるぐるする。</p>
+    </div>
+
+    <div class="m">
+      <h3>AIを使うのはズルい</h3>
+      <p class="ans">プロも毎日使っている</p>
+      <p>面倒な部分を任せたり、下書きを出させたりするのは普通のこと。
+        問題なのは<b>読まずに貼ること</b>だけ。出てきたものから盗めるものを盗んでいれば、
+        使わない人より速く伸びる。</p>
+    </div>
+
+    <div class="m">
+      <h3>AIに丸投げすればサイトが完成する</h3>
+      <p class="ans">「何を作るか」は代わりに決めてもらえない</p>
+      <p>作りたいものが決まっていなければ、頼むこともできない。
+        逆に、決まってさえいれば、コードの部分はかなり任せられる。
+        <b>だから DAY 7 の「作り方の型」がいちばん長く使える</b>という話になる。</p>
+    </div>
+  </section>
+
+  <div class="yodan">こういう勘違いは、恥ずかしいものではなくて
+    <b>ほぼ全員が一度は通る</b>もの。むしろ早めに踏んでおいたほうが、あとが楽。</div>
+
+  <p class="mt2">関連 → <a href="errors.html">エラー辞典</a>
+    <a href="basics.html">パソコンとファイルの基本</a>
+    <a href="glossary.html">用語辞典</a></p>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>
