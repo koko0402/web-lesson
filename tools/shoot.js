@@ -65,7 +65,10 @@ async function main() {
   if (!jobsFile) { console.error('使い方: node tools/shoot.js jobs.json'); process.exit(1); }
   const jobs = JSON.parse(fs.readFileSync(jobsFile, 'utf8'));
 
-  const port = 9333;
+  /* 固定ポートだと、前に起動したブラウザがまだ生きていたときに
+     そっちへつないでしまい、前回の状態（IndexedDB など）が残る。
+     毎回ちがうポートにして、必ず新しいブラウザを使う。 */
+  const port = 9000 + Math.floor(Math.random() * 300);
   const userDir = path.join(os.tmpdir(), 'shoot_' + Date.now());
   const browser = spawn(findBrowser(), [
     '--headless=new', '--disable-gpu', '--hide-scrollbars',
