@@ -14,7 +14,7 @@ Web初心者の友達に、HTML → CSS → JavaScript → 総合制作 の順�
 | `slides/` | 授業用スライド（DAY 0〜8、全151枚） |
 | `reference/` | 資料。準備手順・練習問題集・辞典・一覧・チートシートなど |
 | `templates/` | コピーして使うスターターファイル3種 |
-| `playground/` | さわって試すツール（ライブエディタ・CSS見本帳・色のページ・CSS体験ラボ・レイアウト練習・質問文メーカー・記号タイピング） |
+| `playground/` | さわって試すツール（ブロックで組む・ライブエディタ・CSS見本帳・色のページ・フォントのページ・便利CSS・CSS体験ラボ・レイアウト練習・質問文メーカー・記号タイピング） |
 | `examples/` | 作例4つ（おみくじ・割り勘・誕生日カード・リンク集） |
 | `practice/` | 実習の完成見本（DAY 1〜6） |
 | `final/oshi/` | 応用演習『推しの紹介サイト』（課題ページ・スターター・完成見本） |
@@ -43,10 +43,13 @@ Web初心者の友達に、HTML → CSS → JavaScript → 総合制作 の順�
 
 | いつ | 見るもの |
 |---|---|
+| **コードを書く前に慣らしたい** | [`playground/block-lab.html`](playground/block-lab.html) ブロックで組む（流れ図＝プログラム。DAY 5 の前に） |
 | **とにかく触ってみたい** | [`playground/`](playground/index.html) ライブエディタ／CSS体験ラボ |
 | **どんな見た目にできるか知りたい** | [`playground/css-gallery.html`](playground/css-gallery.html) CSS見本帳（これを選ぶとこうなる） |
 | **位置・サイズ・フォントを狙って出したい** | [`playground/layout-lab.html`](playground/layout-lab.html) レイアウト練習（全9問） |
 | **色を決めたい・値を知りたい** | [`playground/color-lab.html`](playground/color-lab.html) 色のページ（作る・名前140色・3色で試す） |
+| **フォントを選びたい・落としたい** | [`playground/font-lab.html`](playground/font-lab.html) フォントのページ（見本・名前・貼るコマンド・配布場所） |
+| **よくある書き方を探したい** | [`playground/snippets.html`](playground/snippets.html) あると便利なCSS（まんなか寄せ・はみ出し・スマホ対応など28個） |
 | **講座を始める前** | [`reference/setup.html`](reference/setup.html) 準備手順（渡しておく） |
 | **プログラム以前で詰まる** | [`reference/basics.html`](reference/basics.html) 半角全角・拡張子・パス |
 | **記号や単語が読めない** | [`reference/symbols.html`](reference/symbols.html) 読み方一覧 |
@@ -100,6 +103,9 @@ DAY 1〜6 は **1つのサイト（自己紹介ページ「トリセツ」）を
 - 初回までに [`reference/setup.html`](reference/setup.html) を渡して環境構築を済ませてもらうと、DAY 0 が1回分浮く。
 - 説明で伝わらないときは [`playground/css-lab.html`](playground/css-lab.html) を開いて
   **スライダーを動かして見せて**ください。padding と margin の違いなどは、言葉より一発。
+- DAY 5 でいきなり手が止まるようなら、[`playground/block-lab.html`](playground/block-lab.html) を先に。
+  **ブロックを積むだけ**で流れ図とプログラムが同時にできるので、
+  「打ち間違い」と戦わずに「上から順に実行される」だけを先に体で覚えられる。
 
 ---
 

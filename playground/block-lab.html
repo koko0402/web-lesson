@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ブロックで組む ── 流れ図がそのままプログラムになる</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  /* ============================================================
+     3つ並べる。左＝部品、まん中＝組み立て、右＝結果
+     ============================================================ */
+  .lab{
+    display:grid; grid-template-columns:212px 1fr 360px; gap:14px;
+    align-items:start; margin-top:14px;
+  }
+  @media (max-width:1100px){ .lab{ grid-template-columns:1fr 1fr; } .lab .col-out{ grid-column:span 2; } }
+  @media (max-width:700px){  .lab{ grid-template-columns:1fr; } .lab .col-out{ grid-column:auto; } }
+
+  .col{
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.2);
+    border-radius:8px; padding:12px 13px; min-width:0;
+  }
+  .col > h3{ margin:0 0 8px; font-size:16px; display:flex; align-items:center; gap:7px; }
+  .col > h3 small{ font-weight:400; font-size:12px; color:var(--ink-2); }
+
+  /* ---- ブロック共通の見た目 ---- */
+  .blk{
+    position:relative; border-radius:7px; padding:7px 9px 7px 11px;
+    color:#fff; font-size:13.5px; line-height:1.6;
+    box-shadow:0 2px 0 rgba(0,0,0,.18);
+    display:flex; flex-wrap:wrap; align-items:center; gap:5px;
+    user-select:none;
+  }
+  /* スクラッチっぽい出っぱり・へこみ */
+  .blk::before{
+    content:''; position:absolute; left:16px; top:-4px;
+    width:15px; height:5px; border-radius:0 0 4px 4px; background:inherit;
+  }
+  .blk[data-cat="do"]{   background:#3f7fb5; }
+  .blk[data-cat="num"]{  background:#4f8a5b; }
+  .blk[data-cat="flow"]{ background:#cf7a36; }
+  .blk[data-cat="end"]{  background:#7b6a86; }
+
+  .blk select{
+    font:inherit; font-size:13px; padding:1px 6px; border-radius:999px;
+    border:0; background:#fffdf6; color:var(--ink); max-width:150px;
+  }
+  .blk .lbl{ white-space:nowrap; }
+
+  /* ---- 左：部品置き場 ---- */
+  .palette{ display:grid; gap:7px; }
+  .palette .blk{ cursor:pointer; }
+  /* 置き場は幅が狭い。ここだけは折り返させる（はみ出して隣の列に乗ってしまうため） */
+  .palette .blk .lbl{ white-space:normal; }
+  .palette .blk:hover{ filter:brightness(1.12); }
+  .palette .cat{ font-size:12px; color:var(--ink-2); margin:8px 0 1px; }
+  .palette .cat:first-child{ margin-top:0; }
+
+  /* ---- まん中：組み立てたもの ---- */
+  .stack{ display:grid; gap:7px; min-height:60px; }
+  .stack .row{ display:grid; gap:7px; }
+  .item{ position:relative; }
+  .item > .blk{ padding-right:74px; }
+
+  .ops{ position:absolute; right:5px; top:5px; display:flex; gap:3px; }
+  .ops button{
+    width:21px; height:21px; padding:0; line-height:1; font-size:12px;
+    border:0; border-radius:5px; cursor:pointer;
+    background:rgba(255,255,255,.28); color:#fff;
+  }
+  .ops button:hover:not(:disabled){ background:rgba(255,255,255,.5); }
+  .ops button:disabled{ opacity:.25; cursor:default; }
+
+  /* 分岐・くりかえしの中身 */
+  .nest{
+    margin:5px 0 0 16px; padding:7px 0 7px 11px;
+    border-left:4px solid rgba(207,122,54,.55); display:grid; gap:7px;
+  }
+  .nest > .caption{ font-size:12px; color:var(--ink-2); margin:-2px 0 0; }
+  .drop{
+    border:1.5px dashed rgba(44,58,66,.3); border-radius:6px;
+    font-size:12px; color:var(--ink-2); padding:5px 9px; text-align:center;
+  }
+
+  .fixed{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13px; color:var(--ink-2); padding:2px 0;
+  }
+  .fixed i{ width:13px; height:13px; border-radius:50%; background:var(--ink); display:inline-block; }
+  .fixed.end i{ box-shadow:inset 0 0 0 2.5px #fff, 0 0 0 2px var(--ink); }
+
+  .running{ outline:3px solid var(--mark); outline-offset:2px; border-radius:7px; }
+
+  /* ---- 右：結果 ---- */
+  .tabs{ display:flex; gap:6px; margin-bottom:8px; }
+  .pane{ display:none; }
+  .pane.on{ display:block; }
+
+  .screen{
+    border:1.5px solid rgba(44,58,66,.25); border-radius:8px; overflow:hidden;
+    background:#fff; margin-bottom:10px;
+  }
+  .screen .bar{
+    background:#e8e2d2; padding:4px 10px; font-size:11.5px; color:var(--ink-2);
+    border-bottom:1.5px solid rgba(44,58,66,.18);
+  }
+  #stage{
+    padding:18px 16px; min-height:190px; background:#ffffff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; text-align:center; transition:background .2s;
+  }
+  /* 見出しは h2 なので、このページ共通の飾り（赤い四角・余白）が付いてくる。
+     ここは「生徒が作る画面」なので、全部打ち消してまっさらにする */
+  #midashi{ display:block; font-size:24px; font-weight:600; margin:0; transition:all .2s; }
+  #midashi::before{ content:none; }
+  #honbun{ font-size:15px; margin:0; transition:all .2s; }
+  #maru{ width:60px; height:60px; border-radius:50%; background:#cf4436; transition:all .2s; }
+
+  .runbar{ display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+  .runbar .msg{ font-size:12.5px; color:var(--ink-2); }
+
+  /* ---- アクティビティ図 ---- */
+  .uml{ display:flex; flex-direction:column; align-items:center; gap:0; font-size:12.5px; }
+  .uml .node{
+    border:1.5px solid var(--ink); border-radius:9px; background:#fffdf6;
+    padding:5px 11px; max-width:100%; text-align:center; line-height:1.5;
+  }
+  .uml .dot{ width:15px; height:15px; border-radius:50%; background:var(--ink); }
+  .uml .dot.goal{ box-shadow:inset 0 0 0 3px #fffdf6, 0 0 0 2.5px var(--ink); }
+  .uml .arrow{ width:0; height:15px; border-left:1.5px solid var(--ink); position:relative; }
+  .uml .arrow::after{
+    content:''; position:absolute; left:-4px; bottom:-1px;
+    border:4px solid transparent; border-top-color:var(--ink);
+  }
+  .uml .dia{
+    border:1.5px solid var(--ink); background:#fffdf6; padding:6px 13px;
+    clip-path:polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    padding:10px 26px; text-align:center; line-height:1.4;
+  }
+  .uml .branch{ display:flex; align-items:flex-start; gap:18px; }
+  .uml .branch > div{ display:flex; flex-direction:column; align-items:center; }
+  .uml .yn{ font-size:11.5px; color:var(--ink-2); padding:1px 0; }
+  .uml .region{
+    border:1.5px dashed var(--ink); border-radius:9px; padding:8px 12px 10px;
+    display:flex; flex-direction:column; align-items:center; background:rgba(207,122,54,.07);
+  }
+  .uml .region > .ttl{ font-size:11.5px; color:var(--ink-2); margin-bottom:5px; }
+  .uml .running{ outline:3px solid var(--mark); outline-offset:2px; }
+
+  /* ---- できたコード ---- */
+  #code{ max-height:330px; }
+  #code b{ color:#7fc4ff; font-weight:400; }
+  #code i{ color:#ffd479; font-style:normal; }
+  #code u{ color:#c48cff; text-decoration:none; }
+  #code s{ color:#8d9aa4; text-decoration:none; }
+
+  .presets{ display:flex; flex-wrap:wrap; gap:7px; margin:10px 0 0; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>ブロックで組む</h1>
+  <p class="lead">ブロックを積むと、それがそのまま<b>流れ図（アクティビティ図）</b>になり、
+    同時に<b>プログラム</b>にもなる。<br>
+    打ち間違いが起きないので、<b>「上から順に実行される」だけ</b>に集中できる。</p>
+
+  <div class="fusen" data-c="green">
+    <b>これは何のためのページ？</b>
+    いきなりコードを書くと、やりたいことより先に「打ち間違い」と戦うことになる。
+    ここでは<b>選ぶだけ</b>で組めるので、<span class="mk">考え方だけを先に体に入れられる</span>。
+    右の「できたプログラム」は本物。<b>そのままコピーして使える</b>。
+  </div>
+
+  <div class="lab">
+
+    <!-- ============ 左：部品 ============ -->
+    <div class="col">
+      <h3>ブロック <small>押すと足す</small></h3>
+      <div class="palette" id="palette"></div>
+    </div>
+
+    <!-- ============ まん中：組み立て ============ -->
+    <div class="col">
+      <h3>組み立て <small>▲▼で順番・×で消す</small></h3>
+      <div class="fixed"><i></i> はじめ</div>
+      <div class="stack" id="stack"></div>
+      <div class="fixed end" style="margin-top:7px"><i></i> おわり</div>
+
+      <div class="presets">
+        <button type="button" class="btn sm" data-preset="hello">見本①あいさつ</button>
+        <button type="button" class="btn sm" data-preset="count">見本②数える</button>
+        <button type="button" class="btn sm" data-preset="loop">見本③くりかえし</button>
+        <button type="button" class="btn sm" data-preset="clear">全部消す</button>
+      </div>
+    </div>
+
+    <!-- ============ 右：結果 ============ -->
+    <div class="col col-out">
+      <h3>動かすと</h3>
+
+      <div class="screen">
+        <div class="bar">画面（index.html）</div>
+        <div id="stage">
+          <h2 id="midashi">こんにちは</h2>
+          <p id="honbun">ここに文章が入る。</p>
+          <div id="maru"></div>
+        </div>
+      </div>
+
+      <div class="runbar">
+        <button type="button" class="btn on" id="btnRun">▶ ためす</button>
+        <button type="button" class="btn" id="btnStep">⏭ 1つずつ</button>
+        <button type="button" class="btn sm" id="btnReset">はじめに戻す</button>
+        <span class="msg" id="msg"></span>
+      </div>
+
+      <div class="tabs">
+        <button type="button" class="btn sm on" data-tab="uml">流れ図</button>
+        <button type="button" class="btn sm" data-tab="code">できたプログラム</button>
+      </div>
+
+      <div class="pane on" data-pane="uml">
+        <div class="uml" id="uml"></div>
+      </div>
+
+      <div class="pane" data-pane="code">
+        <div class="outcode" id="code"></div>
+        <button type="button" class="copy" id="btnCopy" style="margin-top:8px">コピーする</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 style="margin-top:34px">ブロックと、プログラムの対応</h2>
+  <p class="note">左のブロックが、右の書き方にそのまま変わる。ここを見比べるのが、いちばんの近道。</p>
+
+  <table class="tbl" style="width:100%; border-collapse:collapse; margin-top:10px">
+    <tr><th style="width:38%">ブロック</th><th>プログラム</th><th style="width:26%">名前</th></tr>
+    <tr><td>〇〇の文字を△△にする</td><td><code>midashi.textContent = "△△";</code></td><td>代入</td></tr>
+    <tr><td>〇〇の色を△△にする</td><td><code>maru.style.background = "△△";</code></td><td>スタイルの変更</td></tr>
+    <tr><td>かずを1ふやす</td><td><code>kazu = kazu + 1;</code></td><td>変数</td></tr>
+    <tr><td>もし〜なら／でなければ</td><td><code>if (kazu &gt; 3) { … } else { … }</code></td><td>条件分岐</td></tr>
+    <tr><td>〇回くりかえす</td><td><code>for (let i = 0; i &lt; 3; i++) { … }</code></td><td>繰り返し</td></tr>
+  </table>
+
+  <div class="fusen" data-c="blue">
+    <b>流れ図（アクティビティ図）の読み方</b>
+    ●が<b>はじめ</b>、◉が<b>おわり</b>。角丸の四角が<b>やること</b>、ひし形が<b>分かれ道</b>。
+    上から下へ矢印をたどるだけ。<span class="mk">プログラムも同じで、上から順に実行される</span>。
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>慣れたら、こっちへ</b>
+    ブロックで作れるものが分かってきたら、
+    <a href="../slides/day5.html">DAY 5（JavaScript ①）</a>へ。
+    ここで出てきた <code>textContent</code> や <code>if</code> を、自分の手で書いていく。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+'use strict';
+
+/* ============================================================
+   ブロックの定義
+   ------------------------------------------------------------
+   1つのブロックにつき、
+     label … 画面に出す形（[[名前]] のところが選択肢になる）
+     opts  … 選択肢
+     code  … プログラムにしたときの1行
+     run   … 実際に動かすときの処理
+   図もコードも実行も、全部ここから作られる。
+   ============================================================ */
+
+const COLORS = [
+  ['あか', 'crimson'], ['オレンジ', 'coral'], ['きいろ', 'gold'],
+  ['みどり', 'mediumseagreen'], ['みずいろ', 'skyblue'], ['あお', 'steelblue'],
+  ['むらさき', 'mediumpurple'], ['ピンク', 'hotpink'],
+  ['しろ', 'white'], ['くろ', '#2c3a42'],
+];
+
+const WORDS = ['こんにちは', 'おはよう', 'おつかれ', 'やったー', 'できた！', 'また明日'];
+
+const BLOCKS = {
+  moji: {
+    cat: 'do', label: '[[who]] の文字を [[word]] にする',
+    opts: { who: [['見出し', 'midashi'], ['本文', 'honbun']], word: WORDS.map(w => [w, w]) },
+    code: p => `${p.who}.textContent = "${p.word}";`,
+    run:  p => { el(p.who).textContent = p.word; },
+    uml:  p => `${jp(p.who)}の文字を「${p.word}」にする`,
+  },
+  mojiIro: {
+    cat: 'do', label: '[[who]] の文字の色を [[c]] にする',
+    opts: { who: [['見出し', 'midashi'], ['本文', 'honbun']], c: COLORS },
+    code: p => `${p.who}.style.color = "${p.c}";`,
+    run:  p => { el(p.who).style.color = p.c; },
+    uml:  p => `${jp(p.who)}の文字の色を${jpc(p.c)}にする`,
+  },
+  haikei: {
+    cat: 'do', label: '[[who]] の色を [[c]] にする',
+    opts: { who: [['まる', 'maru'], ['背景', 'stage']], c: COLORS },
+    code: p => `${p.who}.style.background = "${p.c}";`,
+    run:  p => { el(p.who).style.background = p.c; },
+    uml:  p => `${jp(p.who)}の色を${jpc(p.c)}にする`,
+  },
+  ookisa: {
+    cat: 'do', label: '[[who]] の大きさを [[n]]px にする',
+    opts: { who: [['見出し', 'midashi'], ['本文', 'honbun']], n: [16, 24, 32, 48, 64].map(n => [n, n]) },
+    code: p => `${p.who}.style.fontSize = "${p.n}px";`,
+    run:  p => { el(p.who).style.fontSize = p.n + 'px'; },
+    uml:  p => `${jp(p.who)}の大きさを${p.n}pxにする`,
+  },
+  maruSize: {
+    cat: 'do', label: 'まるの大きさを [[n]]px にする',
+    opts: { n: [20, 40, 60, 90, 130].map(n => [n, n]) },
+    code: p => `maru.style.width  = "${p.n}px";\nmaru.style.height = "${p.n}px";`,
+    run:  p => { el('maru').style.width = p.n + 'px'; el('maru').style.height = p.n + 'px'; },
+    uml:  p => `まるの大きさを${p.n}pxにする`,
+  },
+  kesu: {
+    cat: 'do', label: '[[who]] を [[how]]',
+    opts: { who: [['まる', 'maru'], ['本文', 'honbun']], how: [['かくす', 'none'], ['出す', '']] },
+    code: p => `${p.who}.style.display = "${p.how}";`,
+    run:  p => { el(p.who).style.display = p.how; },
+    uml:  p => `${jp(p.who)}を${p.how === 'none' ? 'かくす' : '出す'}`,
+  },
+
+  fuyasu: {
+    cat: 'num', label: 'かず を [[n]] ふやす',
+    opts: { n: [1, 2, 5, 10].map(n => [n, n]) },
+    code: p => `kazu = kazu + ${p.n};`,
+    run:  (p, st) => { st.kazu = st.kazu + Number(p.n); },
+    uml:  p => `かずを${p.n}ふやす`,
+    usesKazu: true,
+  },
+  kazuHyouji: {
+    cat: 'num', label: 'かず を [[who]] に出す',
+    opts: { who: [['見出し', 'midashi'], ['本文', 'honbun']] },
+    code: p => `${p.who}.textContent = kazu;`,
+    run:  (p, st) => { el(p.who).textContent = st.kazu; },
+    uml:  p => `かずを${jp(p.who)}に出す`,
+    usesKazu: true,
+  },
+
+  moshi: {
+    cat: 'flow', label: 'もし かず が [[n]] [[op]] なら',
+    opts: {
+      n: [1, 2, 3, 5, 10].map(n => [n, n]),
+      op: [['より大きい', '>'], ['より小さい', '<'], ['と同じ', '===']],
+    },
+    kids: 2,
+    code: p => `if (kazu ${p.op} ${p.n}) {`,
+    test: (p, st) => p.op === '>' ? st.kazu > p.n : p.op === '<' ? st.kazu < p.n : st.kazu === Number(p.n),
+    uml:  p => `かず ${p.op} ${p.n} ？`,
+    usesKazu: true,
+  },
+  kurikaesu: {
+    cat: 'flow', label: '[[n]] 回 くりかえす',
+    opts: { n: [2, 3, 5, 10].map(n => [n, n]) },
+    kids: 1,
+    code: p => `for (let i = 0; i < ${p.n}; i++) {`,
+    uml:  p => `${p.n} 回くりかえす`,
+  },
+};
+
+const CATS = [
+  ['do',   '見た目を変える'],
+  ['num',  'かずを扱う'],
+  ['flow', '流れを変える'],
+];
+
+/* ---- 小道具 ---- */
+const $  = q => document.querySelector(q);
+const $$ = q => [...document.querySelectorAll(q)];
+const el = id => document.getElementById(id);
+const JP = { midashi: '見出し', honbun: '本文', maru: 'まる', stage: '背景' };
+const jp  = k => JP[k] || k;
+const jpc = v => (COLORS.find(c => c[1] === v) || [v])[0];
+const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+let seq = 0;
+const uid = () => 'b' + (++seq);
+
+/* 組み立てたもの。1つ = { id, type, p:{}, a:[], b:[] } */
+let program = [];
+
+
+/* ============================================================
+   左：部品置き場
+   ============================================================ */
+function buildPalette() {
+  const box = $('#palette');
+  box.innerHTML = '';
+  for (const [cat, name] of CATS) {
+    const h = document.createElement('div');
+    h.className = 'cat';
+    h.textContent = name;
+    box.appendChild(h);
+
+    for (const [type, def] of Object.entries(BLOCKS)) {
+      if (def.cat !== cat) continue;
+      const b = document.createElement('div');
+      b.className = 'blk';
+      b.dataset.cat = cat;
+      b.innerHTML = '<span class="lbl">' + esc(plain(def)) + '</span>';
+      b.title = 'クリックで足す';
+      b.addEventListener('click', () => addBlock(type));
+      box.appendChild(b);
+    }
+  }
+}
+
+/** 選択肢のところを「最初の選択肢」で埋めた、ただの文にする */
+function plain(def) {
+  return def.label.replace(/\[\[(\w+)\]\]/g, (_, k) => String(def.opts[k][0][0]));
+}
+
+function makeBlock(type) {
+  const def = BLOCKS[type];
+  const p = {};
+  for (const k of Object.keys(def.opts || {})) p[k] = def.opts[k][0][1];
+  return { id: uid(), type, p, a: [], b: [] };
+}
+
+function addBlock(type) {
+  program.push(makeBlock(type));
+  render();
+}
+
+
+/* ============================================================
+   まん中：組み立てたものを描く
+   ============================================================ */
+function render() {
+  $('#stack').innerHTML = '';
+  $('#stack').appendChild(rowsHTML(program, program));
+  drawUml();
+  drawCode();
+}
+
+function rowsHTML(list, parent) {
+  const box = document.createElement('div');
+  box.className = 'row';
+
+  if (!list.length) {
+    const d = document.createElement('div');
+    d.className = 'drop';
+    d.textContent = '← 左のブロックを押すと、ここに積まれる';
+    box.appendChild(d);
+    return box;
+  }
+
+  list.forEach((node, i) => {
+    const def = BLOCKS[node.type];
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.dataset.id = node.id;
+
+    const blk = document.createElement('div');
+    blk.className = 'blk';
+    blk.dataset.cat = def.cat;
+    blk.appendChild(labelNodes(def, node));
+
+    const ops = document.createElement('div');
+    ops.className = 'ops';
+    ops.innerHTML =
+      `<button type="button" data-mv="-1" title="上へ"${i === 0 ? ' disabled' : ''}>▲</button>` +
+      `<button type="button" data-mv="1"  title="下へ"${i === list.length - 1 ? ' disabled' : ''}>▼</button>` +
+      `<button type="button" data-rm="1"  title="消す">×</button>`;
+    ops.querySelector('[data-mv="-1"]').addEventListener('click', () => move(list, i, -1));
+    ops.querySelector('[data-mv="1"]').addEventListener('click',  () => move(list, i,  1));
+    ops.querySelector('[data-rm]').addEventListener('click', () => { list.splice(i, 1); render(); });
+    blk.appendChild(ops);
+
+    item.appendChild(blk);
+
+    /* 分岐・くりかえしの中身 */
+    if (def.kids) {
+      const n1 = document.createElement('div');
+      n1.className = 'nest';
+      if (def.kids === 2) n1.innerHTML = '<p class="caption">はい のとき</p>';
+      n1.appendChild(rowsHTML(node.a, node));
+      item.appendChild(n1);
+
+      if (def.kids === 2) {
+        const n2 = document.createElement('div');
+        n2.className = 'nest';
+        n2.innerHTML = '<p class="caption">いいえ のとき</p>';
+        n2.appendChild(rowsHTML(node.b, node));
+        item.appendChild(n2);
+      }
+      /* 中に入れるボタン */
+      const add = document.createElement('div');
+      add.className = 'presets';
+      add.style.margin = '6px 0 0 16px';
+      add.innerHTML = def.kids === 2
+        ? '<button type="button" class="btn sm" data-in="a">はい の中に足す</button>' +
+          '<button type="button" class="btn sm" data-in="b">いいえ の中に足す</button>'
+        : '<button type="button" class="btn sm" data-in="a">この中に足す</button>';
+      add.querySelectorAll('[data-in]').forEach(btn =>
+        btn.addEventListener('click', () => { insertTarget = node[btn.dataset.in]; openPicker(btn); }));
+      item.appendChild(add);
+    }
+
+    box.appendChild(item);
+  });
+
+  return box;
+}
+
+/** ラベルの [[x]] を <select> に差し替える */
+function labelNodes(def, node) {
+  const frag = document.createDocumentFragment();
+  const parts = def.label.split(/(\[\[\w+\]\])/);
+  for (const part of parts) {
+    const m = part.match(/^\[\[(\w+)\]\]$/);
+    if (!m) {
+      if (part.trim() === '') continue;
+      const s = document.createElement('span');
+      s.className = 'lbl';
+      s.textContent = part.trim();
+      frag.appendChild(s);
+      continue;
+    }
+    const key = m[1];
+    const sel = document.createElement('select');
+    sel.innerHTML = def.opts[key]
+      .map(([t, v]) => `<option value="${esc(v)}"${String(v) === String(node.p[key]) ? ' selected' : ''}>${esc(t)}</option>`)
+      .join('');
+    sel.addEventListener('change', () => { node.p[key] = sel.value; render(); });
+    frag.appendChild(sel);
+  }
+  return frag;
+}
+
+function move(list, i, d) {
+  const j = i + d;
+  if (j < 0 || j >= list.length) return;
+  const t = list[i]; list[i] = list[j]; list[j] = t;
+  render();
+}
+
+/* 「この中に足す」を押したときの行き先。null なら一番外側 */
+let insertTarget = null;
+
+function openPicker(near) {
+  /* かんたんな選択メニュー。部品名をそのまま並べる */
+  const old = $('#picker');
+  if (old) old.remove();
+
+  const box = document.createElement('div');
+  box.id = 'picker';
+  box.className = 'palette';
+  box.style.cssText = 'margin:7px 0 0 16px; padding:8px; background:rgba(255,255,255,.9);' +
+                      'border:1.5px solid rgba(44,58,66,.25); border-radius:8px;';
+  for (const [type, def] of Object.entries(BLOCKS)) {
+    if (def.kids) continue;                       /* 入れ子の中の入れ子は作らない */
+    const b = document.createElement('div');
+    b.className = 'blk';
+    b.dataset.cat = def.cat;
+    b.style.cursor = 'pointer';
+    b.innerHTML = '<span class="lbl">' + esc(plain(def)) + '</span>';
+    b.addEventListener('click', () => {
+      insertTarget.push(makeBlock(type));
+      box.remove();
+      render();
+    });
+    box.appendChild(b);
+  }
+  near.parentElement.after(box);
+}
+
+
+/* ============================================================
+   右①：アクティビティ図
+   ============================================================ */
+function drawUml() {
+  const box = $('#uml');
+  box.innerHTML = '';
+  box.appendChild(dot(false));
+  box.appendChild(umlList(program));
+  box.appendChild(arrow());
+  box.appendChild(dot(true));
+}
+
+function dot(goal) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (goal ? ' goal' : '');
+  return d;
+}
+function arrow() {
+  const a = document.createElement('div');
+  a.className = 'arrow';
+  return a;
+}
+
+function umlList(list) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex; flex-direction:column; align-items:center;';
+  for (const node of list) {
+    const def = BLOCKS[node.type];
+    wrap.appendChild(arrow());
+
+    if (def.kids === 2) {
+      const d = document.createElement('div');
+      d.className = 'dia';
+      d.dataset.id = node.id;
+      d.textContent = def.uml(node.p);
+      wrap.appendChild(d);
+
+      const br = document.createElement('div');
+      br.className = 'branch';
+      for (const [key, yn] of [['a', 'はい'], ['b', 'いいえ']]) {
+        const col = document.createElement('div');
+        const lab = document.createElement('div');
+        lab.className = 'yn';
+        lab.textContent = yn;
+        col.appendChild(lab);
+        col.appendChild(node[key].length ? umlList(node[key]) : emptyNode());
+        br.appendChild(col);
+      }
+      wrap.appendChild(br);
+
+    } else if (def.kids === 1) {
+      const r = document.createElement('div');
+      r.className = 'region';
+      r.dataset.id = node.id;
+      r.innerHTML = '<div class="ttl">' + esc(def.uml(node.p)) + '</div>';
+      r.appendChild(node.a.length ? umlList(node.a) : emptyNode());
+      wrap.appendChild(r);
+
+    } else {
+      const n = document.createElement('div');
+      n.className = 'node';
+      n.dataset.id = node.id;
+      n.textContent = def.uml(node.p);
+      wrap.appendChild(n);
+    }
+  }
+  return wrap;
+}
+
+function emptyNode() {
+  const n = document.createElement('div');
+  n.className = 'node';
+  n.style.cssText = 'border-style:dashed; color:var(--ink-2)';
+  n.textContent = '（まだ空）';
+  return n;
+}
+
+
+/* ============================================================
+   右②：できたプログラム
+   ============================================================ */
+function usedIds(list, set) {
+  for (const node of list) {
+    const def = BLOCKS[node.type];
+    for (const v of Object.values(node.p)) if (JP[v]) set.add(v);
+    if (def.usesKazu) set.add('kazu');
+    if (node.type === 'maruSize') set.add('maru');
+    usedIds(node.a, set); usedIds(node.b, set);
+  }
+  return set;
+}
+
+function codeLines(list, depth) {
+  const pad = '  '.repeat(depth);
+  const out = [];
+  for (const node of list) {
+    const def = BLOCKS[node.type];
+    if (def.kids) {
+      out.push(pad + def.code(node.p));
+      out.push(...codeLines(node.a, depth + 1));
+      if (def.kids === 2) {
+        out.push(pad + '} else {');
+        out.push(...codeLines(node.b, depth + 1));
+      }
+      out.push(pad + '}');
+    } else {
+      for (const line of def.code(node.p).split('\n')) out.push(pad + line);
+    }
+  }
+  return out;
+}
+
+function buildCode() {
+  const used = usedIds(program, new Set());
+  const head = [];
+  if (used.has('kazu')) head.push('let kazu = 0;');
+  for (const id of ['midashi', 'honbun', 'maru', 'stage']) {
+    if (used.has(id)) head.push(`const ${id} = document.getElementById("${id}");`);
+  }
+  const body = codeLines(program, 0);
+  if (!body.length) return '// まだ何も積まれていない';
+  return (head.length ? head.join('\n') + '\n\n' : '') + body.join('\n');
+}
+
+function drawCode() {
+  const src = buildCode();
+  /* 色分け。文字列・数字・キーワードだけ */
+  const html = esc(src)
+    .replace(/(&quot;|")(.*?)\1/g, '<i>"$2"</i>')
+    .replace(/\b(const|let|if|else|for)\b/g, '<u>$1</u>')
+    .replace(/(\/\/.*)/g, '<s>$1</s>');
+  $('#code').innerHTML = html;
+}
+
+
+/* ============================================================
+   動かす
+   ============================================================ */
+function resetStage() {
+  el('stage').removeAttribute('style');
+  el('midashi').removeAttribute('style');
+  el('honbun').removeAttribute('style');
+  el('maru').removeAttribute('style');
+  el('midashi').textContent = 'こんにちは';
+  el('honbun').textContent  = 'ここに文章が入る。';
+  $$('.running').forEach(x => x.classList.remove('running'));
+}
+
+/** ▶ ためす ── 右に出ているコードを、そのまま動かす */
+function run() {
+  resetStage();
+  const src = buildCode();
+  try {
+    new Function(src)();
+    say('動かした');
+  } catch (err) {
+    say('止まった：' + err.message);
+  }
+}
+
+/* ---- ⏭ 1つずつ ---- */
+let steps = null, stepAt = 0, stepState = null;
+
+/** ブロックを1つずつの並びに開く（分岐・くりかえしは中身を展開する） */
+function flatten(list, out, st) {
+  for (const node of list) {
+    const def = BLOCKS[node.type];
+    out.push({ node, def });
+    if (def.kids === 2) {
+      /* そのときの かず で、どちらへ進むか決まる。
+         実際の値は動かしながらでないと分からないので、
+         ここでは仮に走らせて枝を決める */
+      const go = def.test(node.p, st) ? node.a : node.b;
+      flatten(go, out, st);
+    } else if (def.kids === 1) {
+      for (let i = 0; i < Number(node.p.n); i++) flatten(node.a, out, st);
+    } else if (def.run) {
+      /* 枝を決めるために、先に効果だけ数へ反映しておく */
+      if (node.type === 'fuyasu') st.kazu += Number(node.p.n);
+    }
+  }
+  return out;
+}
+
+function step() {
+  if (!steps || stepAt >= steps.length) {
+    resetStage();
+    stepState = { kazu: 0 };
+    steps = flatten(program, [], { kazu: 0 });
+    stepAt = 0;
+    if (!steps.length) { say('まだ何も積まれていない'); return; }
+  }
+  $$('.running').forEach(x => x.classList.remove('running'));
+
+  const { node, def } = steps[stepAt];
+  if (def.run) def.run(node.p, stepState);
+
+  for (const q of [`#stack [data-id="${node.id}"] > .blk`, `#uml [data-id="${node.id}"]`]) {
+    const t = document.querySelector(q);
+    if (t) t.classList.add('running');
+  }
+
+  stepAt++;
+  say(`${stepAt} / ${steps.length} まで進んだ` + (stepAt >= steps.length ? '（次でもう一度最初から）' : ''));
+}
+
+let sayTimer = null;
+function say(t) {
+  $('#msg').textContent = t;
+  clearTimeout(sayTimer);
+  sayTimer = setTimeout(() => { $('#msg').textContent = ''; }, 4000);
+}
+
+
+/* ============================================================
+   見本
+   ============================================================ */
+const PRESETS = {
+  hello: () => ([
+    mk('moji',    { who: 'midashi', word: 'やったー' }),
+    mk('mojiIro', { who: 'midashi', c: 'crimson' }),
+    mk('ookisa',  { who: 'midashi', n: 48 }),
+    mk('haikei',  { who: 'stage',   c: 'gold' }),
+  ]),
+  count: () => {
+    const iff = mk('moshi', { n: 3, op: '>' });
+    iff.a = [mk('moji', { who: 'honbun', word: 'やったー' }), mk('haikei', { who: 'maru', c: 'crimson' })];
+    iff.b = [mk('moji', { who: 'honbun', word: 'まだまだ' }), mk('haikei', { who: 'maru', c: 'skyblue' })];
+    return [
+      mk('fuyasu', { n: 5 }),
+      mk('kazuHyouji', { who: 'midashi' }),
+      iff,
+    ];
+  },
+  loop: () => {
+    const lp = mk('kurikaesu', { n: 5 });
+    lp.a = [mk('fuyasu', { n: 2 }), mk('kazuHyouji', { who: 'midashi' })];
+    return [lp, mk('maruSize', { n: 130 }), mk('haikei', { who: 'maru', c: 'mediumseagreen' })];
+  },
+  clear: () => [],
+};
+
+function mk(type, p) {
+  const node = makeBlock(type);
+  Object.assign(node.p, p);
+  return node;
+}
+
+
+/* ============================================================
+   受け口
+   ============================================================ */
+$('#btnRun').addEventListener('click', run);
+$('#btnStep').addEventListener('click', step);
+$('#btnReset').addEventListener('click', () => { steps = null; resetStage(); say('はじめに戻した'); });
+
+$('#btnCopy').addEventListener('click', async () => {
+  const btn = $('#btnCopy');
+  try { await navigator.clipboard.writeText(buildCode()); }
+  catch { say('コピーできなかった。手で選んでコピーして'); return; }
+  btn.classList.add('done'); btn.textContent = 'コピーした';
+  setTimeout(() => { btn.classList.remove('done'); btn.textContent = 'コピーする'; }, 1400);
+});
+
+$$('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
+  $$('[data-tab]').forEach(b => b.classList.toggle('on', b === btn));
+  $$('[data-pane]').forEach(p => p.classList.toggle('on', p.dataset.pane === btn.dataset.tab));
+}));
+
+$$('[data-preset]').forEach(btn => btn.addEventListener('click', () => {
+  program = PRESETS[btn.dataset.preset]();
+  steps = null;
+  resetStage();
+  render();
+}));
+
+buildPalette();
+program = PRESETS.hello();
+render();
+</script>
+</body>
+</html>
