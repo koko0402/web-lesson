@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firebase の使い方｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .shot{ border:1.5px solid rgba(44,58,66,.3); border-radius:8px; overflow:hidden;
+         box-shadow:3px 5px 0 rgba(44,58,66,.12); margin:14px 0 18px; background:#fff; }
+  .shot img{ display:block; width:100%; }
+  .shot .cap{ font-size:13px; color:var(--ink-2); padding:8px 12px; border-top:1px solid rgba(44,58,66,.15);
+              background:rgba(255,255,255,.7); }
+  .big-step{ display:flex; align-items:center; gap:14px; margin:38px 0 12px; }
+  .big-step .n{ width:44px; height:44px; flex:none; border-radius:50%; background:var(--red); color:#fff;
+                display:grid; place-items:center; font-size:22px; font-weight:600; transform:rotate(-4deg); }
+  .big-step h2{ margin:0; }
+  .big-step h2::before{ display:none; }
+  .ok{ background:#e8f4e8; border-left:5px solid var(--green); padding:12px 16px; margin:14px 0;
+       font-size:16px; border-radius:0 6px 6px 0; }
+  .ok b{ color:var(--green); }
+  .drawn{ font-size:12.5px; color:var(--ink-2); background:rgba(44,58,66,.06);
+          border-radius:6px; padding:9px 13px; margin:12px 0 18px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>Firebase の使い方</h1>
+  <p class="lead">「<b>みんなで同じものを見る</b>」を作るための道具。<br>
+    感想を書いてもらう・スコアを集める・ログインさせる。
+    <span class="mk">サーバーを自分で用意しなくていい</span>のがいちばんの価値。</p>
+
+  <div class="toc">
+    <a href="#why">なぜ要るのか</a>
+    <a href="#what">何ができるか</a>
+    <a href="#start">① つなぐまで</a>
+    <a href="#db">② 置き場を作る</a>
+    <a href="#rules">③ ルールで守る</a>
+    <a href="#code">④ 書く・読む</a>
+    <a href="#money">お金の話</a>
+    <a href="#when">いつ使うか</a>
+  </div>
+
+  <div class="drawn">
+    管理画面の絵は<b>実際の画面に合わせて描いたもの</b>（本物はログインしないと見られず、
+    写真にするとアカウント名が写るため）。<b>ボタンの名前と場所は本物と同じ</b>。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="why">なぜ要るのか</h2>
+
+  <table>
+    <tr><th style="width:240px">やりたいこと</th><th style="width:210px">要るもの</th><th>理由</th></tr>
+    <tr><td>自分の記録を残す</td><td><b>localStorage</b>（DAY 6）</td>
+      <td>自分のブラウザの中だけでいいなら、これで足りる</td></tr>
+    <tr><td><b>他の人に感想を書いてもらう</b></td><td><b>Firebase</b></td>
+      <td>書いた内容を<span class="mk">みんなが見られる場所</span>に置く必要がある</td></tr>
+    <tr><td>みんなのスコアを集める</td><td><b>Firebase</b></td>
+      <td>同上</td></tr>
+    <tr><td>ログイン</td><td>Firebase Authentication</td>
+      <td>「誰が書いたか」を確かめる仕組みが要る</td></tr>
+  </table>
+
+  <div class="fusen" data-c="pink">
+    <b>順番を守る</b>
+    <span class="mk">サイトが完全に動くようになってから</span>手をつける。
+    動いていない状態で足すと、「HTMLが悪いのか Firebase が悪いのか」が分からなくなって、
+    ほぼ必ず詰まる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="what">何ができるか</h2>
+
+  <table>
+    <tr><th style="width:210px">名前</th><th>何をするもの</th></tr>
+    <tr><td><b>Firestore</b><br><span class="note">よく使う</span></td>
+      <td>データの置き場。<b>感想・スコア・投稿</b>など。このページで扱うのはこれ</td></tr>
+    <tr><td><b>Hosting</b></td>
+      <td>サイトの公開。<a href="publish.html">公開するのページ</a> の B</td></tr>
+    <tr><td>Authentication</td>
+      <td>ログイン。Google・メール・電話番号などで</td></tr>
+    <tr><td>Storage</td>
+      <td>画像や動画のアップロード先</td></tr>
+    <tr><td>Realtime Database</td>
+      <td>Firestore の古いほう。<b>今から作るなら Firestore でいい</b></td></tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">1</div><h2 id="start">つなぐまで</h2></div>
+
+  <h3>プロジェクトを作る</h3>
+  <p><code>console.firebase.google.com</code> → Googleアカウントでログイン → <b>プロジェクトを追加</b>。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-1-new.png" alt="Firebaseのプロジェクト作成画面">
+    <div class="cap"><b>①</b> 名前を英数字で　<b>②</b> アナリティクスはオフのまま <b>続行</b></div>
+  </div>
+
+  <h3>ウェブアプリを足して、設定をもらう</h3>
+  <p>プロジェクトの画面で <b>&lt;/&gt;</b> のアイコンを押す。アプリ名を入れて登録すると、設定が出てくる。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-2-app.png" alt="Firebaseにウェブアプリを追加して、firebaseConfig が表示されている画面">
+    <div class="cap">
+      <b>①</b> <b>&lt;/&gt;</b> がウェブ用（iOS や Android ではない）
+      <b>②</b> ここに出る <code>firebaseConfig</code> を、まるごとコピーして自分のJSに貼る
+    </div>
+  </div>
+
+  <h3>自分のページにつなぐ</h3>
+  <p><code>index.html</code> の script タグに <b><code>type="module"</code></b> を付ける。これが要る。</p>
+
+  <script type="text/plain" class="code" data-lang="html">
+<script type="module" src="script.js"><\/script>
+  </script>
+
+  <p><code>script.js</code> の先頭。</p>
+
+  <script type="text/plain" class="code" data-lang="js">
+// Firebase の道具を、ネットから直接もらってくる（インストール不要）
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+// さっきコピーしてきた設定をそのまま貼る
+const firebaseConfig = {
+  apiKey: "AIzaSy........................",
+  authDomain: "my-site-3f7a2.firebaseapp.com",
+  projectId: "my-site-3f7a2",
+  storageBucket: "my-site-3f7a2.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abcdef123456"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+  </script>
+
+  <div class="fusen" data-c="blue">
+    <b>12.19.0 の部分は変わる</b>
+    Firebase は更新が早い。うまく動かないときは、
+    管理画面に出ていた番号に合わせる。数字を揃えていれば動く。
+  </div>
+
+  <div class="fusen">
+    <b><code>type="module"</code> を忘れると動かない</b>
+    <code>import</code> は module でしか使えない。
+    「<span class="mk">Cannot use import statement outside a module</span>」と
+    Console に出たら、これが原因。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">2</div><h2 id="db">置き場を作る</h2></div>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-3-firestore.png" alt="FirestoreデータベースをテストモードとAsia-northeast1で作る画面">
+    <div class="cap">
+      <b>①</b> 左メニューの <b>Firestore Database</b> → 「データベースの作成」
+      <b>②</b> 練習中は<b>テストモード</b>（30日で切れる）
+      <b>③</b> ロケーションは <b>asia-northeast1（東京）</b>。
+      <span class="mk">これだけは後から変えられない</span>
+    </div>
+  </div>
+
+  <h3>言葉</h3>
+  <table>
+    <tr><th style="width:190px">Firestore の言い方</th><th>ふつうに言うと</th></tr>
+    <tr><td><b>コレクション</b></td><td>フォルダ。例：<code>kansou</code>（感想ぜんぶ）</td></tr>
+    <tr><td><b>ドキュメント</b></td><td>その中の1件。例：1つの感想</td></tr>
+    <tr><td><b>フィールド</b></td><td>1件の中の項目。例：<code>text</code> <code>name</code> <code>createdAt</code></td></tr>
+  </table>
+  <p class="note">JavaScript でいうと、コレクション＝配列、ドキュメント＝その中のオブジェクト、と思っておけばいい。</p>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">3</div><h2 id="rules">ルールで守る</h2></div>
+
+  <div class="fusen" data-c="pink">
+    <b>ここがいちばん大事</b>
+    テストモードのまま公開すると、<span class="mk">誰でもデータを全部消せる</span>。
+    実際に、荒らされて全部消えたサイトはいくらでもある。
+    <b>公開する前に必ずルールを書く。</b>
+  </div>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-4-rules.png" alt="Firestoreのルール編集画面。読み取りは全員可、書き込みは文字数制限つきのルール">
+    <div class="cap">
+      <b>①</b> Firestore の上のタブ <b>ルール</b>
+      <b>②</b> ここに書く　<b>③</b> <b>公開</b> を押すと効く（すぐ効く）
+    </div>
+  </div>
+
+  <h3>意味</h3>
+  <table>
+    <tr><th style="width:230px">書いたこと</th><th>意味</th></tr>
+    <tr><td><code>allow read: if true;</code></td><td>誰でも<b>読める</b>。感想を表示したいので必要</td></tr>
+    <tr><td><code>allow create: if …</code></td><td>条件を満たすときだけ<b>新しく書ける</b></td></tr>
+    <tr><td><code>text.size() &lt; 200</code></td><td>200文字未満だけ。
+      <span class="mk">長文を大量に送りつけられるのを防ぐ</span></td></tr>
+    <tr><td><code>allow update, delete: if false;</code></td>
+      <td><b>書き換えと削除は誰にもさせない</b>。荒らし対策としていちばん効く</td></tr>
+  </table>
+
+  <div class="fusen" data-c="green">
+    <b>apiKey は秘密ではない</b>
+    <code>firebaseConfig</code> は<span class="mk">見られて当たり前のもの</span>。
+    隠す必要はないし、隠せない（JSに書いた時点で全員から読める）。
+    <b>守るのはルールの役目</b>。ここを混同すると、ずっと不安なまま作ることになる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">4</div><h2 id="code">書く・読む</h2></div>
+
+  <h3>書き込む（1件足す）</h3>
+  <script type="text/plain" class="code" data-lang="js">
+// 「kansou」フォルダに、1件ぶんのデータを足す
+await addDoc(collection(db, "kansou"), {
+  name: "ユウ",
+  text: "おもしろかった",
+  createdAt: serverTimestamp()   // 時刻はサーバー側で入れてもらう
+});
+  </script>
+
+  <h3>読み込む（新しい順に全部）</h3>
+  <script type="text/plain" class="code" data-lang="js">
+const q = query(collection(db, "kansou"), orderBy("createdAt", "desc"));
+const snap = await getDocs(q);
+
+snap.forEach(function (doc) {
+  const d = doc.data();          // ← 中身はここに入っている
+  console.log(d.name, d.text);
+});
+  </script>
+
+  <h3>フォームにつなぐ</h3>
+  <script type="text/plain" class="code" data-lang="js">
+document.getElementById("form").addEventListener("submit", async function (e) {
+  e.preventDefault();                       // ページが再読み込みされるのを止める
+
+  const text = document.getElementById("text").value.trim();
+  if (text === "") return;
+
+  try {
+    await addDoc(collection(db, "kansou"), {
+      name: "ななし", text: text, createdAt: serverTimestamp()
+    });
+    document.getElementById("text").value = "";
+    draw();                                 // 一覧を描き直す
+  } catch (err) {
+    console.error(err);                     // ← ルールで弾かれるとここに来る
+    alert("送れませんでした");
+  }
+});
+  </script>
+
+  <div class="fusen">
+    <b><code>await</code> が付く理由</b>
+    ネットの向こうまで取りに行くので、<span class="mk">返事が返るまで時間がかかる</span>。
+    <code>await</code> は「返事を待ってから次へ進む」という意味。
+    <code>await</code> を使う関数には <code>async</code> を付ける。セットで覚える。
+  </div>
+
+  <h3>よくある詰まり</h3>
+  <table>
+    <tr><th style="width:280px">Console に出るもの</th><th>原因</th></tr>
+    <tr><td><code>Missing or insufficient permissions</code></td>
+      <td><b>ルールで弾かれている。</b>いちばん多い。ルールの条件と、送っているデータの形が合っているか</td></tr>
+    <tr><td><code>Cannot use import statement outside a module</code></td>
+      <td>script タグの <code>type="module"</code> 忘れ</td></tr>
+    <tr><td><code>Failed to load resource</code>（gstatic）</td>
+      <td>バージョン番号の打ち間違い、またはネットにつながっていない</td></tr>
+    <tr><td>何も起きない・エラーも出ない</td>
+      <td><code>await</code> や <code>async</code> の付け忘れ。
+        <code>.then()</code> と混ぜていないか</td></tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <h2 id="money">お金の話</h2>
+
+  <table>
+    <tr><th style="width:220px"></th><th>無料プラン（Spark）</th></tr>
+    <tr><td>Firestore の読み取り</td><td>1日 50,000 回まで</td></tr>
+    <tr><td>Firestore の書き込み</td><td>1日 20,000 回まで</td></tr>
+    <tr><td>Hosting</td><td>保存 10GB／転送 1日 360MB</td></tr>
+  </table>
+
+  <div class="fusen" data-c="green">
+    <b>個人のサイトなら、まず超えない</b>
+    1日に5万回読まれるというのは、かなりの人気サイト。
+    そして<span class="mk">クレジットカードを登録しなければ、勝手に課金されることはない</span>
+    （上限に当たると止まるだけ）。<b>登録しないまま使うのが安全</b>。
+  </div>
+
+  <div class="fusen" data-c="pink">
+    <b>ただし「無限ループ」には注意</b>
+    読み込みを繰り返す書き方をしてしまうと、
+    <span class="mk">一晩で無料枠を使い切る</span>ことがある。
+    <code>onSnapshot</code> の中でまた読み直す、のような形になっていないか確かめる。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="when">いつ使うか・使わないか</h2>
+
+  <div class="grid2">
+    <div>
+      <div class="fusen" data-c="green">
+        <b>使うといい</b>
+        ・感想やコメントを<b>他の人に</b>書いてもらう<br>
+        ・スコアのランキング<br>
+        ・複数の端末から同じものを見たい<br>
+        ・ログインが要る
+      </div>
+    </div>
+    <div>
+      <div class="fusen" data-c="pink">
+        <b>使わなくていい</b>
+        ・自分の記録だけ → <b>localStorage</b> で十分<br>
+        ・見せるだけのサイト → <b>要らない</b><br>
+        ・練習中 → <span class="mk">先にサイトを完成させる</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fusen" data-c="blue">
+    <b>ここまで来たら、もう自走できる</b>
+    Firebase は公式のドキュメントとサンプルが多い。
+    DAY 7 でやった型（<span class="mk">イメージ → 機能 → 必要なもの → 流れ → 実装</span>）で進めれば、
+    新しい機能も同じやり方で身につく。
+    分からないところは <a href="../playground/ask-ai.html">質問文メーカー</a> で聞き方を作る。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>

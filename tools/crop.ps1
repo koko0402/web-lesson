@@ -24,7 +24,11 @@ $jobs = @(
   @("devtools-console.png",  "dt-console.png",       802, 85, 556, 220),
   @("devtools-error.png",    "dt-error.png",         802, 85, 556, 220),
   @("devtools-elements.png", "dt-elements.png",      802, 85, 556, 400),
-  @("devtools-storage.png",  "dt-storage.png",       802, 85, 556, 420)
+  @("devtools-storage.png",  "dt-storage.png",       802, 85, 556, 420),
+
+  # スマホ表示（デバイスツールバー）。押すボタンと、切り替えた後の画面
+  @("devtools-device.png",   "dt-device.png",          0, 84, 800, 628),
+  @("devtools-device.png",   "dt-device-btn.png",    802, 84, 390,  32)
 )
 
 foreach ($j in $jobs) {

@@ -1,0 +1,167 @@
+@charset "UTF-8";
+/* ============================================================
+   mock.css — 操作説明用の「画面の図」を描くためのスタイル
+   ------------------------------------------------------------
+   GitHub や Firebase の管理画面はログインしないと見られないので、
+   そのままスクショを撮ると、アカウント名やメールアドレスが写る。
+   教材に個人情報を載せないために、
+   「押す場所と、ボタンの名前」だけを図にして描き起こしている。
+
+   ※ これは写真ではなく図。ボタンの名前と並びは本物に合わせてある。
+   ※ tools/shoot.js から 1:1 で撮って assets/shots/ に置く。
+   ============================================================ */
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  font-family:-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;
+  background:#fff; color:#1f2328;
+  -webkit-font-smoothing:antialiased;
+}
+
+.shot{ position:relative; width:760px; overflow:hidden; }
+
+/* ---- 上のバー ---- */
+.top{
+  background:#24292f; color:#fff; height:44px;
+  display:flex; align-items:center; gap:12px; padding:0 14px; font-size:13px;
+}
+.top .logo{ width:22px; height:22px; border-radius:50%; background:#fff; flex:none; }
+.top .search{
+  flex:1; max-width:240px; height:26px; border-radius:6px;
+  border:1px solid #57606a; background:#24292f; color:#8d96a0;
+  font-size:12px; display:flex; align-items:center; padding:0 9px;
+}
+.top .right{ margin-left:auto; display:flex; align-items:center; gap:10px; }
+.top .ava{ width:22px; height:22px; border-radius:50%; background:#6e7781; }
+
+.top.fb{ background:#fff; color:#3c4043; border-bottom:1px solid #dadce0; }
+.top.fb .logo{ background:#ffa000; border-radius:4px; }
+.top.fb .name{ font-size:15px; font-weight:500; }
+
+/* ---- 中身 ---- */
+.body{ padding:22px 26px 26px; }
+.h1{ font-size:22px; font-weight:400; padding-bottom:12px; border-bottom:1px solid #d8dee4; margin-bottom:16px; }
+.h2{ font-size:15px; font-weight:600; margin:0 0 8px; }
+.lead{ font-size:12.5px; color:#59636e; margin-bottom:14px; line-height:1.6; }
+
+.field{ margin-bottom:14px; }
+.field label{ display:block; font-size:13px; font-weight:600; margin-bottom:5px; }
+.field .sub{ font-size:11.5px; color:#59636e; font-weight:400; margin-top:3px; }
+.input{
+  height:32px; border:1px solid #d0d7de; border-radius:6px; background:#f6f8fa;
+  display:flex; align-items:center; padding:0 11px; font-size:13px; color:#1f2328;
+}
+.input.wide{ width:100%; }
+.input.on{ background:#fff; border-color:#0969da; box-shadow:0 0 0 3px rgba(9,105,218,.25); }
+.input .ph{ color:#818b98; }
+
+.pair{ display:flex; align-items:flex-end; gap:8px; }
+.pair .slash{ font-size:19px; color:#59636e; padding-bottom:5px; }
+
+.radio{ display:flex; align-items:flex-start; gap:9px; padding:9px 0; font-size:13px; }
+.radio i{
+  width:15px; height:15px; border-radius:50%; border:1px solid #6e7781;
+  flex:none; margin-top:2px; display:block;
+}
+.radio.on i{ border:4.5px solid #0969da; }
+.radio b{ font-weight:600; }
+.radio .d{ display:block; color:#59636e; font-size:12px; margin-top:1px; }
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:32px; padding:0 16px; border-radius:6px; font-size:13px; font-weight:600;
+  background:#f6f8fa; border:1px solid #d0d7de; color:#1f2328;
+}
+.btn.green{ background:#1f883d; border-color:#1a7f37; color:#fff; }
+.btn.blue{ background:#1a73e8; border-color:#1a73e8; color:#fff; }
+.btn.sm{ height:28px; padding:0 12px; font-size:12.5px; }
+
+.drop{
+  border:2px dashed #d0d7de; border-radius:8px; background:#f6f8fa;
+  padding:34px 16px; text-align:center;
+}
+.drop .big{ font-size:15px; margin-bottom:5px; }
+.drop .link{ color:#0969da; }
+.drop.hover{ border-color:#0969da; background:#ddf4ff; }
+
+.files{ display:flex; gap:9px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+.file{
+  width:62px; text-align:center; font-size:10.5px; color:#59636e; line-height:1.35;
+}
+.file i{
+  display:block; width:40px; height:50px; margin:0 auto 4px;
+  background:#fff; border:1px solid #d0d7de; border-radius:3px;
+  position:relative;
+}
+.file i::after{
+  content:''; position:absolute; right:0; top:0; border:7px solid transparent;
+  border-top-color:#d0d7de; border-right-color:#d0d7de;
+}
+.file.folder i{ background:#dbe9f7; border-color:#a8c7e8; }
+
+/* ---- 左メニュー ---- */
+.cols{ display:flex; }
+.side{
+  width:190px; flex:none; border-right:1px solid #d8dee4; padding:14px 10px 20px; font-size:13px;
+}
+.side .grp{ font-size:11px; color:#59636e; margin:12px 0 4px 8px; }
+.side a{
+  display:block; padding:5px 9px; border-radius:6px; color:#1f2328; text-decoration:none; margin-bottom:1px;
+}
+.side a.on{ background:#ddf4ff; font-weight:600; box-shadow:inset 2px 0 0 #0969da; }
+.main{ flex:1; min-width:0; padding:16px 22px 22px; }
+
+/* ---- 出来上がりの帯 ---- */
+.live{
+  border:1px solid #1a7f37; background:#dafbe1; border-radius:8px;
+  padding:13px 16px; font-size:13px;
+}
+.live b{ display:block; font-size:14px; margin-bottom:4px; }
+.live .url{ color:#0969da; font-size:14px; word-break:break-all; }
+
+/* ---- ターミナル ---- */
+.term{
+  background:#1b2126; color:#e6e6e0; font-family:Consolas,"Courier New",monospace;
+  font-size:13px; line-height:1.75; padding:14px 16px; white-space:pre-wrap;
+}
+.term .g{ color:#8fd694; }
+.term .y{ color:#ffd479; }
+.term .c{ color:#8d9aa4; }
+.term .w{ color:#fff; font-weight:700; }
+
+/* ---- Firebase 風 ---- */
+.fbcard{
+  border:1px solid #dadce0; border-radius:8px; padding:16px 18px; margin-bottom:12px;
+}
+.fbcard h3{ font-size:14px; font-weight:500; margin-bottom:6px; }
+.fbcard p{ font-size:12.5px; color:#5f6368; line-height:1.6; }
+.fbside{ width:186px; flex:none; background:#f8f9fa; border-right:1px solid #dadce0; padding:12px 8px; font-size:13px; }
+.fbside a{ display:block; padding:7px 11px; border-radius:0 999px 999px 0; color:#3c4043; text-decoration:none; }
+.fbside a.on{ background:#fef7e0; color:#b06000; font-weight:500; }
+.fbside .grp{ font-size:11px; color:#5f6368; margin:12px 0 3px 11px; }
+
+.code{
+  background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px;
+  font-family:Consolas,"Courier New",monospace; font-size:12px; line-height:1.7;
+  padding:11px 13px; white-space:pre; overflow:hidden; color:#1f2328;
+}
+.code .k{ color:#cf222e; }
+.code .s{ color:#0a3069; }
+.code .c{ color:#6e7781; }
+
+/* ---- ①②③ の印 ----
+   座標で置くとズレるので、印を付けたい要素そのものに .mark を足す。
+   outline なので、囲っても中身の位置は動かない。 */
+.mark{
+  position:relative;
+  outline:2.5px solid #cf4436; outline-offset:3px; border-radius:7px;
+}
+.mark > .n{
+  position:absolute; right:-16px; top:-16px;
+  width:27px; height:27px; border-radius:50%;
+  background:#cf4436; color:#fff; font-size:15px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 5px rgba(0,0,0,.3); z-index:5;
+}
+.mark.left > .n{ right:auto; left:-16px; }

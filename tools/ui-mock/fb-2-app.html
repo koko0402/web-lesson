@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<title>Firebase ② ウェブアプリを足して、設定をもらう</title>
+<link rel="stylesheet" href="mock.css"></head>
+<body>
+<div class="shot">
+  <div class="top fb">
+    <div class="logo"></div>
+    <span class="name">Firebase</span>
+    <span style="font-size:13px; color:#5f6368; margin-left:10px">my-site</span>
+    <div class="right"><div class="ava"></div></div>
+  </div>
+
+  <div class="body">
+    <div style="font-size:19px; font-weight:400; margin-bottom:10px">プロジェクトの概要</div>
+
+    <p class="lead">アプリに Firebase を追加して利用を開始しましょう</p>
+    <div style="display:flex; gap:10px; margin-bottom:18px">
+      <span class="btn" style="width:56px; height:56px; border-radius:50%; font-size:20px">iOS</span>
+      <span class="btn" style="width:56px; height:56px; border-radius:50%; font-size:20px">▲</span>
+      <span class="btn mark" style="width:56px; height:56px; border-radius:50%; font-size:22px">&lt;/&gt;<span class="n">1</span></span>
+      <span class="btn" style="width:56px; height:56px; border-radius:50%; font-size:20px">⚑</span>
+    </div>
+    <p class="lead" style="margin-top:-10px">左から iOS / Android / <b>ウェブ</b> / Unity。<b>&lt;/&gt; がウェブ</b>。</p>
+
+    <div class="fbcard mark left" style="margin-top:6px">
+      <span class="n">2</span>
+      <h3>Firebase SDK の追加</h3>
+      <p style="margin-bottom:9px">この設定を、自分の JavaScript にコピーする。</p>
+      <div class="code"><span class="c">// firebaseConfig ＝ どのプロジェクトにつなぐかの住所</span>
+<span class="k">const</span> firebaseConfig = {
+  apiKey: <span class="s">"AIzaSy........................"</span>,
+  authDomain: <span class="s">"my-site-3f7a2.firebaseapp.com"</span>,
+  projectId: <span class="s">"my-site-3f7a2"</span>,
+  storageBucket: <span class="s">"my-site-3f7a2.appspot.com"</span>,
+  messagingSenderId: <span class="s">"123456789012"</span>,
+  appId: <span class="s">"1:123456789012:web:abcdef123456"</span>
+};</div>
+    </div>
+  </div>
+</div>
+</body></html>

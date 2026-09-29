@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<title>Firebase ⑤ 公開する（ターミナル）</title>
+<link rel="stylesheet" href="mock.css"></head>
+<body>
+<div class="shot" style="width:720px">
+  <div style="background:#2b3238; color:#c8d0d6; font-size:12px; padding:6px 12px;
+              font-family:Consolas,monospace">ターミナル（VSCode の「表示 → ターミナル」でも出せる）</div>
+
+  <div class="term"><span class="c"># 1. 道具を入れる（1回だけ。Node.js が先に必要）</span>
+<span class="g">&gt;</span> <span class="w">npm install -g firebase-tools</span>
+
+<span class="c"># 2. Googleアカウントでログイン（ブラウザが開く）</span>
+<span class="g">&gt;</span> <span class="w">firebase login</span>
+<span class="y">✔</span>  Success! Logged in as you@example.com
+
+<span class="c"># 3. このフォルダを、さっき作ったプロジェクトにつなぐ</span>
+<span class="g">&gt;</span> <span class="w">firebase init hosting</span>
+? Please select an option: <span class="y">Use an existing project</span>
+? Select a default Firebase project: <span class="y">my-site-3f7a2</span>
+? What do you want to use as your public directory? <span class="y">.</span>        <span class="c">← index.html がある場所</span>
+? Configure as a single-page app? <span class="y">No</span>
+? Set up automatic builds with GitHub? <span class="y">No</span>
+? File ./index.html already exists. Overwrite? <span class="y">No</span>   <span class="c">← ここは必ず No</span>
+
+<span class="c"># 4. 公開する（直したら、毎回これを打つだけ）</span>
+<span class="g">&gt;</span> <span class="w">firebase deploy</span>
+
+<span class="y">✔</span>  Deploy complete!
+
+Hosting URL: <span class="g">https://my-site-3f7a2.web.app</span>
+</div>
+</div>
+</body></html>

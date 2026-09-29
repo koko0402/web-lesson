@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>写真のページ ── 軽くする・選ぶ・貼る</title>
+<link rel="stylesheet" href="playground.css">
+<style>
+  /* ---- 置き場 ---- */
+  .drop{
+    border:2.5px dashed rgba(44,58,66,.32); border-radius:10px;
+    background:rgba(255,255,255,.6);
+    padding:28px 20px; text-align:center; cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .drop:hover, .drop.over{ border-color:var(--red); background:rgba(207,68,54,.06); }
+  .drop b{ display:block; font-size:19px; margin-bottom:4px; }
+  .drop span{ font-size:14px; color:var(--ink-2); }
+  .drop input{ display:none; }
+
+  .opts{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; margin:16px 0 4px; }
+  .opt{ display:grid; gap:3px; }
+  .opt label{ font-size:12.5px; color:var(--ink-2); }
+
+  /* ---- 結果 ---- */
+  .shots{ display:grid; gap:12px; margin-top:16px; }
+  .shot{
+    display:grid; grid-template-columns:96px 1fr auto; gap:14px; align-items:center;
+    background:rgba(255,255,255,.72); border:1.5px solid rgba(44,58,66,.2);
+    border-radius:8px; padding:11px 13px;
+  }
+  @media (max-width:640px){ .shot{ grid-template-columns:70px 1fr; } .shot .dl{ grid-column:span 2; } }
+  .shot img{
+    width:96px; height:96px; object-fit:contain; background:#f0ebe0;
+    border-radius:6px; display:block;
+  }
+  @media (max-width:640px){ .shot img{ width:70px; height:70px; } }
+  .shot .nm{ font-size:14px; font-weight:600; word-break:break-all; line-height:1.4; }
+  .shot .sz{ font-size:13px; margin-top:4px; font-family:var(--f-code); }
+  .shot .sz .before{ color:var(--ink-2); text-decoration:line-through; }
+  .shot .sz .after{ color:var(--green); font-weight:700; }
+  .shot .sz .pct{
+    background:var(--green); color:#fff; border-radius:999px;
+    padding:1px 9px; font-size:11.5px; margin-left:6px;
+  }
+  .shot .sz .pct.bad{ background:#a8442f; }
+  .shot .dl{
+    font:inherit; font-size:13px; text-decoration:none; text-align:center;
+    background:var(--red); color:#fff; border-radius:999px; padding:6px 16px; white-space:nowrap;
+  }
+  .shot .dl:hover{ filter:brightness(1.1); }
+  .shot .wait{ font-size:13px; color:var(--ink-2); }
+
+  .total{
+    margin-top:12px; font-size:15px; padding:11px 15px;
+    background:#d5efce; border-radius:7px; display:none;
+  }
+  .total.on{ display:block; }
+
+  /* ---- 表 ---- */
+  .tbl2{ width:100%; border-collapse:collapse; margin:10px 0; }
+  .tbl2 th{
+    text-align:left; font-size:13px; color:var(--ink-2); font-weight:600;
+    border-bottom:2px solid rgba(44,58,66,.28); padding:6px 10px;
+  }
+  .tbl2 td{ border-bottom:1px solid rgba(44,58,66,.16); padding:8px 10px; font-size:14px; vertical-align:top; }
+  .tbl2 tr:hover td{ background:rgba(255,255,255,.55); }
+  .tbl2 .ext{ font-family:var(--f-code); font-weight:700; color:var(--blue); white-space:nowrap; }
+  .maru{ color:var(--green); font-weight:700; }
+  .batu{ color:var(--red); font-weight:700; }
+
+  .good{ background:#eaf5e6; }
+  .bad{ background:#fdeeea; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ さわって試す</div>
+  <h1>写真のページ</h1>
+  <p class="lead">スマホで撮った写真は、そのままだと<b>1枚 4〜8MB</b>ある。<br>
+    10枚貼ったら<b>50MB</b>。スマホの回線だと、開くまで1分くらいかかる。ここで軽くしてから使う。</p>
+
+  <div class="toc">
+    <a href="#tool">① 軽くする</a>
+    <a href="#kind">② 形式の使い分け</a>
+    <a href="#size">③ 大きさの目安</a>
+    <a href="#write">④ HTMLの書き方</a>
+    <a href="#alt">⑤ alt の書き方</a>
+    <a href="#use">⑥ 使っていい写真</a>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="tool">① 軽くする</h2>
+
+  <div class="fusen" data-c="green">
+    <b>どこにも送られない</b>
+    この変換は<span class="mk">全部このブラウザの中だけ</span>でやっている。
+    写真がインターネットに出ることはないし、俺も見られない。
+    ネットを切ったままでも動く。
+  </div>
+
+  <label class="drop" id="drop">
+    <b>ここに写真を落とす</b>
+    <span>押してファイルを選んでもいい。何枚でもまとめてOK</span>
+    <input type="file" id="file" accept="image/*" multiple>
+  </label>
+
+  <div class="opts">
+    <div class="opt">
+      <label for="maxw">よこ幅の上限</label>
+      <select id="maxw">
+        <option value="1600">1600px（大きく載せる写真）</option>
+        <option value="1200" selected>1200px（ふつう・おすすめ）</option>
+        <option value="800">800px（カードや一覧）</option>
+        <option value="400">400px（アイコン・小さい画像）</option>
+        <option value="0">そのまま（縮めない）</option>
+      </select>
+    </div>
+    <div class="opt">
+      <label for="fmt">形式</label>
+      <select id="fmt">
+        <option value="image/webp" selected>webp（いちばん軽い・おすすめ）</option>
+        <option value="image/jpeg">jpeg（どこでも確実に見られる）</option>
+        <option value="image/png">png（透明を残したいとき）</option>
+      </select>
+    </div>
+    <div class="opt" style="min-width:210px">
+      <label for="q">画質 <span id="qv" style="font-family:var(--f-code)">80</span></label>
+      <input type="range" id="q" min="40" max="100" value="80" style="accent-color:var(--red)">
+    </div>
+    <button type="button" class="btn" id="clear">消す</button>
+  </div>
+  <p class="note">画質は 80 くらいで、見た目はほとんど変わらないのに半分以下になる。
+    迷ったら触らなくていい。</p>
+
+  <div class="shots" id="shots"></div>
+  <div class="total" id="total"></div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="kind">② 形式の使い分け</h2>
+  <p class="note">拡張子ごとに得意なことが違う。<b>写真は webp、図は svg</b>、と覚えておけばだいたい合っている。</p>
+
+  <table class="tbl2">
+    <tr>
+      <th style="width:90px">拡張子</th><th style="width:26%">得意なもの</th>
+      <th style="width:70px">透明</th><th style="width:80px">大きさ</th><th>ひとこと</th>
+    </tr>
+    <tr class="good">
+      <td class="ext">.webp</td><td>写真・イラスト どちらも</td>
+      <td class="maru">できる</td><td class="maru">軽い</td>
+      <td><b>いま使うならこれ。</b>jpg の半分くらいになる。今のブラウザなら全部見られる</td>
+    </tr>
+    <tr>
+      <td class="ext">.jpg</td><td>写真</td>
+      <td class="batu">できない</td><td>ふつう</td>
+      <td>昔からある形式。とにかく確実。カメラの写真はだいたいこれ</td>
+    </tr>
+    <tr>
+      <td class="ext">.png</td><td>図・スクショ・ロゴ</td>
+      <td class="maru">できる</td><td class="batu">重い</td>
+      <td>写真を png にすると<b>とても重くなる</b>。透明が要るときだけ</td>
+    </tr>
+    <tr class="good">
+      <td class="ext">.svg</td><td>アイコン・ロゴ・図形</td>
+      <td class="maru">できる</td><td class="maru">すごく軽い</td>
+      <td>拡大しても<b>ぜったいにボケない</b>。中身は文字なので直接書き換えられる</td>
+    </tr>
+    <tr>
+      <td class="ext">.gif</td><td>短いパラパラ動画</td>
+      <td>△</td><td class="batu">重い</td>
+      <td>色が256色しか出ない。今は動画か webp のほうがいい</td>
+    </tr>
+    <tr>
+      <td class="ext">.avif</td><td>写真</td>
+      <td class="maru">できる</td><td class="maru">最強に軽い</td>
+      <td>webp よりさらに軽い。まだ対応していない環境もあるので、今は webp で十分</td>
+    </tr>
+    <tr>
+      <td class="ext">.heic</td><td>（iPhoneの写真）</td>
+      <td>—</td><td>—</td>
+      <td><b>Webでは使えない</b>。iPhoneから送るときは「互換性優先」にするか、ここで変換する</td>
+    </tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <h2 id="size">③ 大きさの目安</h2>
+  <p class="note">「よこ幅 何px にすればいいか」は、<b>画面のどこに置くか</b>で決まる。
+    置く場所より大きい写真を用意しても、ただ重くなるだけで何も良くならない。</p>
+
+  <table class="tbl2">
+    <tr>
+      <th style="width:26%">どこに置く</th><th style="width:130px">よこ幅</th>
+      <th style="width:120px">重さの目安</th><th>ひとこと</th>
+    </tr>
+    <tr><td>いちばん上の大きい写真</td><td class="ext">1600px</td><td>〜300KB</td>
+      <td>ここだけは大きくていい。ただし1枚まで</td></tr>
+    <tr><td>記事の中の写真</td><td class="ext">1200px</td><td>〜200KB</td>
+      <td><b>迷ったらこれ</b>。だいたい足りる</td></tr>
+    <tr><td>カード・一覧のタイル</td><td class="ext">800px</td><td>〜100KB</td>
+      <td>小さく並ぶので、これで十分きれいに見える</td></tr>
+    <tr><td>プロフィールのアイコン</td><td class="ext">400px</td><td>〜50KB</td>
+      <td>丸く切り抜かれることが多いので正方形で</td></tr>
+    <tr><td>ロゴ・アイコン</td><td class="ext">svg</td><td>〜10KB</td>
+      <td>大きさの概念がない。どこまで拡大してもきれい</td></tr>
+  </table>
+
+  <div class="fusen" data-c="blue">
+    <b>ページ全体で 1〜2MB まで</b>
+    写真も CSS も JS も全部足した合計。これを超えると、スマホでは目に見えて遅くなる。
+    <span class="mk">写真1枚が 1MB を超えていたら、それはまず大きすぎる</span>。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="write">④ HTMLの書き方</h2>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3 style="margin-top:0">これを全部書く</h3>
+      <div class="outcode">&lt;<span class="s">img</span>
+  <span class="p">src</span>=<span class="v">"img/neko.webp"</span>
+  <span class="p">alt</span>=<span class="v">"窓辺で寝ている茶色の猫"</span>
+  <span class="p">width</span>=<span class="v">"1200"</span> <span class="p">height</span>=<span class="v">"800"</span>
+  <span class="p">loading</span>=<span class="v">"lazy"</span>&gt;</div>
+
+      <table class="tbl2" style="margin-top:12px">
+        <tr><th style="width:110px">書くもの</th><th>なぜ書くか</th></tr>
+        <tr><td class="ext">src</td><td>どのファイルか。<b>ここを間違えると出ない</b></td></tr>
+        <tr><td class="ext">alt</td><td>見えない人・出なかったときのための説明（⑤へ）</td></tr>
+        <tr><td class="ext">width<br>height</td>
+          <td>写真が届く前に<b>場所を空けておける</b>。書かないと、読み込んだ瞬間に下の文がガクッとずれる</td></tr>
+        <tr><td class="ext">loading</td><td><code>lazy</code> と書くと、画面に入るまで読まない。下のほうの写真に効く</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="fusen" data-c="pink">
+        <b>出ないときは、だいたいパス</b>
+        <code>img/neko.webp</code> と書いたら、<b>HTMLと同じ場所にある img フォルダ</b>の中を見に行く。
+        <span class="mk">大文字小文字も区別される</span>（<code>Neko.webp</code> は別物）。
+      </div>
+      <div class="fusen">
+        <b>ファイル名は半角の英数字で</b>
+        <span class="batu">✕</span> <code>IMG_2831 のコピー.JPG</code>／<code>猫の写真.jpg</code><br>
+        <span class="maru">○</span> <code>neko.webp</code>／<code>cat-window.webp</code><br>
+        日本語やスペースは、環境によって<b>出たり出なかったり</b>する。
+      </div>
+      <div class="fusen" data-c="green">
+        <b>はみ出さないようにする</b>
+        CSS にこの2行を入れておくと、どんな大きさの写真でも枠に収まる。
+        <div class="outcode" style="margin-top:6px"><span class="s">img</span> {
+  <span class="p">max-width</span>: <span class="v">100%</span>;
+  <span class="p">height</span>: <span class="v">auto</span>;
+}</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="alt">⑤ alt の書き方</h2>
+  <p class="note"><b>その写真が見えない人に、電話で説明するつもり</b>で書く。
+    目が見えない人が使う読み上げソフトは、ここを読む。写真が出なかったときも、ここが出る。</p>
+
+  <table class="tbl2">
+    <tr><th style="width:44%">こう書く</th><th>なぜ</th></tr>
+    <tr class="bad"><td><code>alt="画像"</code>／<code>alt="IMG_2831"</code></td>
+      <td>何も伝わらない。<b>書いてないのと同じ</b></td></tr>
+    <tr class="bad"><td><code>alt="猫の写真"</code></td>
+      <td>「写真」は言わなくていい。<b>どんな猫か</b>が知りたい</td></tr>
+    <tr class="good"><td><code>alt="窓辺で丸くなって寝ている茶トラの猫"</code></td>
+      <td>見えなくても、頭の中に絵が浮かぶ</td></tr>
+    <tr class="good"><td><code>alt=""</code></td>
+      <td><b>飾りの画像はこれが正解。</b>空にすると読み上げが飛ばしてくれる。
+        <span class="mk">属性ごと消すのはダメ</span>（ファイル名を読み上げてしまう）</td></tr>
+    <tr class="good"><td><code>alt="もくじに戻る"</code></td>
+      <td>リンクになっている画像は、<b>見た目ではなく行き先</b>を書く</td></tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <h2 id="use">⑥ 使っていい写真</h2>
+
+  <div class="fusen" data-c="pink">
+    <b>ネットで拾った写真は使えない</b>
+    検索して出てきた写真には、撮った人の権利がある。
+    <span class="mk">練習でも、公開するなら使わない</span>。
+    「自分で撮った」「自分で描いた」「フリー素材」の3つだけにしておけば、まず問題にならない。
+  </div>
+
+  <table class="tbl2">
+    <tr><th style="width:26%">どこから</th><th style="width:110px">公開してOK</th><th>気をつけること</th></tr>
+    <tr class="good"><td>自分で撮った・描いた</td><td class="maru">OK</td>
+      <td>いちばん安全。人が写っているなら、その人に確認する</td></tr>
+    <tr class="good"><td>フリー素材サイト</td><td class="maru">OK</td>
+      <td>サイトごとに条件が違う。<b>「クレジット表記が要るか」だけは見る</b></td></tr>
+    <tr class="bad"><td>検索で出てきた画像</td><td class="batu">ダメ</td>
+      <td>ほぼ全部、誰かのもの</td></tr>
+    <tr class="bad"><td>推し・芸能人・アニメの画像</td><td class="batu">ダメ</td>
+      <td>肖像権と著作権。<b>推しの紹介サイトを作るなら、写真は自分で描くか、文字だけで作る</b></td></tr>
+    <tr class="bad"><td>AIで作った画像</td><td>△</td>
+      <td>使ったサービスの規約による。学習元の問題もあるので、公開するなら調べてから</td></tr>
+  </table>
+
+  <h3>よく使われるフリー素材サイト</h3>
+  <table class="tbl2" id="freeSites"></table>
+
+  <div class="fusen" data-c="blue">
+    <b>推しの紹介サイトを作るときは</b>
+    <a href="../final/oshi/index.html">課題ページ</a>にも書いたが、
+    <span class="mk">公式の写真は貼らない</span>。自分で描いたイラスト、自分で撮ったグッズの写真、
+    文字と色だけのデザイン——このどれかで作る。
+    フッターに「ファンが作ったページで、公式とは関係ない」と書いておくこと。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+
+<script>
+'use strict';
+
+const $  = q => document.querySelector(q);
+const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/* ============================================================
+   ① 軽くする
+   ------------------------------------------------------------
+   canvas に描き直して、別の形式で出し直しているだけ。
+   ファイルはこのブラウザから出ない。
+   ============================================================ */
+
+const kb = n => n < 1024 * 1024
+  ? (n / 1024).toFixed(0) + ' KB'
+  : (n / 1024 / 1024).toFixed(2) + ' MB';
+
+let totalBefore = 0, totalAfter = 0;
+const urls = [];      /* あとで開放するため覚えておく */
+
+/** 1枚ぶんの行を先に出しておいて、終わったら中身を差し替える */
+function addRow(file) {
+  const row = document.createElement('div');
+  row.className = 'shot';
+  row.innerHTML =
+    '<img alt="">' +
+    `<div><div class="nm">${esc(file.name)}</div><div class="sz wait">変換中…</div></div>` +
+    '<span class="wait"></span>';
+  $('#shots').appendChild(row);
+  return row;
+}
+
+async function shrink(file) {
+  const row = addRow(file);
+
+  /* 向き（縦横）の情報を読んで、そのとおりに描く */
+  let bmp;
+  try {
+    bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  } catch {
+    bmp = await new Promise((res, rej) => {
+      const im = new Image();
+      im.onload = () => res(im);
+      im.onerror = rej;
+      im.src = URL.createObjectURL(file);
+    }).catch(() => null);
+  }
+  if (!bmp) {
+    row.querySelector('.sz').textContent = 'この画像は読めなかった';
+    return;
+  }
+
+  const sw = bmp.width, sh = bmp.height;
+  const max = Number($('#maxw').value);
+  const scale = (max && sw > max) ? max / sw : 1;
+  const w = Math.round(sw * scale), h = Math.round(sh * scale);
+
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const g = cv.getContext('2d');
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(bmp, 0, 0, w, h);
+
+  const type = $('#fmt').value;
+  const q = Number($('#q').value) / 100;
+  const blob = await new Promise(res => cv.toBlob(res, type, q));
+  if (!blob) {
+    row.querySelector('.sz').textContent = 'この形式にできなかった';
+    return;
+  }
+
+  const url = URL.createObjectURL(blob);
+  urls.push(url);
+  const ext = (blob.type.split('/')[1] || 'webp').replace('jpeg', 'jpg');
+  const name = file.name.replace(/\.[^.]+$/, '') + '.' + ext;
+  /* 99.7% を「100% 減」と出すと嘘くさいので、そこだけ小数を出す */
+  const raw = (1 - blob.size / file.size) * 100;
+  const pct = raw >= 99.5 ? raw.toFixed(1) : Math.round(raw);
+
+  totalBefore += file.size;
+  totalAfter  += blob.size;
+
+  row.querySelector('img').src = url;
+  row.querySelector('.nm').textContent = name;
+  row.querySelector('.sz').className = 'sz';
+  row.querySelector('.sz').innerHTML =
+    `<span class="before">${kb(file.size)}</span> → <span class="after">${kb(blob.size)}</span>` +
+    `<span class="pct${raw <= 0 ? ' bad' : ''}">${raw > 0 ? pct + '% 減' : '減らなかった'}</span>` +
+    `<br><span style="color:var(--ink-2)">${sw}×${sh} → ${w}×${h}px</span>`;
+
+  const a = document.createElement('a');
+  a.className = 'dl';
+  a.href = url;
+  a.download = name;
+  a.textContent = '↓ 保存';
+  row.lastElementChild.replaceWith(a);
+
+  showTotal();
+}
+
+function showTotal() {
+  if (!totalBefore) { $('#total').classList.remove('on'); return; }
+  const r = (1 - totalAfter / totalBefore) * 100;
+  const pct = r >= 99.5 ? r.toFixed(1) : Math.round(r);
+  $('#total').classList.add('on');
+  $('#total').innerHTML =
+    `ぜんぶで <b>${kb(totalBefore)}</b> → <b>${kb(totalAfter)}</b>（${pct}% 減）。` +
+    (totalAfter > 2 * 1024 * 1024
+      ? ' <b>まだ2MBを超えている。</b>よこ幅をもう1段小さくするか、枚数を減らす。'
+      : ' この軽さなら、スマホでもすぐ開く。');
+}
+
+async function handle(files) {
+  for (const f of files) {
+    if (!f.type.startsWith('image/')) continue;
+    await shrink(f);
+  }
+}
+
+$('#file').addEventListener('change', e => { handle(e.target.files); e.target.value = ''; });
+
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.add('over');
+}));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.remove('over');
+}));
+drop.addEventListener('drop', e => handle(e.dataTransfer.files));
+
+$('#q').addEventListener('input', () => { $('#qv').textContent = $('#q').value; });
+
+$('#clear').addEventListener('click', () => {
+  $('#shots').innerHTML = '';
+  for (const u of urls) URL.revokeObjectURL(u);
+  urls.length = 0;
+  totalBefore = totalAfter = 0;
+  showTotal();
+});
+
+
+/* ============================================================
+   ⑥ フリー素材サイト
+   ============================================================ */
+const FREE = [
+  ['いらすとや', 'イラスト', 'https://www.irasutoya.com/',
+   '日本でいちばん見かけるやつ。1つの制作物で21点までなら無料'],
+  ['Unsplash', '写真', 'https://unsplash.com/ja',
+   '高画質の写真。クレジット表記は要らないが、書くと喜ばれる'],
+  ['Pexels', '写真・動画', 'https://www.pexels.com/ja-jp/',
+   '写真も動画もある。日本語で探せる'],
+  ['Pixabay', '写真・イラスト', 'https://pixabay.com/ja/',
+   '数が多い。写真もイラストも素材もある'],
+  ['O-DAN', '写真（横断検索）', 'https://o-dan.net/ja/',
+   '複数のフリー素材サイトを<b>まとめて検索</b>できる。まずここで探すと早い'],
+  ['ぱくたそ', '写真（日本）', 'https://www.pakutaso.com/',
+   '日本の風景や人物。日本語のサイトを作るときに合う'],
+];
+
+$('#freeSites').innerHTML =
+  '<tr><th style="width:20%">サイト</th><th style="width:16%">何がある</th><th>ひとこと</th></tr>' +
+  FREE.map(([n, k, u, d]) => `
+    <tr>
+      <td><a href="${esc(u)}" target="_blank" rel="noopener"><b>${esc(n)}</b></a></td>
+      <td>${esc(k)}</td>
+      <td>${d}</td>
+    </tr>`).join('') +
+  '<tr><td colspan="3" class="note" style="font-size:13px">' +
+  '条件は変わることがある。<b>使う前に、そのサイトの利用規約を一度は見ること。</b></td></tr>';
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<title>Firebase ④ ルールで守る</title>
+<link rel="stylesheet" href="mock.css"></head>
+<body>
+<div class="shot">
+  <div class="top fb">
+    <div class="logo"></div>
+    <span class="name">Firebase</span>
+    <span style="font-size:13px; color:#5f6368; margin-left:10px">my-site</span>
+    <div class="right"><div class="ava"></div></div>
+  </div>
+
+  <div class="body">
+    <div style="font-size:19px; font-weight:400; margin-bottom:8px">Cloud Firestore</div>
+    <div style="font-size:13px; color:#5f6368; margin-bottom:12px">
+      データ　・　<b class="mark left" style="color:#b06000; padding:2px 4px">ルール<span class="n">1</span></b>　・　インデックス　・　使用状況
+    </div>
+
+    <div class="code mark left" style="font-size:12.5px; line-height:1.8">
+      <span class="n">2</span><span class="k">rules_version</span> = <span class="s">'2'</span>;
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    <span class="c">// 感想の置き場：だれでも読める。書き込みは1〜200文字まで</span>
+    match /kansou/{id} {
+      allow read: <span class="k">if</span> true;
+      allow create: <span class="k">if</span> request.resource.data.text is string
+                    &amp;&amp; request.resource.data.text.size() &gt; 0
+                    &amp;&amp; request.resource.data.text.size() &lt; 200;
+      allow update, delete: <span class="k">if</span> false;   <span class="c">// 消したり直したりは禁止</span>
+    }
+  }
+}</div>
+
+    <div style="text-align:right; margin-top:12px">
+      <span class="btn blue mark">公開<span class="n">3</span></span>
+    </div>
+
+    <p style="font-size:12px; color:#5f6368; margin-top:10px; line-height:1.7">
+      ここを書かないと、<b style="color:#c5221f">誰でもデータを全部消せる</b>。
+      apiKey は公開されるものなので、守るのはこのルールの役目。
+    </p>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>公開する｜Webのつくりかた</title>
+<link rel="stylesheet" href="../assets/ref.css">
+<style>
+  .shot{ border:1.5px solid rgba(44,58,66,.3); border-radius:8px; overflow:hidden;
+         box-shadow:3px 5px 0 rgba(44,58,66,.12); margin:14px 0 18px; background:#fff; }
+  .shot img{ display:block; width:100%; }
+  .shot .cap{ font-size:13px; color:var(--ink-2); padding:8px 12px; border-top:1px solid rgba(44,58,66,.15);
+              background:rgba(255,255,255,.7); }
+  .big-step{ display:flex; align-items:center; gap:14px; margin:38px 0 12px; }
+  .big-step .n{ width:44px; height:44px; flex:none; border-radius:50%; background:var(--red); color:#fff;
+                display:grid; place-items:center; font-size:22px; font-weight:600; transform:rotate(-4deg); }
+  .big-step h2{ margin:0; }
+  .big-step h2::before{ display:none; }
+  .ok{ background:#e8f4e8; border-left:5px solid var(--green); padding:12px 16px; margin:14px 0;
+       font-size:16px; border-radius:0 6px 6px 0; }
+  .ok b{ color:var(--green); }
+  .drawn{ font-size:12.5px; color:var(--ink-2); background:rgba(44,58,66,.06);
+          border-radius:6px; padding:9px 13px; margin:12px 0 18px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="crumb"><a href="../index.html">もくじ</a> ／ 資料</div>
+  <h1>公開する</h1>
+  <p class="lead">自分のパソコンの中にあるだけのサイトを、<b>URLを送れば誰でも開ける状態</b>にする。<br>
+    どちらも<span class="mk">無料</span>。早いほうは<b>15分</b>で終わる。</p>
+
+  <div class="toc">
+    <a href="#where">どこに出すか</a>
+    <a href="#before">出す前の確認</a>
+    <a href="#gh">A. GitHub Pages</a>
+    <a href="#fb">B. Firebase Hosting</a>
+    <a href="#after">公開したあと</a>
+    <a href="#trouble">うまくいかないとき</a>
+  </div>
+
+  <div class="drawn">
+    このページに出てくる<b>管理画面の絵は、実際の画面に合わせて描いたもの</b>。
+    本物はログインしないと見られないので、写真にするとアカウント名やメールアドレスが写ってしまう。
+    <b>ボタンの名前と場所は本物と同じ</b>にしてあるので、そのとおりに押せば進める。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="where">どこに出すか</h2>
+
+  <table>
+    <tr><th style="width:150px">場所</th><th style="width:110px">難しさ</th><th style="width:120px">要るもの</th><th>向いているとき</th></tr>
+    <tr>
+      <td><b>GitHub Pages</b></td>
+      <td><b style="color:var(--green)">かんたん</b><br><span class="note">15分</span></td>
+      <td>ブラウザだけ</td>
+      <td><b>まずはこれ。</b>HTML・CSS・JS だけのサイトなら、これで何も困らない。
+        ファイルをドラッグして置くだけ</td>
+    </tr>
+    <tr>
+      <td><b>Firebase Hosting</b></td>
+      <td>ふつう<br><span class="note">30分</span></td>
+      <td>Node.js<br>ターミナル</td>
+      <td>あとで<b>Firestore や ログイン機能</b>を足すつもりのとき。
+        同じプロジェクトにまとめられる</td>
+    </tr>
+    <tr>
+      <td>Netlify / Vercel</td>
+      <td>かんたん</td>
+      <td>ブラウザだけ</td>
+      <td>どちらも同じようにできる。GitHub Pages で困っていなければ、覚えなくていい</td>
+    </tr>
+  </table>
+
+  <div class="fusen" data-c="blue">
+    <b>どれを選んでも「ファイルを置くだけ」</b>
+    HTML・CSS・JS は<span class="mk">見る人のブラウザの中で動く</span>ので、
+    置き場所は本当にただの置き場所でいい。
+    （PHP や Python で裏側を書いた場合は、話がまるごと変わる）
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="before">出す前の確認（3つだけ）</h2>
+
+  <ol class="step">
+    <li><b>個人情報が書かれていないか</b><br>
+      本名・住所・学校名・電話番号・通っている場所。<span class="mk">一度出すと、消しても誰かの手元に残る</span>。
+      コメントアウトの中も見る（<code>&lt;!-- --&gt;</code> の中身も全部見えている）</li>
+    <li><b>画像は自分のものか</b><br>
+      拾ってきた画像・推しの写真は外す。
+      くわしくは <a href="../playground/image-lab.html">写真のページ</a> の⑥</li>
+    <li><b>ファイル名が半角の英数字か</b><br>
+      <code>写真1.JPG</code> のような名前は、公開先で<b>出ないことがある</b>。
+      <code>photo1.webp</code> のようにしておく</li>
+  </ol>
+
+  <div class="fusen" data-c="pink">
+    <b>パスワードや鍵を書いていないか</b>
+    JavaScript に書いたものは<span class="mk">全部、見に来た人から読める</span>。
+    「JSの中だから見えない」ということは<b>一切ない</b>。
+    F12 を押せば誰でも中身が見える、と思っておくこと。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">A</div><h2 id="gh">GitHub Pages で公開する</h2></div>
+  <p>ブラウザだけで終わる。<b>コマンドは1つも打たない</b>。</p>
+
+  <h3>1. アカウントを作る</h3>
+  <ol class="step">
+    <li><code>github.com</code> を開いて <b>Sign up</b></li>
+    <li>メールアドレス・パスワード・ユーザー名を決める<br>
+      <span class="note">ユーザー名は<b>URLの一部になる</b>（<code>https://<b>ユーザー名</b>.github.io/…</code>）。
+        本名は避けて、英数字で短いものにする</span></li>
+    <li>届いたメールのコードを入れて完了</li>
+  </ol>
+
+  <h3>2. 置き場（リポジトリ）を作る</h3>
+  <p>右上の <b>＋ → New repository</b>。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/gh-1-new.png" alt="GitHubの新しいリポジトリを作る画面。名前の欄・Publicの選択・Create repositoryボタン">
+    <div class="cap">
+      <b>①</b> 名前を半角英数字で（例 <code>my-site</code>）。スペースや日本語は使わない
+      <b>②</b> <b>Public</b> のまま（Private だと無料では公開できない）
+      <b>③</b> <b>Create repository</b> を押す
+    </div>
+  </div>
+
+  <h3>3. ファイルを置く</h3>
+  <p>できた画面の <b>uploading an existing file</b>（または <b>Add file → Upload files</b>）を押す。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/gh-2-upload.png" alt="GitHubのファイルアップロード画面。点線の枠にファイルをドラッグしているところ">
+    <div class="cap">
+      <b>①</b> 作ったフォルダの<b>中身</b>を、まるごとここへドラッグ。
+      <span class="mk">フォルダごとではなく、中身</span>（<code>index.html</code> が一番上に来るように）
+      <b>②</b> <b>Commit changes</b> を押すと保存される
+    </div>
+  </div>
+
+  <div class="fusen">
+    <b>「フォルダごと」だとうまくいかない</b>
+    <code>my-site</code> フォルダごと入れると、URLが <code>…/my-site/my-site/</code> になって
+    <span class="mk">トップページが表示されない</span>。
+    フォルダを開いて、<b>中の index.html・style.css・img フォルダ</b>を選んで入れる。
+  </div>
+
+  <h3>4. 公開を on にする</h3>
+  <p>上の <b>Settings</b> → 左のメニューの <b>Pages</b>。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/gh-3-pages.png" alt="GitHubのSettings内Pages画面。Branchをmainにして Save を押すところ">
+    <div class="cap">
+      <b>①</b> 左メニューの <b>Pages</b>
+      <b>②</b> Branch を <code>main</code> に
+      <b>③</b> <b>Save</b>
+    </div>
+  </div>
+
+  <h3>5. 待つ</h3>
+  <div class="shot" style="max-width:520px">
+    <img src="../assets/shots/gh-4-live.png" alt="公開されたURLが表示されている緑色の帯">
+    <div class="cap">1〜2分で、この緑の帯にURLが出る。これが自分のサイトのURL。</div>
+  </div>
+
+  <div class="ok"><b>できたら</b> … そのURLをスマホで開いてみる。
+    同じものが出れば公開できている。</div>
+
+  <h3>直したあとは</h3>
+  <p>同じリポジトリで <b>Add file → Upload files</b> に、直したファイルを入れ直して
+    <b>Commit changes</b>。<span class="mk">1〜2分で反映される</span>。同じ名前のファイルは上書きされる。</p>
+
+
+  <!-- ============================================================ -->
+  <div class="big-step"><div class="n">B</div><h2 id="fb">Firebase Hosting で公開する</h2></div>
+  <p>あとで <b>みんなで共有するデータ</b>（感想・スコア・ログイン）を足すつもりなら、
+    最初からこちらにしておくと、同じプロジェクトの中でまとまる。<br>
+    使い方そのものは <a href="firebase.html">Firebase のページ</a> にまとめた。</p>
+
+  <h3>1. プロジェクトを作る</h3>
+  <p><code>console.firebase.google.com</code> を開いて、Googleアカウントでログイン →
+    <b>プロジェクトを追加</b>。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-1-new.png" alt="Firebaseのプロジェクト作成画面。プロジェクト名の入力欄とアナリティクスのスイッチ">
+    <div class="cap">
+      <b>①</b> 名前を入れる（英数字）。下に出る<b>プロジェクトID</b>がURLになる
+      <b>②</b> アナリティクスは<b>オフ</b>のまま <b>続行</b>
+    </div>
+  </div>
+
+  <h3>2. パソコンに道具を入れて、公開する</h3>
+  <p>先に <code>nodejs.org</code> から <b>Node.js（LTS）</b>を入れておく。
+    そのあと、VSCode の <b>表示 → ターミナル</b> を開いて、上から順に打つ。</p>
+
+  <div class="shot">
+    <img src="../assets/shots/fb-5-deploy.png" alt="ターミナルでfirebase-toolsを入れ、login・init hosting・deploy を実行している画面">
+    <div class="cap">
+      打つのは <b>太字の4行だけ</b>。<code>?</code> で始まる行は質問なので、
+      矢印キーで選んで Enter。<span class="mk">最後の Overwrite? は必ず No</span>
+      （Yes にすると自分の index.html が消される）。
+    </div>
+  </div>
+
+  <div class="ok"><b>できたら</b> … 最後に出る
+    <code>https://〇〇.web.app</code> が自分のサイトのURL。</div>
+
+  <h3>直したあとは</h3>
+  <p>ターミナルで <code>firebase deploy</code> を打つだけ。<b>数十秒で反映される</b>（GitHub Pages より速い）。</p>
+
+  <div class="fusen" data-c="green">
+    <b>無料の範囲</b>
+    Firebase の無料プラン（Spark）は、個人サイトなら<span class="mk">まず超えない</span>。
+    超えそうになると Google からメールが来るし、
+    クレジットカードを登録していなければ<b>勝手に課金されることはない</b>（止まるだけ）。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="after">公開したあと</h2>
+
+  <table>
+    <tr><th style="width:190px">やること</th><th>やり方</th></tr>
+    <tr><td><b>スマホで開く</b></td>
+      <td>いちばん大事。URLを自分に送って、実機で見る。
+        <span class="mk">パソコンで大丈夫でも、スマホで崩れていることがよくある</span></td></tr>
+    <tr><td><b>横スクロールが出ていないか</b></td>
+      <td>指で左右に動いてしまうなら、どこかがはみ出している。
+        <a href="../playground/snippets.html#g5">便利CSS の「スマホ対応」</a>を見る</td></tr>
+    <tr><td><b>読み込みの速さ</b></td>
+      <td>開くのに3秒以上かかるなら、たいてい<b>写真が重い</b>。
+        <a href="../playground/image-lab.html">写真のページ</a>で軽くする</td></tr>
+    <tr><td><b>人に送る</b></td>
+      <td>URLをそのまま送るだけ。相手に何かを入れてもらう必要はない</td></tr>
+  </table>
+
+
+  <!-- ============================================================ -->
+  <h2 id="trouble">うまくいかないとき</h2>
+
+  <table>
+    <tr><th style="width:230px">症状</th><th>たいていの原因</th></tr>
+    <tr><td><b>404 と出る</b></td>
+      <td><code>index.html</code> が一番上の階層にない。
+        フォルダごと入れてしまっていないか確認する。
+        名前も <code>Index.html</code> ではなく<b>全部小文字</b>で</td></tr>
+    <tr><td><b>真っ白</b></td>
+      <td>まだ公開処理の途中。<b>2〜3分待って</b>再読み込み。
+        それでも白ければ F12 の Console を見る</td></tr>
+    <tr><td><b>画像だけ出ない</b></td>
+      <td><span class="mk">大文字小文字の違い</span>。自分のパソコンでは
+        <code>Photo.jpg</code> と <code>photo.jpg</code> が同じ扱いだが、
+        公開先は<b>別のファイル</b>として扱う。ここで一番よく詰まる</td></tr>
+    <tr><td><b>CSSが効いていない</b></td>
+      <td>同じく大文字小文字か、<code>css/style.css</code> のような<b>フォルダの位置</b>のずれ</td></tr>
+    <tr><td><b>直したのに変わらない</b></td>
+      <td>ブラウザが古いほうを覚えている。<code>Ctrl + Shift + R</code> で強制的に読み直す。
+        スマホなら、いったんタブを閉じて開き直す</td></tr>
+    <tr><td><b>日本語が文字化けする</b></td>
+      <td><code>&lt;meta charset="UTF-8"&gt;</code> が
+        <code>&lt;head&gt;</code> の<b>いちばん上</b>にあるか</td></tr>
+  </table>
+
+  <div class="fusen" data-c="pink">
+    <b>消したくなったら</b>
+    GitHub は <b>Settings → 一番下 → Delete this repository</b>。
+    Firebase は Hosting の画面から <b>サイトを削除</b>。
+    どちらも<span class="mk">すぐ消せる</span>ので、まず出してみていい。
+  </div>
+
+  <a class="back" href="../index.html">← もくじに戻る</a>
+</div>
+<script src="../assets/ref.js"></script>
+</body>
+</html>
