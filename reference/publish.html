@@ -33,6 +33,7 @@
 
   <div class="toc">
     <a href="#where">どこに出すか</a>
+    <a href="#diff">2つの違い</a>
     <a href="#before">出す前の確認</a>
     <a href="#gh">A. GitHub Pages</a>
     <a href="#fb">B. Firebase Hosting</a>
@@ -79,6 +80,70 @@
     HTML・CSS・JS は<span class="mk">見る人のブラウザの中で動く</span>ので、
     置き場所は本当にただの置き場所でいい。
     （PHP や Python で裏側を書いた場合は、話がまるごと変わる）
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="diff">2つの違い</h2>
+  <p>見に来た人から見ると<b>違いはほぼ無い</b>。どちらも https で同じように出るし、速さも変わらない。
+    違うのは<span class="mk">作る側の都合</span>だけ。</p>
+
+  <table>
+    <tr><th style="width:150px"></th><th style="width:44%">GitHub Pages</th><th>Firebase Hosting</th></tr>
+    <tr><td><b>置き方</b></td><td>ブラウザでドラッグ＆ドロップ</td><td>ターミナルで <code>firebase deploy</code></td></tr>
+    <tr><td><b>反映まで</b></td><td>1〜2分</td><td>数十秒</td></tr>
+    <tr><td><b>URL</b></td>
+      <td><code>ユーザー名.github.io/<b>リポジトリ名</b>/</code><br>
+        <span class="note">← 途中に1段はさまる</span></td>
+      <td><code>プロジェクト名.web.app</code><br>
+        <span class="note">← まっすぐ</span></td></tr>
+    <tr><td><b>コードが<br>見えるか</b></td>
+      <td><b>全部見られる</b>（無料だと Public しか選べない）</td>
+      <td>見られない（配ったファイルだけが出る）</td></tr>
+    <tr><td><b>他の機能</b></td><td>無い</td>
+      <td>Firestore・ログイン・画像置き場が<b>同じプロジェクトにまとまる</b></td></tr>
+    <tr><td><b>前に戻す</b></td><td>Git の履歴から戻す</td><td>コンソールで1クリック</td></tr>
+    <tr><td><b>独自ドメイン</b></td><td colspan="2">どちらも無料でできる。https も自動で付く</td></tr>
+  </table>
+
+  <h3>実際に困るのは、この2つだけ</h3>
+
+  <div class="fusen" data-c="pink">
+    <b>① URL に「リポジトリ名」がはさまる（GitHub Pages）</b>
+    だから <span class="mk">先頭に <code>/</code> を付けたパスを書くと、公開した瞬間に全部消える</span>。
+    <div class="grid2" style="margin-top:9px">
+      <div>
+        <p style="margin:0 0 3px"><span style="color:var(--red)">✕ 壊れる</span></p>
+        <code>background: url(<b>/</b>images/sora.jpg);</code>
+        <p class="note" style="margin-top:4px">
+          <code>ユーザー名.github.io<b>/images/…</b></code> を見に行ってしまう</p>
+      </div>
+      <div>
+        <p style="margin:0 0 3px"><span style="color:var(--green)">○ 大丈夫</span></p>
+        <code>background: url(images/sora.jpg);</code>
+        <p class="note" style="margin-top:4px">先頭の <code>/</code> を消すだけ。
+          <b>この講座の書き方なら最初からこう</b></p>
+      </div>
+    </div>
+    自分のパソコンでは動いていたのに、<b>公開したら画像だけ全部出ない</b>——
+    という時は、まずこれを疑う。Firebase 側ではこれは起きない。
+  </div>
+
+  <div class="fusen">
+    <b>② コードが全部読まれる（GitHub Pages）</b>
+    書きかけも、コメントも、直した履歴も全部見える。
+    <span class="mk">練習のうちはむしろ利点</span>（人に見せられるし、他の人のも読める）。<br>
+    なお <b>JavaScript の中身はどちらでも読まれる</b>。
+    ブラウザに配っている以上あたりまえで、そこに差は無い。
+    違うのは「作業の履歴まで見えるか」だけ。
+  </div>
+
+  <div class="fusen" data-c="green">
+    <b>迷ったら GitHub Pages</b>
+    コマンドを1つも打たなくていいのが、最初のうちはいちばん大きい。
+    「みんなで共有する機能」が要ると決まってから
+    <a href="firebase.html">Firebase</a> にまとめて移ればいい。
+    <span class="mk">同じファイルをそのまま置けるので、移るのは簡単</span>。
   </div>
 
 
