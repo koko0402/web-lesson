@@ -152,6 +152,22 @@ powershell -ExecutionPolicy Bypass -File tools/shoot-browser.ps1 `
 `tools/devtools-demo/`（授業では使わない）。`?mode=error` を付けるとわざとエラーを出す。
 `file://` だと余計な赤いエラーが出るので、**ローカルサーバー経由で開く**こと。
 
+`^]` を並べても届かないパネル（Application など）は、DevTools の
+**コマンドメニュー**（`Ctrl+Shift+P`）から名前で開く。
+一気に送ると間に合わないので `-KeySteps` に分けて渡す（1つごとに間が空く）。
+
+```powershell
+# Application → Local storage を開いて撮る
+#   PowerShell の配列を渡すので、-File ではなく & で呼ぶこと
+& .\tools\shoot-browser.ps1 `
+  -Url "http://127.0.0.1:8899/tools/devtools-demo/storage.html" `
+  -Out "..\assets\shots\devtools-storage.png" `
+  -KeySteps '^+p','Application','{ENTER}','{DOWN 5}','{RIGHT}','{DOWN}','{ESC}'
+```
+
+`{DOWN 5}` で左の一覧を Local storage まで下げ、`{RIGHT}` で開き、
+`{DOWN}` でアドレスを選ぶ（ここで中身の表が出る）。最後の `{ESC}` は下の Console を閉じるため。
+
 ```powershell
 cd tools/devtools-demo
 python -m http.server 8899

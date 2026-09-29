@@ -15,6 +15,8 @@ param(
   [Parameter(Mandatory=$true)][string]$Url,
   [Parameter(Mandatory=$true)][string]$Out,
   [string]$Keys = "",          # DevTools のパネル切り替えなど（^] で次のパネル）
+  [string[]]$KeySteps = @(),   # 1つ送るたびに間を置きたいとき（コマンドメニューなど）
+  [int]$StepWaitMs = 1400,     # KeySteps の 1つ 1つのあいだの待ち時間
   [int]$WaitSec = 9
 )
 
@@ -95,6 +97,15 @@ if ($Keys -ne "") {
   Start-Sleep -Milliseconds 500
   [System.Windows.Forms.SendKeys]::SendWait($Keys)
   Start-Sleep -Seconds 2
+}
+
+# 一気に送ると間に合わない操作（例：Ctrl+Shift+P でコマンドメニューを開き、
+# パネル名を打って Enter）は -KeySteps に分けて渡す。1つごとに間を置いて送る。
+foreach ($step in $KeySteps) {
+  [WinApi3]::SetForegroundWindow($h) | Out-Null
+  Start-Sleep -Milliseconds 300
+  [System.Windows.Forms.SendKeys]::SendWait($step)
+  Start-Sleep -Milliseconds $StepWaitMs
 }
 
 [WinApi3]::SetForegroundWindow($h) | Out-Null

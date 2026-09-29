@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>やることメモ</title>
+<!-- favicon を要求させない（関係のない 404 が Console に出ると読む邪魔になる） -->
+<link rel="icon" href="data:,">
+<style>
+  body{ font-family:"Yu Gothic","Meiryo",sans-serif; line-height:1.9;
+        max-width:520px; margin:0 auto; padding:28px 24px; color:#2b2018; }
+  h1{ font-size:26px; border-bottom:3px solid #3d7ea6; padding-bottom:8px; }
+  .row{ display:flex; gap:8px; margin:18px 0 10px; }
+  input{ font:inherit; font-size:16px; flex:1; padding:9px 12px;
+         border:2px solid #cfc4b0; border-radius:8px; }
+  button{ font:inherit; font-size:16px; padding:9px 20px; border:none; border-radius:8px;
+          background:#3d7ea6; color:#fff; cursor:pointer; }
+  ul{ list-style:none; padding:0; }
+  li{ padding:10px 14px; margin-bottom:8px; background:#f3efe6;
+      border-left:5px solid #3d7ea6; border-radius:6px; font-size:16px; }
+  p.note{ font-size:13px; color:#7a6a58; }
+</style>
+</head>
+<body>
+
+  <h1>やることメモ</h1>
+
+  <div class="row">
+    <input id="todoInput" type="text" placeholder="やることを書く">
+    <button id="btnAdd">追加</button>
+  </div>
+
+  <ul id="todoList"></ul>
+
+  <p class="note">閉じても消えません。F12 → Application → Local Storage で中身が見えます。</p>
+
+<script>
+/* =========================================================
+   DAY 6 のスライド用ダミーページ。授業では使わない。
+   tools/shoot-browser.ps1 から開いて、
+   DevTools の Application タブを撮るためだけのもの。
+
+   練習ページ（practice/day6/）と同じキー名・同じ形で保存するので、
+   スクショに写る中身が、生徒が実際に作るものと一致する。
+   ========================================================= */
+'use strict';
+
+const KEY = "day6-todos";
+
+/* 保存されているものを読む。空なら、写りのいい中身を入れておく */
+let todos = JSON.parse(localStorage.getItem(KEY) || "null");
+if (!Array.isArray(todos) || todos.length === 0) {
+  /* DevTools の Value 列は狭い。省略されずに全部見えるよう、短くしておく */
+  todos = ["牛乳を買う", "かたづけ"];
+  localStorage.setItem(KEY, JSON.stringify(todos));
+}
+
+/* ついでに、他のキーも並ぶところを見せる */
+if (!localStorage.getItem("name")) localStorage.setItem("name", "ユウ");
+if (!localStorage.getItem("visits")) localStorage.setItem("visits", "3");
+
+const list = document.getElementById("todoList");
+
+function draw() {
+  list.innerHTML = "";
+  todos.forEach(function (t) {
+    const li = document.createElement("li");
+    li.textContent = t;
+    list.appendChild(li);
+  });
+}
+draw();
+
+document.getElementById("btnAdd").addEventListener("click", function () {
+  const input = document.getElementById("todoInput");
+  const text = input.value.trim();
+  if (text === "") return;
+  todos.push(text);
+  localStorage.setItem(KEY, JSON.stringify(todos));
+  input.value = "";
+  draw();
+});
+</script>
+</body>
+</html>

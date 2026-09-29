@@ -426,16 +426,51 @@ localStorage.removeItem("day6-todos");
           みんなで共有したいなら DAY 8 の Firebase が必要になる。
         </div>
         <div class="fusen mt2 push" data-c="green">
-          <b>確認のしかた</b>
-          F12 → <b>Application</b> タブ → Local Storage。
-          保存された中身がそのまま見える。
+          <b>ちゃんと保存できたか</b>
+          F12 → <b>Application</b> タブで、中身をこの目で見られる。
+          次のページでそのやり方をやる。
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 11 章扉 -->
+<!-- 11 -->
+<section class="slide" data-title="保存できたか確かめる">
+  <div class="body">
+    <div class="kicker"><b>基本 ⑥</b></div>
+    <h2 class="t blue">保存されたかを、目で確かめる</h2>
+    <div class="row" style="gap:26px; align-items:flex-start">
+      <div class="win" style="flex:none; width:556px">
+        <div class="bar"><i></i><i></i><i></i><span>F12 → Application → Local storage</span></div>
+        <img src="../assets/shots/dt-storage.png"
+             alt="DevToolsのApplicationタブ。Local storage に day6-todos が保存されているところ"
+             style="display:block; width:100%; height:auto">
+      </div>
+      <div style="flex:1; min-width:0">
+        <ol class="step sm">
+          <li><b>F12</b> を押して DevTools を開く</li>
+          <li>上のタブから <span class="ic">Application</span> を選ぶ（無ければ <span class="ic">&gt;&gt;</span> の中）</li>
+          <li>左の <b>Storage</b> → <span class="ic">Local storage</span> を開く</li>
+          <li>下に出てくる<b>アドレス</b>をクリック</li>
+        </ol>
+        <p class="xs mt">※ ダブルクリックで開いた場合、アドレスは <span class="ic">file://</span> になる。見方は同じ。</p>
+        <div class="fusen mt2" data-c="blue" style="max-width:none">
+          <b>Key と Value</b>
+          <span class="ic">setItem</span> の第1引数が <b>Key</b>、第2引数が <b>Value</b>。
+          <span class="mk">配列は文字列になって入っている</span>のがそのまま見える。
+        </div>
+        <div class="fusen mt2" data-c="pink" style="max-width:none">
+          <b>消したいとき</b>
+          その行を選んで <b>Delete</b> キー。全部なら上の <span class="ic">🚫</span>（Clear All）。
+          作り直すときは、ここから消すのが早い。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 章扉 -->
 <section class="slide" data-kind="chapter" data-title="── 手を動かす">
   <div class="tape tr"></div>
   <div class="body">
@@ -448,7 +483,7 @@ localStorage.removeItem("day6-todos");
   <div class="chara nana" style="right:160px; bottom:54px; width:126px"><img src="../assets/char/nanamoon.webp" alt=""></div>
 </section>
 
-<!-- 12 -->
+<!-- 13 -->
 <section class="slide" data-title="実習の手順">
   <div class="body">
     <div class="kicker"><b>実習</b></div>
@@ -489,7 +524,7 @@ localStorage.removeItem("day6-todos");
   </div>
 </section>
 
-<!-- 13 -->
+<!-- 14 -->
 <section class="slide" data-title="よくあるエラー">
   <div class="body">
     <div class="kicker"><b>ここでつまずく</b></div>
@@ -512,7 +547,7 @@ localStorage.removeItem("day6-todos");
   </div>
 </section>
 
-<!-- 14 -->
+<!-- 15 -->
 <section class="slide" data-title="今日の構文一覧">
   <div class="body">
     <div class="kicker"><b>持ち帰り用</b></div>
@@ -551,7 +586,7 @@ localStorage.removeItem("day6-todos");
   </div>
 </section>
 
-<!-- 15 -->
+<!-- 16 -->
 <section class="slide" data-title="まとめ・次回">
   <div class="body">
     <div class="kicker"><b>DAY 6 おわり</b></div>

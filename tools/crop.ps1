@@ -23,7 +23,8 @@ $jobs = @(
   # DevTools（F12）。パネルのところだけを切り出す
   @("devtools-console.png",  "dt-console.png",       802, 85, 556, 220),
   @("devtools-error.png",    "dt-error.png",         802, 85, 556, 220),
-  @("devtools-elements.png", "dt-elements.png",      802, 85, 556, 400)
+  @("devtools-elements.png", "dt-elements.png",      802, 85, 556, 400),
+  @("devtools-storage.png",  "dt-storage.png",       802, 85, 556, 420)
 )
 
 foreach ($j in $jobs) {
